@@ -16,7 +16,7 @@ public class ProjectING3Cinema {
      */
     public static void main(String[] args) {
         System.out.println("Double SKRTTTTTTTTTTTTTTTTTT");
-        System.out.println("blablabla test Loïs");
+        System.out.println("blablabla test Arthur");    
     }
     
 }
