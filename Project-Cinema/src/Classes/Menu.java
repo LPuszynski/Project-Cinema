@@ -12,15 +12,11 @@ import java.sql.*;
  * @author charl
  */
 public class Menu {
-<<<<<<< Updated upstream
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  throws SQLException{
         Date date = new Date(10, 9, 2000);
         date.display();
-=======
-    
-    public static void main(String[] args) throws SQLException
-    {
+        
         //https://www.youtube.com/watch?v=54mszeznwtc
         Connection conn = null;
         
@@ -43,7 +39,6 @@ public class Menu {
         {
             System.out.println("pb connection database");
         }
->>>>>>> Stashed changes
         
     }
     

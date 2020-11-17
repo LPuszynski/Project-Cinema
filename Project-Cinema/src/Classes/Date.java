@@ -76,6 +76,6 @@ public class Date {
    //faire sspm qui donne la date avec mars au lieu de 03
     public void display()
     {
-        System.out.println(month + " " + day + "," + year);
+        System.out.println(month + "/" + day + "/" + year);
     }
 }

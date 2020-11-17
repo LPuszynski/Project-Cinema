@@ -13,5 +13,5 @@ public class GuestCustomer extends Customer {
     
     
     @Override
-    public double getPrice(){return 0;}
+    public double getPrice( Movie movie){return 0;}
 }
