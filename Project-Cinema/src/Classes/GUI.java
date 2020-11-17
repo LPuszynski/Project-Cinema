@@ -58,10 +58,10 @@ public class GUI extends JFrame {
         loginScreen = new JPanel();
         JLabel message1 = new JLabel("Login : ");
         loginScreen.add(message1);
-        JLabel message2 = new JLabel("Password : ");
-        loginScreen.add(message2);
         JTextField textFieldLogin = new JTextField(10);
         loginScreen.add(textFieldLogin);
+        JLabel message2 = new JLabel("Password : ");
+        loginScreen.add(message2);
         JTextField textFieldPassword = new JTextField(5);
         loginScreen.add(textFieldPassword);
     }

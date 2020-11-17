@@ -23,17 +23,17 @@ public class MemberCustomer extends Customer {
     
     public void setDiscount()
     {
-        if(pass == "children")
+        if(pass.equals("children"))
         {
             discount = 0.2;
         }
         
-        else if (pass == "regular")
+        else if (pass.equals("regular"))
         {
             discount = 0.15;
         }
         
-        else if (pass == "senior")
+        else if (pass.equals("senior"))
         {
             discount = 0.1;
         }
