@@ -10,13 +10,19 @@ package Classes;
  * @author charl
  */
 public class Date {
-    private int day;
-    private int month;
-    private int year;
+    private long day;
+    private long month;
+    private long year;
+
+    public Date(long day, long month, long year) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
     
    //faire sspm qui donne la date avec mars au lieu de 03
-    String display()
+    public display()
     {
-        return (month + " " + day + "," + year);
+        System.out.println(month + " " + day + "," + year);
     }
 }

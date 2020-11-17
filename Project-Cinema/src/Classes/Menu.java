@@ -10,8 +10,10 @@ package Classes;
  * @author charl
  */
 public class Menu {
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
+        Date date = new Date(10, 9, 2000);
+        date.display();
         
     }
 }
