@@ -11,5 +11,5 @@ package Classes;
  */
 public abstract class  Customer {
     
-    public abstract double getPrice();
+    public abstract double getPrice(Movie movie);
 }

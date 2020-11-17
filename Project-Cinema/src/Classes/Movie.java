@@ -15,6 +15,10 @@ public class Movie {
     private Date releaseDate;
     private int runningTime; //en minutes
     private double ticketPrice;
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
     
     
     public void playMovie(){}
