@@ -15,4 +15,8 @@ public class Date {
     private int year;
     
    //faire sspm qui donne la date avec mars au lieu de 03
+    String display()
+    {
+        return (month + " " + day + "," + year);
+    }
 }
