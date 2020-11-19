@@ -25,6 +25,7 @@ public class GUI extends JFrame {
 
     private JPanel connexionScreen;
     private JPanel loginScreen;
+    private int choiceMember;
 
     public GUI() throws HeadlessException {
         setTitle("Connexion");
@@ -52,6 +53,9 @@ public class GUI extends JFrame {
         JButton buttonEmployee = new JButton("If you are an employee click here");
         connexionScreen.add(buttonEmployee);
         buttonEmployee.addActionListener(new ButtonEmployeeListener());
+        JButton buttonValidate = new JButton("Validate");
+        connexionScreen.add(buttonValidate);
+        buttonValidate.addActionListener(new ButtonValidateListener());
     }
 
     public void BuildLoginScreen() {
@@ -69,12 +73,7 @@ public class GUI extends JFrame {
     private class RadioButtonYesListener implements ActionListener {
 
         public void actionPerformed(ActionEvent ae) {
-
-            System.out.println("On m'a cliqué dessus Yes");
-            setContentPane(loginScreen);
-            invalidate();
-            validate();
-
+            choiceMember = 1;
         }
 
     }
@@ -83,11 +82,22 @@ public class GUI extends JFrame {
 
         public void actionPerformed(ActionEvent ae) {
 
-            System.out.println("On m'a cliqué dessus No");
-            //setContentPane(loginScreen);
-            invalidate();
-            validate();
+            choiceMember = 0;
+        }
 
+    }
+
+    private class ButtonValidateListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent ae) {
+            if (choiceMember == 1) {
+                System.out.println("On m'a cliqué dessus Yes");
+                setContentPane(loginScreen);
+                invalidate();
+                validate();
+            } else if (choiceMember == 0) {
+                System.out.println("On m'a cliqué dessus No");
+            }
         }
 
     }
