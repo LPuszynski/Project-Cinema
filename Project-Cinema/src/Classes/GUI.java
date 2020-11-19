@@ -29,7 +29,6 @@ public class GUI extends JFrame {
 
     public GUI() throws HeadlessException {
         setTitle("Connexion");
-        setSize(300, 300);
         setBounds(700, 250, 600, 500);
         BuildConnexionScreen();
         BuildLoginScreen();
@@ -40,10 +39,13 @@ public class GUI extends JFrame {
     public void BuildConnexionScreen() {
         connexionScreen = new JPanel();
         JLabel message1 = new JLabel("Are you a member?");
+        message1.setBounds(150, 160, 200, 25);
         connexionScreen.add(message1);
         JRadioButton buttonYes = new JRadioButton("Yes");
+        buttonYes.setBounds(300, 160, 50, 25);
         connexionScreen.add(buttonYes);
         JRadioButton buttonNo = new JRadioButton("No");
+        buttonNo.setBounds(350, 160, 50, 25);
         connexionScreen.add(buttonNo);
         buttonYes.addActionListener(new RadioButtonYesListener());
         buttonNo.addActionListener(new RadioButtonNoListener());
@@ -51,23 +53,31 @@ public class GUI extends JFrame {
         group1.add(buttonNo);
         group1.add(buttonYes);
         JButton buttonEmployee = new JButton("If you are an employee click here");
+        buttonEmployee.setBounds(350, 400, 220, 35);
         connexionScreen.add(buttonEmployee);
         buttonEmployee.addActionListener(new ButtonEmployeeListener());
         JButton buttonValidate = new JButton("Validate");
+        buttonValidate.setBounds(220, 250, 100, 25);
         connexionScreen.add(buttonValidate);
         buttonValidate.addActionListener(new ButtonValidateListener());
+        connexionScreen.setLayout(null);
     }
 
     public void BuildLoginScreen() {
         loginScreen = new JPanel();
         JLabel message1 = new JLabel("Login : ");
+        message1.setBounds(190, 100, 100, 50);
         loginScreen.add(message1);
         JTextField textFieldLogin = new JTextField(10);
+        textFieldLogin.setBounds(250, 111, 150, 25);
         loginScreen.add(textFieldLogin);
         JLabel message2 = new JLabel("Password : ");
+        message2.setBounds(170, 200, 100, 50);
         loginScreen.add(message2);
         JTextField textFieldPassword = new JTextField(5);
+        textFieldPassword.setBounds(250, 211, 150, 25);
         loginScreen.add(textFieldPassword);
+        loginScreen.setLayout(null);
     }
 
     private class RadioButtonYesListener implements ActionListener {
