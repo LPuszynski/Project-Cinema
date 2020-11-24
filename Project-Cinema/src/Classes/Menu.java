@@ -29,7 +29,7 @@ public class Menu {
             String password = "" ;      
             
             conn = (Connection) DriverManager.getConnection(url,user, password);
-            
+           
             /*
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE ,ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery("Select * from movies");
