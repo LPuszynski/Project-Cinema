@@ -23,10 +23,9 @@ public class Menu {
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            
             String url = "jdbc:mysql://localhost:3306/projet";
             String user = "root";
-            String password = "" ;      
+            String password = "" ;
             
             conn = (Connection) DriverManager.getConnection(url,user, password);
             
