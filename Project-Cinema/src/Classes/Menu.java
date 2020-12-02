@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class Menu {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         /*
          Date date = new Date(10, 9, 2000);
          date.display();
@@ -100,31 +100,39 @@ public class Menu {
         addDBMovie("OuaisOuais","émotion","2017-04-04","01:01:21",78.25);
         //DBDeleteTable("MOVIES");
         
+        Time RuninngT = getRunningTime("OuiOui");
+        
+        
     }
     
     
-    public Time getRunningTime(String movieName) throws SQLException
+    public static Time getRunningTime(String movieName) throws SQLException
     {
-        PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from Movies" + " where title = ?");
+        PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from MOVIES" + " where title = ?");
         insert.setString(1, movieName);
         
         ResultSet result = insert.executeQuery();
         
-        Time rT = result.getTime("Account_Number");
+        Time rT = result.getTime("runningTime");
         
         System.out.println("rT = " + rT);
         
         return rT;
     }
-
-    public static void DBDeleteTable (String tableName){
+    
+    public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
         String user = "root";
-        String password = "";
+        String password = "" ;
+        return DriverManager.getConnection(url, user, password);
+    }
+
+    public static void DBDeleteTable (String tableName){
+        
         Connection conn;
 
         try {
-            conn = (Connection) DriverManager.getConnection(url, user, password);
+            conn = (Connection)getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("DELETE FROM "+tableName);
         } catch (SQLException ex) {
@@ -133,13 +141,11 @@ public class Menu {
     }
 
     public static void initDBMovie() {
-        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
-        String user = "root";
-        String password = "";
+        
         Connection conn;
 
         try {
-            conn = (Connection) DriverManager.getConnection(url, user, password);
+            conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `MOVIES` ("
                     + "  `title` varchar(100) NOT NULL,"
@@ -154,25 +160,11 @@ public class Menu {
         }
     }
     
-<<<<<<< HEAD
-    public static java.sql.Connection getDbConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
-        String user = "root";
-        String password = "" ;
-        return DriverManager.getConnection(url, user, password);
-    }
-   
-    
-    public static void initDB()
-    {
-=======
     public static void addDBMovie (String title, String type, String releaseDate, String runningTime, double ticketPrice){
-        String url = "jdbc:mysql://localhost:3306/projet";
-        String user = "root";
-        String password = "";
+        
         Connection conn;
         try {
-            conn = (Connection) DriverManager.getConnection(url, user, password);
+            conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("INSERT INTO MOVIES VALUES ('"+title+"','"+type+"', '"+releaseDate+"', '"+runningTime+"',"+ticketPrice+")");
                     /*+ "  `title` varchar(100) NOT NULL,"
@@ -188,34 +180,17 @@ public class Menu {
     }
     
     public static void initDBEmployee() {
-        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
-        String user = "root";
-        String password = "";
->>>>>>> 52e2d1a52a610653b346de6b20d74647712cc7f6
+        
         Connection conn;
 
         try {
-<<<<<<< HEAD
             conn = (Connection) getDbConnection();
-            Statement essai = conn.createStatement();
-            essai.execute("CREATE TABLE IF NOT EXISTS `doublegangdripkodak` (" +
-"  `title` varchar(100) NOT NULL," +
-"  `type` varchar(100) NOT NULL," +
-"  `releaseDate` date NOT NULL," +
-"  `runningTime` time NOT NULL," +
-"  `ticketPrice` double NOT NULL," +
-"  PRIMARY KEY (`title`,`type`,`releaseDate`,`runningTime`,`ticketPrice`)" +
-")");
-            
-=======
-            conn = (Connection) DriverManager.getConnection(url, user, password);
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `EMPLOYEE` ("
                     + "  `login` varchar(100) NOT NULL,"
                     + "  `password` varchar(100) NOT NULL,"                   
                     + "  PRIMARY KEY (`login`)"
                     + ")");
->>>>>>> 52e2d1a52a610653b346de6b20d74647712cc7f6
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -223,13 +198,11 @@ public class Menu {
     
     
     public static void initDBCustomer() {
-        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
-        String user = "root";
-        String password = "";
+       
         Connection conn;
 
         try {
-            conn = (Connection) DriverManager.getConnection(url, user, password);
+            conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `CUSTOMER` ("
                     + "  `title` varchar(100) NOT NULL,"
