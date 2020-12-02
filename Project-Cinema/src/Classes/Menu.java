@@ -12,6 +12,7 @@ import java.sql.*;
 import com.mysql.jdbc.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 /**
  *
@@ -95,53 +96,99 @@ public class Menu {
         initDBCustomer();
         initDBEmployee();
         DBDeleteTable("MOVIES");
-        addDBMovie("OuiOui","horreur","2020-01-01","04:04:21",3);
-        addDBMovie("NonNon","comédiefrançaise","2018-02-02","03:03:03",11);
-        addDBMovie("OuaisOuais","émotion","2017-04-04","01:01:21",78.25);
+        addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21", 3);
+        addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03", 11);
+        addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21", 78.25);
         //DBDeleteTable("MOVIES");
-        
-        Time RuninngT = getRunningTime("OuiOui");
-        
-        
+
+        /*
+         //test recuperation des données
+         Time runinngT1 = getRunningTime("OuiOui");
+         String type1 = getType("OuiOui");
+         java.util.Date date1 = getDate("OuiOui");
+         double ticketPrice1 = getTicketPrice("OuiOui");
+         System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
+         */
     }
-    
-    
-    public static Time getRunningTime(String movieName) throws SQLException
-    {
+
+    public static Time getRunningTime(String movieName) throws SQLException {
         PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from MOVIES" + " where title = ?");
         insert.setString(1, movieName);
-        
+
         ResultSet result = insert.executeQuery();
-        
-        Time rT = result.getTime("runningTime");
-        
-        System.out.println("rT = " + rT);
-        
-        return rT;
+
+        if (result.first()) {
+            Time rT = result.getTime("runningTime");
+            return rT;
+        }
+
+        return null;
     }
-    
+
+    public static double getTicketPrice(String movieName) throws SQLException {
+        PreparedStatement insert = getDbConnection().prepareStatement("select ticketPrice from MOVIES" + " where title = ?");
+        insert.setString(1, movieName);
+
+        ResultSet result = insert.executeQuery();
+
+        if (result.first()) {
+            double tP = result.getDouble("ticketPrice");
+            return tP;
+        }
+        return 0.0; // un double ne peut pas etre null donc on ne peut pas return null
+    }
+
+    public static String getType(String movieName) throws SQLException {
+        PreparedStatement insert = getDbConnection().prepareStatement("select type from MOVIES" + " where title = ?");
+        insert.setString(1, movieName);
+
+        ResultSet result = insert.executeQuery();
+
+        if (result.first()) {
+            String type = result.getString("type");
+            return type;
+        }
+
+        return null;
+    }
+
+    public static java.util.Date getDate(String movieName) throws SQLException {
+        PreparedStatement insert = getDbConnection().prepareStatement("select releaseDate from MOVIES" + " where title = ?");
+        insert.setString(1, movieName);
+
+        ResultSet result = insert.executeQuery();
+
+        if (result.first()) {
+            java.util.Date date;
+            date = result.getDate("releaseDate");
+            return date;
+        }
+
+        return null;
+    }
+
     public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
         String user = "root";
-        String password = "" ;
+        String password = "";
         return DriverManager.getConnection(url, user, password);
     }
 
-    public static void DBDeleteTable (String tableName){
-        
+    public static void DBDeleteTable(String tableName) {
+
         Connection conn;
 
         try {
-            conn = (Connection)getDbConnection();
+            conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("DELETE FROM "+tableName);
+            essai.execute("DELETE FROM " + tableName);
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static void initDBMovie() {
-        
+
         Connection conn;
 
         try {
@@ -159,28 +206,28 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void addDBMovie (String title, String type, String releaseDate, String runningTime, double ticketPrice){
-        
+
+    public static void addDBMovie(String title, String type, String releaseDate, String runningTime, double ticketPrice) {
+
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO MOVIES VALUES ('"+title+"','"+type+"', '"+releaseDate+"', '"+runningTime+"',"+ticketPrice+")");
-                    /*+ "  `title` varchar(100) NOT NULL,"
-                    + "  `type` varchar(100) NOT NULL,"
-                    + "  `releaseDate` date NOT NULL,"
-                    + "  `runningTime` time NOT NULL,"
-                    + "  `ticketPrice` double NOT NULL,"
-                    + "  PRIMARY KEY (`title`)"
-                    + ")");*/
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "'," + ticketPrice + ")");
+            /*+ "  `title` varchar(100) NOT NULL,"
+             + "  `type` varchar(100) NOT NULL,"
+             + "  `releaseDate` date NOT NULL,"
+             + "  `runningTime` time NOT NULL,"
+             + "  `ticketPrice` double NOT NULL,"
+             + "  PRIMARY KEY (`title`)"
+             + ")");*/
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void initDBEmployee() {
-        
+
         Connection conn;
 
         try {
@@ -188,17 +235,16 @@ public class Menu {
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `EMPLOYEE` ("
                     + "  `login` varchar(100) NOT NULL,"
-                    + "  `password` varchar(100) NOT NULL,"                   
+                    + "  `password` varchar(100) NOT NULL,"
                     + "  PRIMARY KEY (`login`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     public static void initDBCustomer() {
-       
+
         Connection conn;
 
         try {
