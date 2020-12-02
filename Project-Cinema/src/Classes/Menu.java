@@ -89,6 +89,7 @@ public class Menu {
             conn.close();
             
 <<<<<<< HEAD
+<<<<<<< HEAD
          }
          catch(SQLException | ClassNotFoundException e )
          {
@@ -192,6 +193,12 @@ public class Menu {
         {
             System.out.println(e.getMessage());
 >>>>>>> parent of e19fdf8... gerer les bases de données
+=======
+        }
+        catch(SQLException | ClassNotFoundException e )
+        {
+            System.out.println(e.getMessage());
+>>>>>>> parent of e19fdf8... gerer les bases de données
         }
         */
         initDB();
@@ -202,6 +209,7 @@ public class Menu {
     public static void initDB()
     {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
+<<<<<<< HEAD
 <<<<<<< HEAD
         String user = "root";
         String password = "";
@@ -238,6 +246,15 @@ public class Menu {
 =======
             conn = (Connection) DriverManager.getConnection(url,user, password);
             Statement essai = conn.createStatement();
+=======
+            String user = "root";
+            String password = "" ;
+        Connection conn;
+        
+        try {
+            conn = (Connection) DriverManager.getConnection(url,user, password);
+            Statement essai = conn.createStatement();
+>>>>>>> parent of e19fdf8... gerer les bases de données
             essai.execute("CREATE TABLE IF NOT EXISTS `doublegangdripkodak` (" +
 "  `title` varchar(100) NOT NULL," +
 "  `type` varchar(100) NOT NULL," +
@@ -246,6 +263,9 @@ public class Menu {
 "  `ticketPrice` double NOT NULL," +
 "  PRIMARY KEY (`title`,`type`,`releaseDate`,`runningTime`,`ticketPrice`)" +
 ")");
+<<<<<<< HEAD
+>>>>>>> parent of e19fdf8... gerer les bases de données
+=======
 >>>>>>> parent of e19fdf8... gerer les bases de données
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
