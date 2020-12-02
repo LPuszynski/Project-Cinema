@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//SOURCES : 
+//SOURCES :
 //https://www.mediaforma.com/java-acces-a-la-base-de-donnees-dans-netbeans/
 //Lectures by Mme Paranjape
 package Classes;
@@ -12,6 +12,7 @@ import java.sql.*;
 import com.mysql.jdbc.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 /**
  *
@@ -23,38 +24,38 @@ public class Menu {
         /*
          Date date = new Date(10, 9, 2000);
          date.display();
-        
+
          Connection conn = null;
          String[] colNames;
          String[][] tableData;
-        
+
          try{
          //on établit une connexion avec la base de données java
-                    
+
          Class.forName("com.mysql.jdbc.Driver");
          String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
          String user = "root";
          String password = "" ;
-            
+
          conn = (Connection) DriverManager.getConnection(url,user, password);
-           
-         //on crée un objet Statement. 
+
+         //on crée un objet Statement.
          //Par son intermédiaire, on pourra exécuter des commandes SQL pour interroger la base de données et obtenir les résultats correspondants.
          Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE ,ResultSet.CONCUR_READ_ONLY);
-            
+
          // on définit une requête SQL en créant un objet ResultSet à partir de l’objet Statement
          ResultSet resultSet = stmt.executeQuery("Select * from film");
-            
+
          resultSet.last(); //on va au dernier élément pour savoir la taille
          int nbRows = resultSet.getRow(); // il y a nbRows lignes dans la table
          resultSet.first(); //on remet le pointeur en début de table
-            
+
          //on récupère les métadonnées de la table
          //Par leur intermédiaire, on pourra obtenir le nombre de colonnes dans la table avec getColumnCount() et le nom des colonnes avec getColumnName() :
          ResultSetMetaData resultMeta = resultSet.getMetaData();
-            
+
          colNames = new String[resultMeta.getColumnCount()]; //on initialise autant de case dans le tableau qu'il y a de colonnes dans la table
-            
+
          for(int i=0; i<resultMeta.getColumnCount(); i++)
          {
          //System.out.println(resultMeta.getColumnName(i+1));
@@ -71,20 +72,20 @@ public class Menu {
          }
          resultSet.next();
          }
-            
-            
+
+
          TableFormatter table = new TableFormatter(tableData, colNames);
-            
+
          while (resultSet.next())
          {
          System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
          }
-            
+
          //ferme les objets ouverts avec la méthode close() :
          resultSet.close();
          stmt.close();
          conn.close();
-            
+
          }
          catch(SQLException | ClassNotFoundException e )
          {
@@ -94,7 +95,7 @@ public class Menu {
         initDBEmployee();
         initDBMovie();
         initDBCustomer();
-        
+
         DBDeleteTable("MOVIES");
         DBDeleteTable("EMPLOYEE");
         DBDeleteTable("CUSTOMER");
@@ -108,22 +109,71 @@ public class Menu {
         addDBCustomer("PAPAPAPI","vieux","senior", "PEPE","Thierry");
         deleteDBLineHuman("Lois","EMPLOYEE");
         deleteDBLineMovie("OuiOui");
-        //Time RuninngT = getRunningTime("OuiOui");
-    }
+        //test recuperation des données
+        Time runinngT1 = getRunningTime("OuiOui");
+        String type1 = getType("OuiOui");
+        java.util.Date date1 = getDate("OuiOui");
+        double ticketPrice1 = getTicketPrice("OuiOui");
+        System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
+        */
+   }
 
-    /*public static Time getRunningTime(String movieName) throws SQLException
-     {
-     PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from MOVIES" + " where title = ?");
-     insert.setString(1, movieName);
-        
-     ResultSet result = insert.executeQuery();
-        
-     Time rT = result.getTime("runningTime");
-        
-     System.out.println("rT = " + rT);
-        
-     return rT;
-     }*/
+   public static Time getRunningTime(String movieName) throws SQLException {
+       PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from MOVIES" + " where title = ?");
+       insert.setString(1, movieName);
+
+       ResultSet result = insert.executeQuery();
+
+       if (result.first()) {
+           Time rT = result.getTime("runningTime");
+           return rT;
+       }
+
+       return null;
+   }
+
+   public static double getTicketPrice(String movieName) throws SQLException {
+       PreparedStatement insert = getDbConnection().prepareStatement("select ticketPrice from MOVIES" + " where title = ?");
+       insert.setString(1, movieName);
+
+       ResultSet result = insert.executeQuery();
+
+       if (result.first()) {
+           double tP = result.getDouble("ticketPrice");
+           return tP;
+       }
+       return 0.0; // un double ne peut pas etre null donc on ne peut pas return null
+   }
+
+   public static String getType(String movieName) throws SQLException {
+       PreparedStatement insert = getDbConnection().prepareStatement("select type from MOVIES" + " where title = ?");
+       insert.setString(1, movieName);
+
+       ResultSet result = insert.executeQuery();
+
+       if (result.first()) {
+           String type = result.getString("type");
+           return type;
+       }
+
+       return null;
+   }
+
+   public static java.util.Date getDate(String movieName) throws SQLException {
+       PreparedStatement insert = getDbConnection().prepareStatement("select releaseDate from MOVIES" + " where title = ?");
+       insert.setString(1, movieName);
+
+       ResultSet result = insert.executeQuery();
+
+       if (result.first()) {
+           java.util.Date date;
+           date = result.getDate("releaseDate");
+           return date;
+       }
+
+       return null;
+   }
+
     public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet";
         String user = "root";
@@ -171,7 +221,7 @@ public class Menu {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "'," + ticketPrice + ")");
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -191,7 +241,7 @@ public class Menu {
                     + "  `lastName` varchar(100) NOT NULL,"
                     + "  PRIMARY KEY (`login`)"
                     + ")");
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -204,7 +254,7 @@ public class Menu {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("INSERT INTO EMPLOYEE VALUES ('" + login + "','" + password + "', '" + firstName + "', '" + lastName + "')");
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -220,16 +270,16 @@ public class Menu {
             essai.execute("CREATE TABLE IF NOT EXISTS `CUSTOMER` ("
                     + "  `login` varchar(100) NOT NULL,"
                     + "  `password` varchar(100) NOT NULL,"
-                    + "  `bundle` varchar(100) NOT NULL,"  
+                    + "  `bundle` varchar(100) NOT NULL,"
                     + "  `firstName` varchar(100) NOT NULL,"
                     + "  `lastName` varchar(100) NOT NULL,"
                     + "  PRIMARY KEY (`login`)"
-                    + ")");            
+                    + ")");
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void addDBCustomer(String login, String password, String bundle, String firstName, String lastName) {
 
         Connection conn;
@@ -241,7 +291,7 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void deleteDBLineHuman (String login, String table){
         Connection conn;
         try {
@@ -252,7 +302,7 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void deleteDBLineMovie(String title){
         Connection conn;
         try {
@@ -263,6 +313,6 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+
 }
