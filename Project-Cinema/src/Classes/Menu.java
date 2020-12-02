@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class Menu {
 
     public static void main(String[] args) {
-        /*Date date = new Date(10, 9, 2000);
+        Date date = new Date(10, 9, 2000);
         date.display();
         
         Connection conn = null;
@@ -76,14 +76,14 @@ public class Menu {
             
             
             TableFormatter table = new TableFormatter(tableData, colNames);
-            /*
+            
             while (resultSet.next())
             {
                 System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-            }*/
+            }
             
              //ferme les objets ouverts avec la méthode close() :
-            /*resultSet.close();
+            resultSet.close();
             stmt.close();
             conn.close();
             
@@ -91,7 +91,7 @@ public class Menu {
         catch(SQLException | ClassNotFoundException e )
         {
             System.out.println(e.getMessage());
-        }*/
+        }
         
         initDB();
         
