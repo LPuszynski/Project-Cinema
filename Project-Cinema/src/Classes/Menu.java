@@ -32,7 +32,7 @@ public class Menu {
             //on établit une connexion avec la base de données java
                     
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/projet";
+            String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
             String user = "root";
             String password = "" ;
             
