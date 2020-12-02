@@ -12,6 +12,8 @@ package Classes;
 
 import java.sql.*;
 import com.mysql.jdbc.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -21,7 +23,7 @@ import com.mysql.jdbc.Connection;
 public class Menu {
 
     public static void main(String[] args) {
-        Date date = new Date(10, 9, 2000);
+        /*Date date = new Date(10, 9, 2000);
         date.display();
         
         Connection conn = null;
@@ -81,7 +83,7 @@ public class Menu {
             }*/
             
              //ferme les objets ouverts avec la méthode close() :
-            resultSet.close();
+            /*resultSet.close();
             stmt.close();
             conn.close();
             
@@ -89,9 +91,34 @@ public class Menu {
         catch(SQLException | ClassNotFoundException e )
         {
             System.out.println(e.getMessage());
+        }*/
+        
+        initDB();
+        
+        
+    }
+    
+    public static void initDB()
+    {
+        String url = "jdbc:mysql://localhost:3306/projet";
+            String user = "root";
+            String password = "" ;
+        Connection conn;
+        
+        try {
+            conn = (Connection) DriverManager.getConnection(url,user, password);
+            Statement essai = conn.createStatement();
+            essai.execute("CREATE TABLE IF NOT EXISTS `doublegangdripkodak` (" +
+"  `title` varchar(100) NOT NULL," +
+"  `type` varchar(100) NOT NULL," +
+"  `releaseDate` date NOT NULL," +
+"  `runningTime` time NOT NULL," +
+"  `ticketPrice` double NOT NULL," +
+"  PRIMARY KEY (`title`,`type`,`releaseDate`,`runningTime`,`ticketPrice`)" +
+")");
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
     }
     
 }
