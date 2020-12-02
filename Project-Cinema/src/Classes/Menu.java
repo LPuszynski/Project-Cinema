@@ -109,13 +109,16 @@ public class Menu {
         addDBCustomer("PAPAPAPI","vieux","senior", "PEPE","Thierry");
         deleteDBLineHuman("Lois","EMPLOYEE");
         deleteDBLineMovie("OuiOui");
+        
+        /*
         //test recuperation des données
+        
         Time runinngT1 = getRunningTime("OuiOui");
         String type1 = getType("OuiOui");
         java.util.Date date1 = getDate("OuiOui");
         double ticketPrice1 = getTicketPrice("OuiOui");
         System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
-        */
+       */
    }
 
    public static Time getRunningTime(String movieName) throws SQLException {
