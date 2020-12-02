@@ -101,7 +101,7 @@ public class Menu {
     
     public static void initDB()
     {
-        String url = "jdbc:mysql://localhost:3306/projet";
+        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
             String user = "root";
             String password = "" ;
         Connection conn;
