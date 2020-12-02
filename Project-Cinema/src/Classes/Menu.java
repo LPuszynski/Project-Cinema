@@ -154,7 +154,6 @@ public class Menu {
         }
     }
     
-<<<<<<< HEAD
     public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
         String user = "root";
@@ -165,7 +164,6 @@ public class Menu {
     
     public static void initDB()
     {
-=======
     public static void addDBMovie (String title, String type, String releaseDate, String runningTime, double ticketPrice){
         String url = "jdbc:mysql://localhost:3306/projet";
         String user = "root";
