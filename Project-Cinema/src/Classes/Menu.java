@@ -96,18 +96,37 @@ public class Menu {
         */
         initDB();
         
-        
     }
+    
+    
+    public Time getRunningTime(String movieName) throws SQLException
+    {
+        PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from Movies" + " where title = ?");
+        insert.setString(1, movieName);
+        
+        ResultSet result = insert.executeQuery();
+        
+        Time rT = result.getTime("Account_Number");
+        
+        System.out.println("rT = " + rT);
+        
+        return rT;
+    }
+    
+    public static java.sql.Connection getDbConnection() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
+        String user = "root";
+        String password = "" ;
+        return DriverManager.getConnection(url, user, password);
+    }
+   
     
     public static void initDB()
     {
-        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
-            String user = "root";
-            String password = "" ;
         Connection conn;
         
         try {
-            conn = (Connection) DriverManager.getConnection(url,user, password);
+            conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `doublegangdripkodak` (" +
 "  `title` varchar(100) NOT NULL," +
@@ -117,6 +136,7 @@ public class Menu {
 "  `ticketPrice` double NOT NULL," +
 "  PRIMARY KEY (`title`,`type`,`releaseDate`,`runningTime`,`ticketPrice`)" +
 ")");
+            
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
