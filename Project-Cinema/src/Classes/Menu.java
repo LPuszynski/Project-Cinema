@@ -77,14 +77,14 @@ public class Menu {
             
             
             TableFormatter table = new TableFormatter(tableData, colNames);
-            /*
+            
             while (resultSet.next())
             {
                 System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-            }*/
+            }
             
              //ferme les objets ouverts avec la méthode close() :
-            /*resultSet.close();
+            resultSet.close();
             stmt.close();
             conn.close();
             
@@ -92,8 +92,8 @@ public class Menu {
         catch(SQLException | ClassNotFoundException e )
         {
             System.out.println(e.getMessage());
-        }*/
-        
+        }
+        */
         initDB();
         
         
