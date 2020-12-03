@@ -92,24 +92,32 @@ public class Menu {
          System.out.println(e.getMessage());
          }
          */
+        //Création des tables if not exist
         initDBEmployee();
         initDBMovie();
         initDBCustomer();
-
+        initDBProjection();
+        //Mise a zero des tables
         DBDeleteTable("MOVIES");
         DBDeleteTable("EMPLOYEE");
         DBDeleteTable("CUSTOMER");
+        //TEsts
         addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21", 3);
         addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03", 11);
         addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21", 78.25);
+
         addDBEmployee("Chacha", "loulou", "Charlotte", "LAMBERT");
         addDBEmployee("Lolo", "NulALol", "Lois", "PUSZYNSKI");
         addDBEmployee("TOINOU", "justfaker", "Antoine", "CRUVEILHER");
+
         addDBCustomer("Enfant", "petit", "junior", "Bebe", "Alfred");
         addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
-        deleteDBLineHuman("Lois", "EMPLOYEE");
+
+        deleteDBLineHuman("Lolo", "EMPLOYEE");
         deleteDBLineMovie("OuiOui");
+
         setElementDB("EMPLOYEE", "firstName", "Pierre", "login", "TOINOU");
+
         selecDataDB("MOVIES");
         selecDataDB("EMPLOYEE");
         selecDataDB("CUSTOMER");
@@ -139,6 +147,41 @@ public class Menu {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("DELETE FROM " + tableName);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void initDBProjection() {
+
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("CREATE TABLE IF NOT EXISTS `PROJECTIONS` ("
+                    + "  `movieProjected` varchar(100) NOT NULL,"
+                    //+ "  `` varchar(100) NOT NULL,"
+                    + "  `projectionDate` date NOT NULL,"
+                    + "  `projectionHour` time NOT NULL,"
+                    + "  `numberOfSeats` int NOT NULL,"
+                    + "  `numberOfFreeSeats` int NOT NULL,"
+                    
+                    + "  PRIMARY KEY (`movieProjected`,`projectionDate`,`projectionHour`)"
+                    + ")");
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void addDBProjection(String projectionDate, String projectionHour, int numberOfSeats, int numberOfFreeSeats, String movieProjected) {
+
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + projectionDate + "','" + projectionHour + "', '" + numberOfSeats + "', '" + numberOfFreeSeats + "'," + movieProjected + ")");
+
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,8 +252,8 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-     public static void initDBCustomer() {
+
+    public static void initDBCustomer() {
 
         Connection conn;
 
@@ -252,12 +295,6 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-
-    
-    
-    
-    
 
     public static void deleteDBLineMovie(String title) {
         Connection conn;
@@ -265,6 +302,21 @@ public class Menu {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("DELETE FROM MOVIES WHERE title = '" + title + "'");
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+   
+    
+    
+
+    public static void deleteDBProjection(String projectionDate, String projectionHour, String movieProjected) {
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("DELETE FROM PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -297,11 +349,9 @@ public class Menu {
             while (rs.next()) {
                 if (tableName.equalsIgnoreCase("MOVIES")) {
                     System.out.println(rs.getString("title") + rs.getString("type") + rs.getDate("releaseDate") + rs.getTime("runningTime") + rs.getDouble("ticketPrice"));//l'ordre est important 
-                }
-                else if (tableName.equalsIgnoreCase("CUSTOMER")) {
+                } else if (tableName.equalsIgnoreCase("CUSTOMER")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
-                }
-                else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
+                } else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
                 }
             }
@@ -311,4 +361,3 @@ public class Menu {
     }
 
 }
-
