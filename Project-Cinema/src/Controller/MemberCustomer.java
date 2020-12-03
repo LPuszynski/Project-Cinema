@@ -15,11 +15,14 @@ public class MemberCustomer extends Customer {
     private String pass; ///forfait : children, regular, senior
     private double discount;
 
+    public MemberCustomer(){}
+    
     public MemberCustomer(String login, String password, String pass) {
         this.login = login;
         this.password = password;
         this.pass = pass;
     }
+
     
     public void setDiscount()
     {

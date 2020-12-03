@@ -5,13 +5,22 @@
  */
 package Controller;
 
+import static Model.MovieDB.getTicketPrice;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author charl
  */
 public class GuestCustomer extends Customer {
     
-    
     @Override
-    public double getPrice( Movie movie){return 0;}
+    public double getPrice( Movie movie)
+    {
+        double price = movie.getTicketPrice();
+        return price;
+    }
 }
