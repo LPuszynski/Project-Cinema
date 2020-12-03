@@ -46,4 +46,5 @@ public class MemberCustomer extends Customer {
         return movie.getTicketPrice()-movie.getTicketPrice()*discount;
     }
     
+    
 }

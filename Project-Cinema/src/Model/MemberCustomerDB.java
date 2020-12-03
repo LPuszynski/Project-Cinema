@@ -11,4 +11,14 @@ package Model;
  */
 public class MemberCustomerDB {
     
+    //vérifie si le member existe dans la base de donnée av son login et son mdp
+    public boolean connectUser(String login, String password) // méthode a implémenter
+    {
+        return true;
+    }
+    
+    public void addMemberToDB() // à implémenter ajoute un member a la BDD
+    {
+        
+    }
 }
