@@ -181,7 +181,7 @@ public class Menu {
     }
 
     public static java.sql.Connection getDbConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/projet";
+        String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
         String user = "root";
         String password = "";
         return DriverManager.getConnection(url, user, password);
@@ -265,8 +265,8 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public static void initDBCustomer() {
+    
+     public static void initDBCustomer() {
 
         Connection conn;
 
@@ -308,6 +308,12 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+
+    
+    
+    
+    
 
     public static void deleteDBLineMovie(String title) {
         Connection conn;
@@ -361,3 +367,4 @@ public class Menu {
     }
 
 }
+
