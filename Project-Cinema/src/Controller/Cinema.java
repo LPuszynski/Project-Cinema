@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Controller;
 
 /**
  *
- * @author charl
+ * @author loisp
  */
-public abstract class  Customer {
+public class Cinema {
     
-    public abstract double getPrice(Movie movie);
 }

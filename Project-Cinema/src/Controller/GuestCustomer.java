@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Controller;
 
 /**
  *
  * @author charl
  */
-public class Employee {
-    private String login ;
-    private String password;
+public class GuestCustomer extends Customer {
     
+    
+    @Override
+    public double getPrice( Movie movie){return 0;}
 }

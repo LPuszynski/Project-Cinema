@@ -6,7 +6,7 @@
 //SOURCES :
 //https://www.mediaforma.com/java-acces-a-la-base-de-donnees-dans-netbeans/
 //Lectures by Mme Paranjape
-package Classes;
+package Model;
 
 import java.sql.*;
 import com.mysql.jdbc.Connection;

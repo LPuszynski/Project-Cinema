@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Controller;
 
 /**
  *
  * @author charl
  */
-public class JCBD {
+public abstract class  Customer {
     
-    public void accessBD(){}
+    public abstract double getPrice(Movie movie);
 }

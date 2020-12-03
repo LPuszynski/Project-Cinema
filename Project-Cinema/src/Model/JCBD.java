@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Model;
 
 /**
  *
  * @author charl
  */
-public class GuestCustomer extends Customer {
+public class JCBD {
     
-    
-    @Override
-    public double getPrice( Movie movie){return 0;}
+    public void accessBD(){}
 }
