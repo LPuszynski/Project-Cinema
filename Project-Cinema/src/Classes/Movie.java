@@ -5,23 +5,40 @@
  */
 package Classes;
 
+import static Classes.Menu.getDbConnection;
+import com.mysql.jdbc.Connection;
+import java.sql.*;
+
 /**
  *
  * @author charl
  */
 public class Movie {
+
     private String title;
     private String genre;
     private Date releaseDate;
     private int runningTime; //en minutes
     private double ticketPrice;
 
+    
+    
+    
+    
+    
+
+    
+
     public double getTicketPrice() {
         return ticketPrice;
     }
-    
-    
-    public void playMovie(){}
-    public void deleteMovie(){}
-    public void setMovie(){}
+
+    public void playMovie() {
+    }
+
+    public void deleteMovie() {
+    }
+
+    public void setMovie() {
+    }
 }
