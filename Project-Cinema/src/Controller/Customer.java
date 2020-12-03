@@ -12,4 +12,9 @@ package Controller;
 public abstract class  Customer {
     
     public abstract double getPrice(Movie movie);
+    
+    public double getTotalPrice() //à implémenter (multiplier getPrice par le nombre de tickets achetés
+    {
+        return 0;
+    }
 }

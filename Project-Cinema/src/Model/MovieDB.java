@@ -9,6 +9,22 @@ package Model;
  *
  * @author loisp
  */
+
 public class MovieDB {
+    
+    public void addMovie()
+    {
+        
+    }
+    
+    public void suppMovie()
+    {
+        
+    }
+    
+    public void updateMovie()
+    {
+        
+    }
     
 }

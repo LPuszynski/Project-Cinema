@@ -11,4 +11,14 @@ package Model;
  */
 public class EmployeeDB {
     
+        //vérifie si l'employee existe dans la base de donnée av son login et son mdp
+    public boolean connectEmployee(String login, String password) // méthode a implémenter
+    {
+        return true;
+    }
+    
+    public double getBenefits()
+    {
+        return 0;
+    }
 }

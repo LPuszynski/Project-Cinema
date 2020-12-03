@@ -5,10 +5,13 @@
  */
 package Controller;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author loisp
  */
 public class Cinema {
-    
-}
+    private double profits;
+    private ArrayList<Movie> movieList;
+    }

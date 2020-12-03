@@ -5,10 +5,31 @@
  */
 package Controller;
 
+import java.sql.Time;
+
 /**
  *
  * @author loisp
  */
 public class Projection {
+    private Date projectionDate;
+    private Time projectionHour;
+    private int numberOfSeats;
+    private int numberOfFreeSeats;
+    private Movie movieProjected;
+
+    public Projection(Date projectionDate, Time projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
+        this.projectionDate = projectionDate;
+        this.projectionHour = projectionHour;
+        this.numberOfSeats = numberOfSeats;
+        this.numberOfFreeSeats = numberOfFreeSeats;
+        this.movieProjected = movieProjected;
+    }
     
+    
+    
+    public void setNumberOfFreeSeats()
+    {
+        
+    }
 }
