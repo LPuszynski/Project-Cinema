@@ -96,6 +96,7 @@ public class Menu {
         initDBEmployee();
         initDBMovie();
         initDBCustomer();
+        initDBProjection();
         //Mise a zero des tables
         DBDeleteTable("MOVIES");
         DBDeleteTable("EMPLOYEE");
@@ -219,8 +220,10 @@ public class Menu {
                     //+ "  `` varchar(100) NOT NULL,"
                     + "  `projectionDate` date NOT NULL,"
                     + "  `projectionHour` time NOT NULL,"
-                    + "  `numberOfSeats` double NOT NULL,"
-                    + "  PRIMARY KEY (`title`)"
+                    + "  `numberOfSeats` int NOT NULL,"
+                    + "  `numberOfFreeSeats` int NOT NULL,"
+                    
+                    + "  PRIMARY KEY (`movieProjected`,`projectionDate`,`projectionHour`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
@@ -359,6 +362,10 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+   
+    
+    
 
     public static void deleteDBProjection(String projectionDate, String projectionHour, String movieProjected) {
         Connection conn;
