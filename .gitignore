@@ -7,4 +7,5 @@ Project-Cinema/nbproject/project.properties
 Project-Cinema/nbproject/private/private.xml
 Project-Cinema/nbproject/project.properties
 Project-Cinema/nbproject/project.properties
-Project-Cinema/nbproject/project.properties
+*.properties
+*.properties
