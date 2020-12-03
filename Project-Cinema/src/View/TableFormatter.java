@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package View;
 
 import java.awt.*;
 import javax.swing.*;
@@ -21,6 +21,6 @@ public class TableFormatter extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
         setSize(WIDTH, HEIGHT);
-        setVisible(true);        
+        setVisible(true);
     }
 }

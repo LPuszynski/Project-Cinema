@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Controller;
 
-import static Classes.Menu.getDbConnection;
+import static Model.Menu.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.*;
 
