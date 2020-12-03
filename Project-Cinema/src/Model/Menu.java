@@ -92,24 +92,32 @@ public class Menu {
          System.out.println(e.getMessage());
          }
          */
+        //Création des tables if not exist
         initDBEmployee();
         initDBMovie();
         initDBCustomer();
-
+        //Mise a zero des tables
         DBDeleteTable("MOVIES");
         DBDeleteTable("EMPLOYEE");
         DBDeleteTable("CUSTOMER");
+        //TEsts
         addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21", 3);
         addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03", 11);
         addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21", 78.25);
+        
         addDBEmployee("Chacha", "loulou", "Charlotte", "LAMBERT");
         addDBEmployee("Lolo", "NulALol", "Lois", "PUSZYNSKI");
         addDBEmployee("TOINOU", "justfaker", "Antoine", "CRUVEILHER");
+        
+        
         addDBCustomer("Enfant", "petit", "junior", "Bebe", "Alfred");
         addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
-        deleteDBLineHuman("Lois", "EMPLOYEE");
+        
+        deleteDBLineHuman("Lolo", "EMPLOYEE");
         deleteDBLineMovie("OuiOui");
+        
         setElementDB("EMPLOYEE", "firstName", "Pierre", "login", "TOINOU");
+        
         selecDataDB("MOVIES");
         selecDataDB("EMPLOYEE");
         selecDataDB("CUSTOMER");
@@ -195,6 +203,40 @@ public class Menu {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("DELETE FROM " + tableName);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void initDBProjection() {
+
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("CREATE TABLE IF NOT EXISTS `PROJECTIONS` ("
+                    + "  `movieProjected` varchar(100) NOT NULL,"
+                    //+ "  `` varchar(100) NOT NULL,"
+                    + "  `projectionDate` date NOT NULL,"
+                    + "  `projectionHour` time NOT NULL,"
+                    + "  `numberOfSeats` double NOT NULL,"
+                    
+                    + "  PRIMARY KEY (`title`)"
+                    + ")");
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void addDBProjection(String title, String type, String releaseDate, String runningTime, double ticketPrice) {
+
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "'," + ticketPrice + ")");
+
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
