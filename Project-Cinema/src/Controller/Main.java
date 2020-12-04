@@ -28,20 +28,18 @@ public class Main {
         Movie movie = new Movie("Hello world", "Enfantin", "2020-06-21", new Time(02,03,04), 3);
         movie.addMovie( cinema);
         
-        
+        /*
         for (int i = 0; i < cinema.getMovieList().size(); i++) {
             cinema.getMovieList().get(i).afficherMovie();
             System.out.println(" ");
             
         }
-        
-        MovieDB.updateMovieBDD(cinema);
-        
-        /*
-        
-         MemberCustomer cust = new MemberCustomer();
-         Movie mov = new Movie();
+        */
+        //MovieDB.updateMovieBDD(cinema);
        
-         System.out.println(cust.getPrice(mov));*/
+        
+         MemberCustomer cust = new MemberCustomer("exa","dddd", "children","exemple","try");
+         cust.addMemberCustomer();
+         cust.deleteMemberCustomer();
     }
 }

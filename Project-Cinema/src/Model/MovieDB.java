@@ -107,15 +107,14 @@ public class MovieDB {
         return null;
     }
 
-    public static java.util.Date getDate(String movieName) throws SQLException {
+    public static String getDate(String movieName) throws SQLException {
         PreparedStatement insert = getDbConnection().prepareStatement("select releaseDate from MOVIES" + " where title = ?");
         insert.setString(1, movieName);
 
         ResultSet result = insert.executeQuery();
 
         if (result.first()) {
-            java.util.Date date;
-            date = result.getDate("releaseDate");
+            String date= result.getString("releaseDate");
             return date;
         }
 
@@ -132,7 +131,7 @@ public class MovieDB {
         
         for (int i= 0; i<movieList.size();i++)
         {
-            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getGenre(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString(), movieList.get(i).getTicketPrice());
+            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getType(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString(), movieList.get(i).getTicketPrice());
         }
     }
     

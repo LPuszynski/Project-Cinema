@@ -7,6 +7,7 @@ package Controller;
 
 import Model.JBDC;
 import static Model.JBDC.getDbConnection;
+import Model.MovieDB;
 import com.mysql.jdbc.Connection;
 import java.sql.*;
 
@@ -17,7 +18,7 @@ import java.sql.*;
 public class Movie {
 
     private String title;
-    private String genre;
+    private String type;
     private String releaseDate ;
     private Time runningTime; //en minutes
     private double ticketPrice;
@@ -28,7 +29,7 @@ public class Movie {
     public Movie(String title, String type, String releaseDate, Time runningTime, double ticketPrice) 
     {    
         this.title = title;
-        this.genre = type ;
+        this.type = type ;
         
         this.releaseDate = releaseDate;
         
@@ -49,12 +50,16 @@ public class Movie {
     public Time getRunningTime() {
         return runningTime;
     }
-    public String getGenre() {
-        return genre;
+    public String getType() {
+        return type;
     }
 
     
     public static void deleteMovie(String movieName, Cinema cinema) {
+        //delete in the bdd
+        MovieDB.deleteDBLineMovie(movieName);
+        
+        //delete in this arrayList
         for(int i=0;i<cinema.getMovieList().size(); i++)
         {
             if (cinema.getMovieList().get(i).getTitle().equals(movieName))
@@ -72,6 +77,7 @@ public class Movie {
     
     public void addMovie(Cinema cinema)
     {
+        
         boolean alrealdyExists = false;
         for (int i = 0; i< cinema.getMovieList().size();i++)
         {
@@ -82,6 +88,7 @@ public class Movie {
         }
         if (alrealdyExists == false)
         {
+            MovieDB.addDBMovie(title, type, releaseDate, runningTime.toString(), ticketPrice) ;
             cinema.getMovieList().add(this);
         }
         else
@@ -94,7 +101,7 @@ public class Movie {
     public void afficherMovie()
     {
         System.out.println("Title : " + title);
-        System.out.println("Type : " + genre);
+        System.out.println("Type : " + type);
         System.out.println("Release date : " + releaseDate);
         System.out.println("Running time : " + runningTime);
         System.out.println("Ticket price : " + ticketPrice);

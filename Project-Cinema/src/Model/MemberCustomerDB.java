@@ -30,10 +30,6 @@ public class MemberCustomerDB {
         return true;
     }
 
-    public void addMemberToDB() // à implémenter ajoute un member a la BDD
-    {
-
-    }
 
     //fonction qui vérifie si le membre existe vraiment et qui renvoie un boolean
     public static boolean checkMember(String login, String password) throws SQLException {
@@ -110,10 +106,7 @@ public class MemberCustomerDB {
 
         return logins;
     
-     
-    
     }
-    
     
     public static MemberCustomer getMemberCustomerDB(String login) throws SQLException
     {
@@ -165,6 +158,7 @@ public class MemberCustomerDB {
     public static void addDBCustomer(String login, String password, String bundle, String firstName, String lastName) {
 
         Connection conn;
+       
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
@@ -173,7 +167,6 @@ public class MemberCustomerDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
 
     public static void main(String[] args) throws SQLException

@@ -5,6 +5,11 @@
  */
 package Controller;
 
+import Model.JBDC;
+import Model.MemberCustomerDB;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author charl
@@ -16,6 +21,7 @@ public class MemberCustomer extends Customer {
     private String firstName;
     private String lastName;
     private double discount;
+    private ArrayList<Reservation> ReservationList;
 
     public MemberCustomer() {
     }
@@ -25,7 +31,9 @@ public class MemberCustomer extends Customer {
         this.password = password;
         this.bundle = bundle;
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.lastName = lastName; 
+        ReservationList = new ArrayList<Reservation>();
+        this.setDiscount();
     }
 
     
@@ -47,6 +55,36 @@ public class MemberCustomer extends Customer {
         }
     }
     
+    public void addMemberCustomer() throws SQLException
+    {
+        //ckeck if the customer alrealdy exists in the DB
+        boolean alreadyExists = false;
+        
+        ArrayList<String> allLogins = new ArrayList<String> ();
+        allLogins = MemberCustomerDB.getAllLogin();
+        
+        for (int i = 0;i<allLogins.size();i++)
+        {
+            if (allLogins.get(i).equals(login))
+            {
+                alreadyExists = true;
+            }
+        }
+        
+        if (alreadyExists)
+        {
+            System.out.println("This customer cant be added because the login already exists. Please change your login ");
+        }
+        else{
+            MemberCustomerDB.addDBCustomer(login, password, bundle, firstName, lastName);
+        }
+        
+    }
+    
+    public void deleteMemberCustomer()
+    {
+        JBDC.deleteDBLineHuman(login,"CUSTOMER");
+    }
     
     
     @Override

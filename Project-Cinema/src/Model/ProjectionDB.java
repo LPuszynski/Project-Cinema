@@ -46,13 +46,13 @@ public class ProjectionDB {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `PROJECTIONS` ("
+                    + "  `idProj` varchar(100) NOT NULL,"
                     + "  `movieProjected` varchar(100) NOT NULL,"
                     //+ "  `` varchar(100) NOT NULL,"
-                    + "  `projectionDate` date NOT NULL,"
+                    + "  `projectionDate` varchar(100) NOT NULL,"
                     + "  `projectionHour` time NOT NULL,"
                     + "  `numberOfSeats` int NOT NULL,"
-                    + "  `numberOfFreeSeats` int NOT NULL,"
-
+                    //+ "  `numberOfFreeSeats` int NOT NULL,"       
                     + "  PRIMARY KEY (`movieProjected`,`projectionDate`,`projectionHour`)"
                     + ")");
         } catch (SQLException ex) {
@@ -96,7 +96,6 @@ public class ProjectionDB {
             
             rs = essai.executeQuery("SELECT COUNT(*) from PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
             placesOccuped = rs.getInt("COUNT(*)");
-            
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }  

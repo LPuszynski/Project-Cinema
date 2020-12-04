@@ -13,6 +13,7 @@ import Model.*;
  */
 public abstract class Customer {
     
+    
     public Customer() 
     {
         //addDBCustomer(login,  password,  bundle,  firstName, lastName);

@@ -16,22 +16,9 @@ public class Reservation {
     
     public Reservation(Projection proj, Customer cust, int nbSeats)
     {
-        /*
-        projection = new Projection();
         projection = proj;
-        customer = 
-        
-        if (nbSeatsTaken)
-        {
-            
-        }
-    
-    
-                    
-                   qd cust reserve 
-                            y a des places ?
-                            prix en fct du forfait ? */
-                            
+        customer = cust;
+        nbSeatsTaken = nbSeats;
     }        
        
 }

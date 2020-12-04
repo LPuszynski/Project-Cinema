@@ -12,6 +12,15 @@ package Controller;
 public class Employee {
     private String login ;
     private String password;
+    private String firstName;
+    private String lastName;
     
+    public Employee(String login, String password, String fN, String lN)
+    {
+        this.login = login;
+        this.password = password;
+        this.firstName = fN;
+        this.lastName = lN;
+    }
 
 }
