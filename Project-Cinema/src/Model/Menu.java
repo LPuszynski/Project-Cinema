@@ -374,5 +374,22 @@ public class Menu {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static int GetDBNumberOfOccupedPlaces(String projectionDate, String projectionHour, String movieProjected) {
+        Connection conn;
+        int placesOccuped;
+        ResultSet rs;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            
+            rs = essai.executeQuery("SELECT COUNT(*) from PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
+            placesOccuped = rs.getInt("COUNT(*)");
+            return placesOccuped;
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        return 0;
+    }
 
 }
