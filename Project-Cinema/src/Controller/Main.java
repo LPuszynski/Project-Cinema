@@ -5,12 +5,14 @@
  */
 package Controller;
 
+import Model.MemberCustomerDB;
 import Model.MovieDB;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import View.GUI;
 
 /**
  *
@@ -43,5 +45,15 @@ public class Main {
          Movie mov = new Movie();
        
          System.out.println(cust.getPrice(mov));*/
+    }
+    
+    public static boolean callCheckMember(String login, String password) throws SQLException
+    {
+        return MemberCustomerDB.checkMember(login, password);
+    }
+    
+    public static MemberCustomer callgetMemberCustomerDB(String login) throws SQLException
+    {
+        return MemberCustomerDB.getMemberCustomerDB(login);
     }
 }
