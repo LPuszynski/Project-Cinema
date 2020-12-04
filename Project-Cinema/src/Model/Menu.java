@@ -13,6 +13,7 @@ import com.mysql.jdbc.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
+import Controller.MemberCustomer;
 
 /**
  *
@@ -21,6 +22,8 @@ import java.util.Date;
 public class Menu {
 
     public static void main(String[] args) throws SQLException {
+        
+        
         /*
          Date date = new Date(10, 9, 2000);
          date.display();
@@ -126,11 +129,12 @@ public class Menu {
 
         setElementDB("EMPLOYEE", "firstName", "Pierre", "login", "TOINOU");
 
-        selecDataDB("MOVIES");
-        selecDataDB("EMPLOYEE");
-        selecDataDB("CUSTOMER");
+        MemberCustomer test = MemberCustomerDB.getMemberCustomer("Enfant");
         
-                
+        //selecDataDB("MOVIES");
+        //selecDataDB("EMPLOYEE");
+        //selecDataDB("CUSTOMER");
+        
         /*
          //test recuperation des données
 

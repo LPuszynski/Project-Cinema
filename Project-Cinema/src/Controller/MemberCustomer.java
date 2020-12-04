@@ -12,31 +12,36 @@ package Controller;
 public class MemberCustomer extends Customer {
     private String login;
     private String password;
-    private String pass; ///forfait : children, regular, senior
+    private String bundle; ///forfait : children, regular, senior
+    private String firstName;
+    private String lastName;
     private double discount;
 
-    public MemberCustomer(){}
-    
-    public MemberCustomer(String login, String password, String pass) {
+    public MemberCustomer() {
+    }
+
+    public MemberCustomer(String login, String password, String bundle, String firstName, String lastName) {
         this.login = login;
         this.password = password;
-        this.pass = pass;
+        this.bundle = bundle;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     
     public void setDiscount()
     {
-        if(pass.equals("children"))
+        if(bundle.equals("children"))
         {
             discount = 0.2;
         }
         
-        else if (pass.equals("regular"))
+        else if (bundle.equals("regular"))
         {
             discount = 0.15;
         }
         
-        else if (pass.equals("senior"))
+        else if (bundle.equals("senior"))
         {
             discount = 0.1;
         }
@@ -48,6 +53,7 @@ public class MemberCustomer extends Customer {
     public double getPrice(Movie movie){
         return movie.getTicketPrice()-movie.getTicketPrice()*discount;
     }
+    
     
     
 }
