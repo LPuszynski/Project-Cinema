@@ -13,8 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Controller.MemberCustomer;
 
 /**
  *
@@ -56,6 +58,63 @@ public class MemberCustomerDB {
         }
     }
     
+    public static int nbMemberCustomersInDB()
+    {
+        Connection conn;
+        int nbOfCustomers = 0;
+        ResultSet rs;
+        try {
+            conn = (Connection) getDbConnection();
+            
+            Statement essai = conn.createStatement();
+            rs = essai.executeQuery("SELECT * from CUSTOMER");
+            rs.last();
+            nbOfCustomers = rs.getRow(); 
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        return nbOfCustomers;
+    }
+    
+    
+    public static ArrayList<MemberCustomer> getAllMemberCustomer() throws SQLException
+    {
+        //we calculate how many customers there are in the database
+        int nbOfCustomers = nbMemberCustomersInDB();
+        ArrayList<MemberCustomer> memberCustList = new ArrayList<MemberCustomer>();
+        ArrayList<String> logins = new  ArrayList<String>();
+        logins = getAllLogin();
+        
+        for (int i = 0; i< nbOfCustomers ; i++)
+        {
+            MemberCustomer member = new MemberCustomer();
+            member = getMemberCustomerDB(logins.get(i));
+            memberCustList.add(member);
+        }
+        return memberCustList;
+    }
+    
+    
+    public static ArrayList<String> getAllLogin() throws SQLException
+    {
+        PreparedStatement insert = getDbConnection().prepareStatement("select login from CUSTOMER");
+        ResultSet result = insert.executeQuery();
+        
+         ArrayList<String> logins = new  ArrayList<String>();
+        
+         while (result.next()) {
+            String login = result.getString("login");
+            logins.add(login);
+        }
+
+        return logins;
+    
+     
+    
+    }
+    
+    
     public static MemberCustomer getMemberCustomerDB(String login) throws SQLException
     {
         try{
@@ -81,6 +140,8 @@ public class MemberCustomerDB {
         }
     }
 
+    
+    
     public static void initDBCustomer() {
 
         Connection conn;
@@ -115,4 +176,14 @@ public class MemberCustomerDB {
     
     
 
+    public static void main(String[] args) throws SQLException
+    {
+        ArrayList<MemberCustomer> memberCustomerList = new ArrayList<MemberCustomer>();
+        memberCustomerList = getAllMemberCustomer();
+        
+        for (int i = 0;i< nbMemberCustomersInDB();i++)
+        {
+            memberCustomerList.get(i).afficherMemberCustomer();
+        }
+    }
 }
