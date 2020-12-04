@@ -56,7 +56,7 @@ public class MemberCustomerDB {
         }
     }
     
-    public static MemberCustomer getMemberCustomer(String login) throws SQLException
+    public static MemberCustomer getMemberCustomerDB(String login) throws SQLException
     {
         try{
             PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM CUSTOMER WHERE login = ?");
@@ -112,5 +112,7 @@ public class MemberCustomerDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
 }
