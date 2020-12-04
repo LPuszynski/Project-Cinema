@@ -5,9 +5,8 @@
  */
 package Controller;
 
-import Model.Menu;
-import static Model.Menu.addDBMovie;
-import static Model.Menu.getDbConnection;
+import Model.JBDC;
+import static Model.JBDC.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.*;
 
@@ -68,10 +67,7 @@ public class Movie {
     
     public void playMovie(){}
 
-    
-
-    public void setMovie() {
-    }
+    public void setMovie(){}
     
     
     public void addMovie(Cinema cinema)

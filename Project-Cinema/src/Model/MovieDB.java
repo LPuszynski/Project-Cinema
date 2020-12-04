@@ -8,9 +8,8 @@ package Model;
 import Controller.*;
 import Controller.DateConverter;
 import Controller.Movie;
-import static Model.Menu.DBDeleteTable;
-import static Model.Menu.addDBMovie;
-import static Model.Menu.getDbConnection;
+import static Model.JBDC.DBDeleteTable;
+import static Model.JBDC.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,7 +58,7 @@ public class MovieDB {
                 movieList.add(movie);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -152,6 +151,47 @@ public class MovieDB {
         }
     }*/
 
+   public static void initDBMovie() {
+
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("CREATE TABLE IF NOT EXISTS `MOVIES` ("
+                    + "  `title` varchar(100) NOT NULL,"
+                    + "  `type` varchar(100) NOT NULL,"
+                    + "  `releaseDate` date NOT NULL,"
+                    + "  `runningTime` time NOT NULL,"
+                    + "  `ticketPrice` double NOT NULL,"
+                    + "  PRIMARY KEY (`title`)"
+                    + ")");
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+   public static void addDBMovie(String title, String type, String releaseDate, String runningTime, double ticketPrice) {
+
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "'," + ticketPrice + ")");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
    
+    public static void deleteDBLineMovie(String title) {
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("DELETE FROM MOVIES WHERE title = '" + title + "'");
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

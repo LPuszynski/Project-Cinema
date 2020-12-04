@@ -6,7 +6,7 @@
 package Model;
 import Controller.MemberCustomer;
 
-import static Model.Menu.getDbConnection;
+import static Model.JBDC.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +51,7 @@ public class MemberCustomerDB {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -76,8 +76,40 @@ public class MemberCustomerDB {
                 return null;
             }
         }catch(SQLException ex){
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+
+    public static void initDBCustomer() {
+
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("CREATE TABLE IF NOT EXISTS `CUSTOMER` ("
+                    + "  `login` varchar(100) NOT NULL,"
+                    + "  `password` varchar(100) NOT NULL,"
+                    + "  `bundle` varchar(100) NOT NULL,"
+                    + "  `firstName` varchar(100) NOT NULL,"
+                    + "  `lastName` varchar(100) NOT NULL,"
+                    + "  PRIMARY KEY (`login`)"
+                    + ")");
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void addDBCustomer(String login, String password, String bundle, String firstName, String lastName) {
+
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("INSERT INTO CUSTOMER VALUES ('" + login + "','" + password + "', '" + bundle + "', '" + firstName + "', '" + lastName + "')");
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
