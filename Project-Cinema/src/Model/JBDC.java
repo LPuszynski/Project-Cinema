@@ -131,7 +131,7 @@ public class JBDC {
 
         setElementDB("EMPLOYEE", "firstName", "Pierre", "login", "TOINOU");
 
-        MemberCustomer test = MemberCustomerDB.getMemberCustomer("Enfant");
+        MemberCustomer test = MemberCustomerDB.getMemberCustomerDB("Enfant");
         
         selectDataDB("MOVIES");
         selectDataDB("EMPLOYEE");
