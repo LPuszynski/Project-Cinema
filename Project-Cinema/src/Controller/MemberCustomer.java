@@ -54,6 +54,15 @@ public class MemberCustomer extends Customer {
         return movie.getTicketPrice()-movie.getTicketPrice()*discount;
     }
     
-    
+    public void afficherMemberCustomer()
+    {
+        System.out.println("login : " + login);
+        System.out.println("password : " + password);
+        System.out.println("bundle : " + bundle);
+        System.out.println("firstName : " + firstName);
+        System.out.println("lastName : " + lastName);
+        System.out.println("discount : " + discount);
+        System.out.println("");
+    }
     
 }

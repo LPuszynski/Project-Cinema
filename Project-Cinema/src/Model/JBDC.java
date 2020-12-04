@@ -148,6 +148,7 @@ public class JBDC {
 
          */    
     }
+    
 
      public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
