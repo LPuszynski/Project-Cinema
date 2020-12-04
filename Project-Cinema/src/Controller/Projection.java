@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.ProjectionDB;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class Projection {
     
     public void setNumberOfFreeSeats()
     {
-        
+        numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
     }
+   
 }

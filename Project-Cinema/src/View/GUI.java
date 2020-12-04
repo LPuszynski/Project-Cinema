@@ -8,6 +8,8 @@ package View;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import Controller.Main;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +32,11 @@ public class GUI extends JFrame {
     private JPanel connexionScreen;
     private JPanel loginScreen;
     private int choiceMember;
+    private JTextField textFieldLogin;
+    private JTextField textFieldPassword;
+    private boolean boolLogin;
+    private String login;
+    private String password;
 
     public GUI() throws HeadlessException {
         setTitle("Connexion");
@@ -65,19 +76,67 @@ public class GUI extends JFrame {
 
     public void BuildLoginScreen() {
         loginScreen = new JPanel();
+        JButton buttonValidate = new JButton("Validate");
+        buttonValidate.setBounds(350, 400, 220, 35);
+        buttonValidate.addActionListener(new ButtonValidateLoginListener());
+        loginScreen.add(buttonValidate);
         JLabel message1 = new JLabel("Login : ");
         message1.setBounds(190, 100, 100, 50);
         loginScreen.add(message1);
-        JTextField textFieldLogin = new JTextField(10);
+        textFieldLogin = new JTextField(15);
         textFieldLogin.setBounds(250, 111, 150, 25);
+        textFieldLogin.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldLogin);
         JLabel message2 = new JLabel("Password : ");
         message2.setBounds(170, 200, 100, 50);
         loginScreen.add(message2);
-        JTextField textFieldPassword = new JTextField(5);
+        textFieldPassword = new JTextField(15);
         textFieldPassword.setBounds(250, 211, 150, 25);
+        textFieldPassword.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldPassword);
         loginScreen.setLayout(null);
+    }
+
+    private class ButtonValidateLoginListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                boolLogin = Main.callCheckMember(login, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (boolLogin == false) {
+                //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
+            } else {
+                // on lance la page principale
+            }
+        }
+
+    }
+
+    private class LoginKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent ke) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent ke) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent ke) {
+
+            if (textFieldLogin.getText() != null) {
+                login = textFieldLogin.getText();
+            }
+            if (textFieldPassword.getText() != null) {
+                password = textFieldPassword.getText();
+            }
+        }
+
     }
 
     private class RadioButtonYesListener implements ActionListener {
@@ -101,15 +160,13 @@ public class GUI extends JFrame {
 
         public void actionPerformed(ActionEvent ae) {
             if (choiceMember == 1) {
-                System.out.println("On m'a cliqué dessus Yes");
                 setContentPane(loginScreen);
                 invalidate();
                 validate();
             } else if (choiceMember == 0) {
-                System.out.println("On m'a cliqué dessus No");
+                //lancer la page principale
             }
         }
-
     }
 
     private class ButtonEmployeeListener implements ActionListener {
