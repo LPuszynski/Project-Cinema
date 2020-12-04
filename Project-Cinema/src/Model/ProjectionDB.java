@@ -5,8 +5,9 @@
  */
 package Model;
 import Controller.Projection;
-import static Model.JBDC.getDbConnection;
+import static Model.JBDC.*;
 import com.mysql.jdbc.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -82,6 +83,24 @@ public class ProjectionDB {
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+      
+       public static int GetDBNumberOfOccupedPlaces(String projectionDate, String projectionHour, String movieProjected) {
+        Connection conn;
+        int placesOccuped=0;
+        ResultSet rs;
+        try {
+            conn = (Connection) getDbConnection();
+            
+            Statement essai = conn.createStatement();
+            
+            rs = essai.executeQuery("SELECT COUNT(*) from PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
+            placesOccuped = rs.getInt("COUNT(*)");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        return placesOccuped;
     }
 
 }
