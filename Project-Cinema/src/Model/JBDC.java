@@ -214,6 +214,8 @@ public class JBDC {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
                 } else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
+                } else if (tableName.equalsIgnoreCase("PROJECTIONS")){
+                    System.out.println(rs.getString("movieProjected") + rs.getString("projectionDate") + rs.getString("projectionHour") + rs.getInt("numberOfSeats") + rs.getInt("numberOfFreeSeats"));
                 }
             }
         } catch (SQLException ex) {

@@ -27,17 +27,8 @@ public class ProjectionDB {
     public void updateProjection(Projection proj)
     {
 
-    }
+    }   
 
-    public void addProjection()
-    {
-
-    }
-
-    public void suppProjection()
-    {
-
-    }
     public static void initDBProjections() {
 
         Connection conn;

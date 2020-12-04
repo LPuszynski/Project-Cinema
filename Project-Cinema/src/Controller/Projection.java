@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.ProjectionDB;
 
 import java.sql.Time;
 
@@ -12,15 +13,15 @@ import java.sql.Time;
  * @author loisp
  */
 public class Projection {
-    private DateConverter projectionDate;
-    private Time projectionHour;
+    private String projectionDate;
+    private String projectionHour;
     private int numberOfSeats;
     private int numberOfFreeSeats;
     private Movie movieProjected;
     
     public Projection(){}
 
-    public Projection(DateConverter projectionDate, Time projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
+    public Projection(String projectionDate, String projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
         this.numberOfSeats = numberOfSeats;
@@ -32,6 +33,7 @@ public class Projection {
     
     public void setNumberOfFreeSeats()
     {
-        
+        numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
     }
+   
 }
