@@ -10,13 +10,13 @@ package Controller;
  * @author charl
  */
 
-public class Date {
+public class DateConverter {
     private long day;
     private long month;
     private long year;
     private String monthInLetters;
 
-    public Date(long day, long month, long year) {
+    public DateConverter(long day, long month, long year) {
         this.day = day;
         this.month = month;
         this.year = year;

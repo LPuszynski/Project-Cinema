@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Menu;
 import static Model.Menu.addDBMovie;
 import static Model.Menu.getDbConnection;
 import com.mysql.jdbc.Connection;
@@ -18,28 +19,91 @@ public class Movie {
 
     private String title;
     private String genre;
-    private Date releaseDate;
-    private int runningTime; //en minutes
+    private String releaseDate ;
+    private Time runningTime; //en minutes
     private double ticketPrice;
     
     //default constructor
     public Movie () {}
+    
+    public Movie(String title, String type, String releaseDate, Time runningTime, double ticketPrice) 
+    {    
+        this.title = title;
+        this.genre = type ;
+        
+        this.releaseDate = releaseDate;
+        
+        this.runningTime = runningTime;
+        
+        this.ticketPrice = ticketPrice;
+    }
 
     public double getTicketPrice() {
         return ticketPrice;
     }
-
-    public void addMovie(String title, String type, String releaseDate, String runningTime, double ticketPrice) {    
+    public String getTitle() {
+        return title;
+    }
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+    public Time getRunningTime() {
+        return runningTime;
+    }
+    public String getGenre() {
+        return genre;
     }
 
-    public void deleteMovie() {
+    
+    public static void deleteMovie(String movieName, Cinema cinema) {
+        for(int i=0;i<cinema.getMovieList().size(); i++)
+        {
+            if (cinema.getMovieList().get(i).getTitle().equals(movieName))
+            {
+                cinema.getMovieList().remove(i);
+            }
+        }
     }
+    
+    
+    public void playMovie(){}
+
+    
 
     public void setMovie() {
     }
     
-    public String getTitle()
+    
+    public void addMovie(Cinema cinema)
     {
-        return title;
+        boolean alrealdyExists = false;
+        for (int i = 0; i< cinema.getMovieList().size();i++)
+        {
+            if (cinema.getMovieList().get(i).getTitle().equals(this.title))
+            {
+                alrealdyExists = true;
+            }
+        }
+        if (alrealdyExists == false)
+        {
+            cinema.getMovieList().add(this);
+        }
+        else
+        {
+            System.out.println("Be carefull : This movie alrealy exists\n");
+        }
     }
+    
+    
+    public void afficherMovie()
+    {
+        System.out.println("Title : " + title);
+        System.out.println("Type : " + genre);
+        System.out.println("Release date : " + releaseDate);
+        System.out.println("Running time : " + runningTime);
+        System.out.println("Ticket price : " + ticketPrice);
+    }
+
+    
+    
 }

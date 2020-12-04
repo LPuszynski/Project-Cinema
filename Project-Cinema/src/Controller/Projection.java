@@ -12,7 +12,7 @@ import java.sql.Time;
  * @author loisp
  */
 public class Projection {
-    private Date projectionDate;
+    private DateConverter projectionDate;
     private Time projectionHour;
     private int numberOfSeats;
     private int numberOfFreeSeats;
@@ -20,7 +20,7 @@ public class Projection {
     
     public Projection(){}
 
-    public Projection(Date projectionDate, Time projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
+    public Projection(DateConverter projectionDate, Time projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
         this.numberOfSeats = numberOfSeats;

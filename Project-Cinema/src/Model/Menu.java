@@ -96,11 +96,12 @@ public class Menu {
         initDBEmployee();
         initDBMovie();
         initDBCustomer();
-        initDBProjection();
+        initDBProjections();
         //Mise a zero des tables
         DBDeleteTable("MOVIES");
         DBDeleteTable("EMPLOYEE");
         DBDeleteTable("CUSTOMER");
+        DBDeleteTable("PROJECTIONS");
         //TEsts
         addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21", 3);
         addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03", 11);
@@ -112,7 +113,14 @@ public class Menu {
 
         addDBCustomer("Enfant", "petit", "junior", "Bebe", "Alfred");
         addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
-
+        
+        /*
+        //ne marche pas 
+        addDBProjection("2029-12-02","00:00:11", 100, 99, "OuiOui");
+        addDBProjection("2000-01-01","17:04:01", 29, 20, "NonNon");
+        addDBProjection("2001-11-30","03:20:12", 50, 40, "OuaisOuais");
+        */
+        
         deleteDBLineHuman("Lolo", "EMPLOYEE");
         deleteDBLineMovie("OuiOui");
 
@@ -121,6 +129,8 @@ public class Menu {
         selecDataDB("MOVIES");
         selecDataDB("EMPLOYEE");
         selecDataDB("CUSTOMER");
+        
+                
         /*
          //test recuperation des données
 
@@ -152,7 +162,7 @@ public class Menu {
         }
     }
 
-    public static void initDBProjection() {
+    public static void initDBProjections() {
 
         Connection conn;
 
@@ -184,6 +194,7 @@ public class Menu {
 
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 
@@ -348,7 +359,7 @@ public class Menu {
 
             while (rs.next()) {
                 if (tableName.equalsIgnoreCase("MOVIES")) {
-                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getDate("releaseDate") + rs.getTime("runningTime") + rs.getDouble("ticketPrice"));//l'ordre est important 
+                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getString("releaseDate") + rs.getTime("runningTime") + rs.getDouble("ticketPrice"));//l'ordre est important 
                 } else if (tableName.equalsIgnoreCase("CUSTOMER")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
                 } else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
