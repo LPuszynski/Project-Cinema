@@ -4,17 +4,25 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.*;
+
 
 /**
  *
  * @author charl
  */
-public abstract class  Customer {
+public abstract class Customer {
+    
+    public Customer() 
+    {
+        //addDBCustomer(login,  password,  bundle,  firstName, lastName);
+    }
     
     public abstract double getPrice(Movie movie);
     
-    public double getTotalPrice() //à implémenter (multiplier getPrice par le nombre de tickets achetés
+    public double getTotalPrice(Movie movie, int nbTickets) //à implémenter (multiplier getPrice par le nombre de tickets achetés
     {
-        return 0;
+        double totalPrice = this.getPrice(movie)*nbTickets;
+        return totalPrice;
     }
 }

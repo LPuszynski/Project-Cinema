@@ -17,6 +17,8 @@ public class Projection {
     private int numberOfSeats;
     private int numberOfFreeSeats;
     private Movie movieProjected;
+    
+    public Projection(){}
 
     public Projection(Date projectionDate, Time projectionHour, int numberOfSeats, int numberOfFreeSeats, Movie movieProjected) {
         this.projectionDate = projectionDate;

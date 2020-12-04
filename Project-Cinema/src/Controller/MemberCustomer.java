@@ -29,11 +29,6 @@ public class MemberCustomer extends Customer {
     }
 
     
-
-    
-    
-
-    
     public void setDiscount()
     {
         if(bundle.equals("children"))

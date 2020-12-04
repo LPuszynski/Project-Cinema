@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import static Model.Menu.addDBMovie;
 import static Model.Menu.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.*;
@@ -20,25 +21,25 @@ public class Movie {
     private Date releaseDate;
     private int runningTime; //en minutes
     private double ticketPrice;
-
     
-    
-    
-    
-    
-
-    
+    //default constructor
+    public Movie () {}
 
     public double getTicketPrice() {
         return ticketPrice;
     }
 
-    public void playMovie() {
+    public void addMovie(String title, String type, String releaseDate, String runningTime, double ticketPrice) {    
     }
 
     public void deleteMovie() {
     }
 
     public void setMovie() {
+    }
+    
+    public String getTitle()
+    {
+        return title;
     }
 }
