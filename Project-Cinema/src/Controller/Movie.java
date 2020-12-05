@@ -21,7 +21,6 @@ public class Movie {
     private String type;
     private String releaseDate ;
     private Time runningTime; //en minutes
-    private double ticketPrice;
     
     //default constructor
     public Movie () {}
@@ -35,12 +34,8 @@ public class Movie {
         
         this.runningTime = runningTime;
         
-        this.ticketPrice = ticketPrice;
     }
 
-    public double getTicketPrice() {
-        return ticketPrice;
-    }
     public String getTitle() {
         return title;
     }
@@ -69,10 +64,7 @@ public class Movie {
         }
     }
     
-    
-    public void playMovie(){}
 
-    public void setMovie(){}
     
     
     public void addMovie(Cinema cinema)
@@ -88,7 +80,7 @@ public class Movie {
         }
         if (alrealdyExists == false)
         {
-            MovieDB.addDBMovie(title, type, releaseDate, runningTime.toString(), ticketPrice) ;
+            MovieDB.addDBMovie(title, type, releaseDate, runningTime.toString()) ;
             cinema.getMovieList().add(this);
         }
         else
@@ -104,7 +96,6 @@ public class Movie {
         System.out.println("Type : " + type);
         System.out.println("Release date : " + releaseDate);
         System.out.println("Running time : " + runningTime);
-        System.out.println("Ticket price : " + ticketPrice);
     }
 
     

@@ -19,26 +19,44 @@ public class Projection {
     private Time projectionHour;
     private int numberOfSeats;
     //private int numberOfFreeSeats;
-    private Movie movieProjected;
+    private String movieTitle;
     private ArrayList<Reservation> reservationList;
+    private double discount;
+    private boolean availibility;
     
     public Projection(){}
 
-    public Projection(String idProj,String projectionDate, Time projectionHour, int numberOfSeats, Movie movieProjected) {
+    public Projection(String idProj,String projectionDate, Time projectionHour, String movieTitle, double discount) {
         this.idProj = idProj;
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
-        this.numberOfSeats = numberOfSeats;
-        //this.numberOfFreeSeats = numberOfFreeSeats;
-        this.movieProjected = movieProjected;
-        reservationList = new ArrayList<>();
+        this.numberOfSeats = 30;
+        this.movieTitle = movieTitle;
+        reservationList = new ArrayList<Reservation>();
+        availibility = true; // à la creation d'une classe, il y a de places disponibles
     }
     
     
-    
-    public void setNumberOfFreeSeats()
+    public int getNbFreeSeats()
     {
-        numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
+        return (numberOfSeats-getNbSeatsReserved());
+    }
+    
+    public int getNbSeatsReserved()
+    {
+        return reservationList.size();
+    }
+    
+    public boolean getAvailability()
+    {
+        if (getNbSeatsReserved() < numberOfSeats)
+        {
+            return true ;
+        }
+        else 
+        {
+            return false;
+        }
     }
    
 }

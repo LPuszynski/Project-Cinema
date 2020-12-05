@@ -12,13 +12,26 @@ package Controller;
 public class Reservation {
     private Projection projection;
     private Customer customer;
-    private int nbSeatsTaken;
+    private int nbOfTickets;
     
     public Reservation(Projection proj, Customer cust, int nbSeats)
     {
         projection = proj;
         customer = cust;
-        nbSeatsTaken = nbSeats;
+        nbOfTickets = nbSeats;
     }        
-       
+    
+    
+    public int getNbOfTicketsRes()
+    {
+        return nbOfTickets;
+    }
+    
+    public double getTotalPriceRes(Cinema cinema)
+    {
+        double price1ticket = customer.getPrice1Ticket(cinema);
+        double totalPrice = price1ticket*nbOfTickets;
+        
+        return totalPrice;
+    }
 }
