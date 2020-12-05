@@ -36,9 +36,9 @@ public class Projection {
     
     
     
-    public void setNumberOfFreeSeats()
+    /*public void setNumberOfFreeSeats()
     {
         numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
-    }
+    }*/
    
 }

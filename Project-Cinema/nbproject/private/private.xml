@@ -3,14 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/JCBD.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/Customer.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/Menu.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/GUI.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/Date.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/Employee.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/GuestCustomer.java</file>
-            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Classes/MemberCustomer.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Movie.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Customer.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Model/ProjectionDB.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Projection.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/GuestCustomer.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Cinema.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Model/EmployeeDB.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/MemberCustomer.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Reservation.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/View/GUI.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Employee.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Model/MovieDB.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/DateConverter.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Model/MemberCustomerDB.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Controller/Main.java</file>
+            <file>file:/C:/Users/Tonio/Documents/GitHub/Project-Cinema/Project-Cinema/src/Model/JBDC.java</file>
         </group>
     </open-files>
 </project-private>
