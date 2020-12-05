@@ -88,8 +88,8 @@ public class MemberCustomer extends Customer {
     
     
     @Override
-    public double getPrice(Movie movie){
-        return movie.getTicketPrice()-movie.getTicketPrice()*discount;
+    public double getPrice1Ticket(Cinema cinema){
+        return cinema.getTicketPrice()-cinema.getTicketPrice()*discount;
     }
     
     public void afficherMemberCustomer()

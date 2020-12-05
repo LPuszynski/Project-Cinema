@@ -131,7 +131,7 @@ public class MovieDB {
         
         for (int i= 0; i<movieList.size();i++)
         {
-            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getType(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString(), movieList.get(i).getTicketPrice());
+            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getType(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString());
         }
     }
     
@@ -162,20 +162,19 @@ public class MovieDB {
                     + "  `type` varchar(100) NOT NULL,"
                     + "  `releaseDate` date NOT NULL,"
                     + "  `runningTime` time NOT NULL,"
-                    + "  `ticketPrice` double NOT NULL,"
                     + "  PRIMARY KEY (`title`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   public static void addDBMovie(String title, String type, String releaseDate, String runningTime, double ticketPrice) {
+   public static void addDBMovie(String title, String type, String releaseDate, String runningTime) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "'," + ticketPrice + ")");
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime  + ")");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);

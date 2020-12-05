@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 public class GuestCustomer extends Customer {
     
     @Override
-    public double getPrice( Movie movie)
+    public double getPrice1Ticket( Cinema cinema)
     {
-        double price = movie.getTicketPrice();
+        double price = cinema.getTicketPrice();
         return price;
     }
 }

@@ -19,11 +19,7 @@ public abstract class Customer {
         //addDBCustomer(login,  password,  bundle,  firstName, lastName);
     }
     
-    public abstract double getPrice(Movie movie);
+    public abstract double getPrice1Ticket(Cinema cinema);
     
-    public double getTotalPrice(Movie movie, int nbTickets) //à implémenter (multiplier getPrice par le nombre de tickets achetés
-    {
-        double totalPrice = this.getPrice(movie)*nbTickets;
-        return totalPrice;
-    }
+   
 }

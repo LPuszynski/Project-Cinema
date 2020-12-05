@@ -34,10 +34,8 @@ public class Main {
         for (int i = 0; i < cinema.getMovieList().size(); i++) {
             cinema.getMovieList().get(i).afficherMovie();
             System.out.println(" ");
-            
         }
         */
-        //MovieDB.updateMovieBDD(cinema);
        
         
          MemberCustomer cust = new MemberCustomer("exa","dddd", "children","exemple","try");

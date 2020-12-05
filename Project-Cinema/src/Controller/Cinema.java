@@ -16,9 +16,11 @@ import java.sql.SQLException;
 public class Cinema {
     private double profits;
     private ArrayList<Movie> movieList;
+    private double ticketPrice;
     
     public Cinema() throws SQLException
     {
+        ticketPrice = 10;
         this.profits = 0;
         this.movieList = new ArrayList<Movie>();
         this.movieList = getMovieListDB();
@@ -29,15 +31,11 @@ public class Cinema {
         return movieList;
     }
     
-    
-    
-    
-    /*
-    //test qui ne marche pas : getMovieList marche pas
-    public static void main (String[]args)
+    public double getTicketPrice()
     {
-        ArrayList<Movie> liste = new ArrayList<Movie>();
-        liste = getMovieList();
+        return ticketPrice;
     }
-    */
+    
+    
+   
     }
