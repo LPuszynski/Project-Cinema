@@ -58,5 +58,9 @@ public class Projection {
             return false;
         }
     }
+    /*public void setNumberOfFreeSeats()
+    {
+        numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
+    }*/
    
 }
