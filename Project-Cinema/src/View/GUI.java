@@ -66,6 +66,8 @@ public class GUI extends JFrame {
         JLabel quantity = new JLabel("Quantity");
         JLabel image = new JLabel(new ImageIcon("C:\\Users\\loisp\\OneDrive\\Documents\\GitHub\\Project-Cinema\\Project-Cinema\\build\\classes\\View\\Scarface.jpg"));
         JPanel discount = new Circle('r', 'y', "2 euros"); //mettre la bonne couleur de font en fonction de la couleur du film
+        JTextField quantityField = new JTextField(2);
+        JButton buy = new JButton("Buy");
 
         title.setBounds(300, 20, 200, 20);
         date.setBounds(250, 60, 150, 20);
@@ -74,6 +76,10 @@ public class GUI extends JFrame {
         quantity.setBounds(300, 180, 150, 20);
         image.setBounds(0, 0, 200, 250);
         discount.setBounds(500, 0, 100, 50);
+        quantityField.setBounds(260, 180, 35, 20);
+        buy.setBounds(300, 210, 60, 20);
+
+        buy.addActionListener(new ButtonBuyListener());
 
         film.add(title);
         film.add(date);
@@ -82,8 +88,19 @@ public class GUI extends JFrame {
         film.add(quantity);
         film.add(image);
         film.add(discount);
+        film.add(quantityField);
+        film.add(buy);
 
         film.setLayout(null);
+    }
+
+    private class ButtonBuyListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            PaymentProgressBar p = new PaymentProgressBar();
+        }
+
     }
 
     public void BuildMenuScreen() {
@@ -110,7 +127,6 @@ public class GUI extends JFrame {
         BuildFilmPanel(film1);
         BuildFilmPanel(film2);
         BuildFilmPanel(film3);
-
 
         menuScreen.add(buttonEmployee);
         menuScreen.add(buttonCustomer);
@@ -168,6 +184,9 @@ public class GUI extends JFrame {
         textFieldPassword.setBounds(250, 211, 150, 25);
         textFieldPassword.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldPassword);
+        JButton accueil = new JButton("Accueil");
+        accueil.setBounds(10, 10, 150, 40);
+        loginScreen.add(accueil);
         loginScreen.setLayout(null);
     }
 

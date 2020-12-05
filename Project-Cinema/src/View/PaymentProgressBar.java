@@ -24,7 +24,6 @@ public class PaymentProgressBar extends JFrame{
   public PaymentProgressBar(){      
     this.setSize(300, 100);
     this.setTitle("*** JProgressBar ***");
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);      
     t = new Thread(new Traitement());
     bar  = new JProgressBar();
@@ -50,7 +49,5 @@ public class PaymentProgressBar extends JFrame{
       System.out.println("skrt"); //mettre l'action suivante ici
     }   
   }
-  public static void main(String[] args){
-    PaymentProgressBar p = new PaymentProgressBar();
-  }   
+
 }
