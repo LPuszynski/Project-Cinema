@@ -45,13 +45,6 @@ public class Main {
          cust.deleteMemberCustomer();
     }
     
-    public static boolean callCheckMember(String login, String password) throws SQLException
-    {
-        return MemberCustomerDB.checkMember(login, password);
-    }
+
     
-    public static MemberCustomer callgetMemberCustomerDB(String login) throws SQLException
-    {
-        return MemberCustomerDB.getMemberCustomerDB(login);
-    }
 }

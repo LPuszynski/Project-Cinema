@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.EmployeeDB;
+
+import java.sql.SQLException;
 
 /**
  *
@@ -23,4 +26,8 @@ public class Employee {
         this.lastName = lN;
     }
 
+    public static boolean callCheckEmployee(String login, String password) throws SQLException {
+        return EmployeeDB.checkEmployee(login, password);
+    }
+    
 }

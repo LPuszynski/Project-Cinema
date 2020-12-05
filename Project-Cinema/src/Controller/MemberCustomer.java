@@ -103,4 +103,9 @@ public class MemberCustomer extends Customer {
         System.out.println("");
     }
     
+    
+    public static boolean callCheckMember(String login, String password) throws SQLException
+    {
+        return MemberCustomerDB.checkMember(login, password);
+    }
 }
