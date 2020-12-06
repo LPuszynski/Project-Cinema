@@ -27,14 +27,14 @@ public class Projection {
     
     public Projection(){}
 
-    public Projection(String idProj,String projectionDate, Time projectionHour, String movieTitle, double discount) {
+    public Projection(String idProj,String projectionDate, Time projectionHour, String movieTitle, double discount, boolean ava) {
         this.idProj = idProj;
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
         this.numberOfSeats = 30;
         this.movieTitle = movieTitle;
         reservationList = new ArrayList<Reservation>();
-        availibility = true; // à la creation d'une classe, il y a de places disponibles
+        availibility = ava; 
     }
     
     
@@ -105,5 +105,17 @@ public class Projection {
        reservationList.add(resa);
        ReservationDB.addDBReservation(this.getIdProj(), cust.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this));
    }
+   
+   public void afficherProjection()
+    {
+        System.out.println("idProj : " + idProj);
+        System.out.println("movieTitle : " + movieTitle);
+        System.out.println("projectionDate : " + projectionDate);
+        System.out.println("projectionHour : " + projectionHour);
+        System.out.println("availibility : " + availibility);
+        System.out.println("discount : " + discount);
+        System.out.println("numberOfSeats : " + numberOfSeats);
+        System.out.println("");
+    }
    
 }

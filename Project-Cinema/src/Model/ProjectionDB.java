@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,9 +22,9 @@ import java.util.logging.Logger;
  */
 public class ProjectionDB {
 
-    public void getProjection() // à completer et renvoyer une seance en particulier
+    public void getProjection() 
     {
-
+        
     }
 
     public void updateProjection(Projection proj)
@@ -43,22 +45,48 @@ public class ProjectionDB {
                     //+ "  `` varchar(100) NOT NULL,"
                     + "  `projectionDate` varchar(100) NOT NULL,"
                     + "  `projectionHour` time NOT NULL,"
-                    + "  `numberOfSeats` int NOT NULL,"
-                    //+ "  `numberOfFreeSeats` int NOT NULL,"       
+                    //+ "  `numberOfSeats` int NOT NULL,"
+                    + "  `availability` int NOT NULL,"       
                     + "  PRIMARY KEY (`idProj`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static ArrayList<Projection> getAllProjectionsDB()
+    {
+        ArrayList<Projection> projList = new ArrayList<Projection>();
+        try{
+            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate");
+            
+            ResultSet result = insert.executeQuery();
+            while (result.next())
+            {
+                String idProj = result.getString("idProj");
+                String movieProjected = result.getString("title");
+                String projectionDate = result.getString("projectionDate");
+                Time projectionHour = result.getTime("projectionHour");
+                double discount = result.getDouble("discount");
+                boolean availability = result.getBoolean("avaibility");
+                Projection proj = new Projection(idProj, projectionDate,projectionHour , movieProjected, discount, availability);
+                projList.add(proj);
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return projList;
+        
+    }
 
-    public static void addDBProjection(String projectionDate, String projectionHour, int numberOfSeats, int numberOfFreeSeats, String movieProjected) {
+    public static void addDBProjection(String idProj, String projectionDate, String projectionHour, String movieProjected, boolean availibility) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + projectionDate + "','" + projectionHour + "', '" + numberOfSeats + "', '" + numberOfFreeSeats + "'," + movieProjected + ")");
+            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + idProj + "','" + projectionDate + "', '" + projectionHour + "', '" + movieProjected + "'," + availibility + ")");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);

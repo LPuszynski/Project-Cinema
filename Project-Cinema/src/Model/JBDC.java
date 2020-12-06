@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
 import Controller.MemberCustomer;
+import Controller.Projection;
+import java.util.ArrayList;
 
 /**
  *
@@ -93,7 +95,7 @@ public class JBDC {
          {
          System.out.println(e.getMessage());
          }
-         */
+         
         //Création des tables if not exist
         EmployeeDB.initDBEmployee();
         MovieDB.initDBMovie();
@@ -117,9 +119,9 @@ public class JBDC {
         MemberCustomerDB.addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
 
         //ne marche pas 
-        //addDBProjection("2029-12-02","00:00:11", 100, 99, "OuiOui");
-        //addDBProjection("2000-01-01","17:04:01", 29, 20, "NonNon");
-        //addDBProjection("2001-11-30","03:20:12", 50, 40, "OuaisOuais");
+        addDBProjection("2029-12-02","00:00:11", 100, 99, "OuiOui");
+        addDBProjection("2000-01-01","17:04:01", 29, 20, "NonNon");
+        addDBProjection("2001-11-30","03:20:12", 50, 40, "OuaisOuais");
         deleteDBLineHuman("Lolo", "EMPLOYEE");
         MovieDB.deleteDBLineMovie("OuiOui");
 
@@ -130,7 +132,7 @@ public class JBDC {
         selectDataDB("MOVIES");
         selectDataDB("EMPLOYEE");
         selectDataDB("CUSTOMER");
-
+*/
         /*
          //test recuperation des données
 
@@ -141,6 +143,7 @@ public class JBDC {
          System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
 
          */
+        
     }
 
     public static java.sql.Connection getDbConnection() throws SQLException {
