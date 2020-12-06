@@ -117,7 +117,11 @@ public class MemberCustomer extends Customer {
     
     public static boolean callCheckMember(String login, String password) throws SQLException
     {
-        return MemberCustomerDB.checkMember(login, password);
+        boolean tmp = MemberCustomerDB.checkMember(login, password);
+        /*if(tmp){
+            
+        }*/
+        return tmp;
     }
     
     @Override

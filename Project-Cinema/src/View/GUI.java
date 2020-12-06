@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import Controller.*;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 
@@ -50,8 +51,9 @@ public class GUI extends JFrame {
     private boolean boolLogin;
     private String login;
     private String password;
+    private Cinema cine;
 
-    public GUI() throws HeadlessException {
+    public GUI(Cinema cine) throws HeadlessException {
         setTitle("Cinema");
         setBounds(150, 80, 1600, 920);
         BuildConnexionScreen();
@@ -60,22 +62,24 @@ public class GUI extends JFrame {
         //setContentPane(connexionScreen);
         setContentPane(menuScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.cine = cine;
+        //setVisible(true);
     }
 
-    public void BuildFilmPanel(JPanel film) {
-        JLabel title = new JLabel("Scarface");
-        JLabel date = new JLabel("1985");
-        JLabel hour = new JLabel("2H30");
-        JLabel freeSeats = new JLabel("50 sieges dispo");
+    public void BuildFilmPanel(JPanel film, Projection proj) {
+        JLabel title = new JLabel(proj.getMovieTitle());
+        JLabel date = new JLabel(proj.getProjectionDate());
+        JLabel hour = new JLabel((Icon) proj.getProjectionHour());
+        int i = proj.getNbFreeSeats();
+        JLabel freeSeats = new JLabel("" + i + "");
         JLabel image = new JLabel(new ImageIcon("Scarface.jpg"));
-        JPanel discount = new Circle('r', 'y', "2 euros"); //mettre la bonne couleur de font en fonction de la couleur du film
+        JPanel discount;
 
         title.setBounds(300, 20, 200, 20);
         date.setBounds(250, 60, 150, 20);
         hour.setBounds(250, 100, 150, 20);
         freeSeats.setBounds(250, 140, 150, 20);
         image.setBounds(0, 0, 200, 250);
-        discount.setBounds(500, 0, 100, 50);
 
         if (choiceUser != 2) {
             JLabel quantity = new JLabel("Quantity");
@@ -113,7 +117,11 @@ public class GUI extends JFrame {
         film.add(hour);
         film.add(freeSeats);
         film.add(image);
-        film.add(discount);
+        if (proj.getDiscount() != 0) {
+            discount = new Circle('r', 'y', "-" + proj.getDiscount() + " €"); //mettre la bonne couleur de font en fonction de la couleur du film
+            discount.setBounds(500, 0, 100, 50);
+            film.add(discount);
+        }
 
         film.setLayout(null);
     }
@@ -228,11 +236,11 @@ public class GUI extends JFrame {
         employeeScreen.add(film1);
         employeeScreen.add(film2);
         employeeScreen.add(film3);
-        
+
         employeeScreen.setLayout(null);
     }
-    
-    private class ButtonCustomerRecordsListener implements ActionListener{
+
+    private class ButtonCustomerRecordsListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -241,30 +249,30 @@ public class GUI extends JFrame {
             invalidate();
             validate();
         }
-        
+
     }
-    
-    public void BuildCustomerRecordsScreen(){
+
+    public void BuildCustomerRecordsScreen() {
         customerRecordsScreen = new JPanel();
-        
+
         JButton buttonBack = new JButton("Back");
         JLabel loginOfEmployee = new JLabel("          Login");
-        
+
         buttonBack.setBounds(1470, 10, 100, 35);
         loginOfEmployee.setBounds(300, 10, 170, 35);
         loginOfEmployee.setForeground(new Color(0, 0, 0));
         loginOfEmployee.setBackground(Color.GRAY);
         loginOfEmployee.setOpaque(true);
-        
+
         buttonBack.addActionListener(new buttonBackListener());
-        
+
         customerRecordsScreen.add(buttonBack);
         customerRecordsScreen.add(loginOfEmployee);
-        
+
         customerRecordsScreen.setLayout(null);
     }
-    
-    private class ButtonStatisticListener implements ActionListener{
+
+    private class ButtonStatisticListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -273,12 +281,12 @@ public class GUI extends JFrame {
             invalidate();
             validate();
         }
-        
+
     }
-    
-    public void BuildStatisticScreen(){
+
+    public void BuildStatisticScreen() {
         statisticScreen = new JPanel();
-        
+
         JLabel loginOfEmployee = new JLabel("          Login");
         JButton buttonBack = new JButton("Back");
 
@@ -320,14 +328,12 @@ public class GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (choiceUser != 2){
+            if (choiceUser != 2) {
                 setContentPane(menuScreen);
-            }
-            
-            else if (choiceUser == 2){
+            } else if (choiceUser == 2) {
                 setContentPane(employeeScreen);
             }
-            
+
             invalidate();
             validate();
         }
@@ -387,6 +393,7 @@ public class GUI extends JFrame {
         connexionScreen.setLayout(null);
     }
 
+    // build login screen
     public void BuildLoginScreen() {
         loginScreen = new JPanel();
         JButton buttonValidate = new JButton("Validate");
@@ -426,7 +433,11 @@ public class GUI extends JFrame {
     private class ButtonValidateLoginListener implements ActionListener {
 
         @Override
+
         public void actionPerformed(ActionEvent ae) {
+            cine.setCustLogin(null);
+            cine.setEmpLogin(null);
+            //member login
             if (choiceUser == 1) {
                 try {
                     boolLogin = MemberCustomer.callCheckMember(login, password);
@@ -441,7 +452,9 @@ public class GUI extends JFrame {
                     setContentPane(menuScreen);
                     invalidate();
                     validate();
+                    cine.setCustLogin(login);
                 }
+                // employee login
             } else if (choiceUser == 2) {
                 try {
                     boolLogin = Employee.callCheckEmployee(login, password);
@@ -456,6 +469,7 @@ public class GUI extends JFrame {
                     setContentPane(employeeScreen);
                     invalidate();
                     validate();
+                    cine.setEmpLogin(login);
                 }
             }
             //System.out.println(boolLogin);
@@ -524,8 +538,4 @@ public class GUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        GUI f = new GUI();
-        f.setVisible(true);
-    }
 }

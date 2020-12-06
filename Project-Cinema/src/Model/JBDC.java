@@ -95,7 +95,7 @@ public class JBDC {
          }
          */
         //Création des tables if not exist
-        EmployeeDB.initDBEmployee();
+        /*EmployeeDB.initDBEmployee();
         MovieDB.initDBMovie();
         MemberCustomerDB.initDBCustomer();
         ProjectionDB.initDBProjections();
@@ -129,7 +129,7 @@ public class JBDC {
 
         selectDataDB("MOVIES");
         selectDataDB("EMPLOYEE");
-        selectDataDB("CUSTOMER");
+        selectDataDB("CUSTOMER");*/
 
         /*
          //test recuperation des données

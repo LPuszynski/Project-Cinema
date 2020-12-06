@@ -54,7 +54,7 @@ public class MovieDB {
                 Time rTime =  rs.getTime("runningTime");
                 double tPrice = rs.getDouble("ticketPrice");
 
-                Movie movie = new Movie (title,type,rDate,rTime,tPrice);
+                Movie movie = new Movie (title,type,rDate,rTime);
                 movieList.add(movie);
             }
         } catch (SQLException ex) {

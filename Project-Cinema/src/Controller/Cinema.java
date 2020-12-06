@@ -17,6 +17,8 @@ public class Cinema {
     private double profits;
     private ArrayList<Movie> movieList;
     private double ticketPrice;
+    private String empLogin;
+    private String custLogin;
     
     public Cinema() throws SQLException
     {
@@ -24,6 +26,9 @@ public class Cinema {
         this.profits = 0;
         this.movieList = new ArrayList<Movie>();
         this.movieList = getMovieListDB();
+        this.custLogin = null;
+        this.empLogin = null;
+        
     }
     
     public ArrayList<Movie> getMovieList()
@@ -35,6 +40,26 @@ public class Cinema {
     {
         return ticketPrice;
     }
+    
+    public String getEmpLogin()
+    {
+        return empLogin;
+    }
+
+    public String getCustLogin() {
+        return custLogin;
+    }
+
+    public void setCustLogin(String custLogin) {
+        this.custLogin = custLogin;
+    }
+
+    public void setEmpLogin(String empLogin) {
+        this.empLogin = empLogin;
+    }
+    
+    
+    
     
     
    
