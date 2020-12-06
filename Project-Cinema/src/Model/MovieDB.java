@@ -50,7 +50,7 @@ public class MovieDB {
             while (rs.next()) {
                 String title = rs.getString("title");
                 String type = rs.getString("type");
-                String rDate = rs.getString("releaseDate");
+                int rDate = rs.getInt("releaseDate");
                 Time rTime =  rs.getTime("runningTime");
                 double tPrice = rs.getDouble("ticketPrice");
 
@@ -160,7 +160,7 @@ public class MovieDB {
             essai.execute("CREATE TABLE IF NOT EXISTS `MOVIES` ("
                     + "  `title` varchar(100) NOT NULL,"
                     + "  `type` varchar(100) NOT NULL,"
-                    + "  `releaseDate` varchar(100) NOT NULL,"
+                    + "  `releaseDate` int NOT NULL,"
                     + "  `runningTime` time NOT NULL,"
                     + "  PRIMARY KEY (`title`)"
                     + ")");
@@ -168,7 +168,7 @@ public class MovieDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   public static void addDBMovie(String title, String type, String releaseDate, String runningTime) {
+   public static void addDBMovie(String title, String type, int releaseDate, String runningTime) {
 
         Connection conn;
         try {

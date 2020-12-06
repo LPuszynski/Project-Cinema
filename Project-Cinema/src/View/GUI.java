@@ -67,7 +67,7 @@ public class GUI extends JFrame {
         JLabel date = new JLabel("1985");
         JLabel hour = new JLabel("2H30");
         JLabel freeSeats = new JLabel("50 sieges dispo");
-        JLabel image = new JLabel(new ImageIcon("C:\\Users\\loisp\\OneDrive\\Documents\\GitHub\\Project-Cinema\\Project-Cinema\\build\\classes\\View\\Scarface.jpg"));
+        JLabel image = new JLabel(new ImageIcon("Scarface.jpg"));
         JPanel discount = new Circle('r', 'y', "2 euros"); //mettre la bonne couleur de font en fonction de la couleur du film
 
         title.setBounds(300, 20, 200, 20);
