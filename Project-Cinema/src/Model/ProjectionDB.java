@@ -54,7 +54,7 @@ public class ProjectionDB {
         }
     }
     
-    public static ArrayList<Projection> getAllProjectionsDB()
+    public static ArrayList<Projection> getAllProjectionsDB(boolean AvailOnly)
     {
         ArrayList<Projection> projList = new ArrayList<Projection>();
         try{
@@ -69,8 +69,10 @@ public class ProjectionDB {
                 Time projectionHour = result.getTime("projectionHour");
                 double discount = result.getDouble("discount");
                 boolean availability = result.getBoolean("avaibility");
-                Projection proj = new Projection(idProj, projectionDate,projectionHour , movieProjected, discount, availability);
-                projList.add(proj);
+                if( (availability && AvailOnly) || !AvailOnly ){
+                    Projection proj = new Projection(idProj, projectionDate,projectionHour , movieProjected, discount, availability);
+                    projList.add(proj);
+                }
             }
         }catch(SQLException ex){
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
