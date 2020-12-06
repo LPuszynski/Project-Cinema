@@ -96,12 +96,12 @@ public class ProjectionDB {
         }
     }
 
-      public static void deleteDBProjection(String projectionDate, String projectionHour, String movieProjected) {
+      public static void deleteDBProjection(int idProj) {
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("DELETE FROM PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
+            essai.execute("DELETE FROM PROJECTIONS WHERE idProj = '" + idProj  + "'");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
