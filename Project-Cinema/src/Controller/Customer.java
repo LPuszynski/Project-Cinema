@@ -12,14 +12,24 @@ import Model.*;
  * @author charl
  */
 public abstract class Customer {
+    protected String login;
     
-    
-    public Customer() 
+    public Customer(String login) 
     {
-        //addDBCustomer(login,  password,  bundle,  firstName, lastName);
+        this.login = login;
+    }
+    public Customer()
+    {
+        
+    }
+    public String getLogin()
+    {
+        return login;
     }
     
-    public abstract double getPrice1Ticket(Cinema cinema);
     
+    
+    public abstract double getPrice1Ticket();
+    public abstract boolean isMember();
    
 }

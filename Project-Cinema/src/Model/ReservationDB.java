@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Controller.Reservation;
 import static Model.JBDC.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
@@ -27,10 +28,10 @@ public class ReservationDB {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("CREATE TABLE IF NOT EXISTS `RESERVATION` ("
-                    + "  `price` double NOT NULL,"
-                    + "  `quantity` int NOT NULL,"
                     + "  `idProj` int NOT NULL,"
                     + "  `login` varchar(100) NOT NULL,"
+                    + "  `price` double NOT NULL,"
+                    + "  `quantity` int NOT NULL,"
                     + "  PRIMARY KEY (`idProj`,`login`)"
                     + ")");
         } catch (SQLException ex) {
@@ -53,6 +54,8 @@ public class ReservationDB {
         return 0; 
     }
     
+   
+    
     public static void setElementReservationDB( int newValeur, String typeKey, String myKey,String type2Key, String my2Key) {
         Connection conn;
 
@@ -66,4 +69,18 @@ public class ReservationDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+     public static void addDBReservation(String idProj, String login, int nbOfTickets, double price) {
+
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("INSERT INTO RESERVATION VALUES ('" + idProj + "','" + login + "', '" + nbOfTickets + "', '" + price  + ")");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+   
 }

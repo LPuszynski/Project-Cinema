@@ -22,8 +22,7 @@ import Controller.MemberCustomer;
 public class JBDC {
 
     public static void main(String[] args) throws SQLException {
-        
-        
+
         /*
          Date date = new Date(10, 9, 2000);
          date.display();
@@ -96,10 +95,7 @@ public class JBDC {
          }
          */
         //Création des tables if not exist
-        
-        System.out.println("hello");
         EmployeeDB.initDBEmployee();
-        System.out.println("hello");
         MovieDB.initDBMovie();
         MemberCustomerDB.initDBCustomer();
         ProjectionDB.initDBProjections();
@@ -119,27 +115,22 @@ public class JBDC {
 
         MemberCustomerDB.addDBCustomer("Enfant", "petit", "junior", "Bebe", "Alfred");
         MemberCustomerDB.addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
-        
-        
+
         //ne marche pas 
         //addDBProjection("2029-12-02","00:00:11", 100, 99, "OuiOui");
         //addDBProjection("2000-01-01","17:04:01", 29, 20, "NonNon");
         //addDBProjection("2001-11-30","03:20:12", 50, 40, "OuaisOuais");
-        
-        
         deleteDBLineHuman("Lolo", "EMPLOYEE");
         MovieDB.deleteDBLineMovie("OuiOui");
 
         setElementDB("EMPLOYEE", "firstName", "Pierre", "login", "TOINOU");
 
         MemberCustomer test = MemberCustomerDB.getMemberCustomerDB("Enfant");
-        
+
         selectDataDB("MOVIES");
         selectDataDB("EMPLOYEE");
         selectDataDB("CUSTOMER");
-        
-        
-        
+
         /*
          //test recuperation des données
 
@@ -149,13 +140,10 @@ public class JBDC {
          double ticketPrice1 = getTicketPrice("OuiOui");
          System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
 
-         */    
-        
-     
+         */
     }
-    
 
-     public static java.sql.Connection getDbConnection() throws SQLException {
+    public static java.sql.Connection getDbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/projet?useSSL=false";
         String user = "root";
         String password = "";
@@ -175,7 +163,6 @@ public class JBDC {
         }
     }
 
-    
     public static void deleteDBLineHuman(String login, String table) {
         Connection conn;
         try {
@@ -187,7 +174,6 @@ public class JBDC {
         }
     }
 
-  
     public static void setElementDB(String table, String nomColumn, String newValeur, String typeKey, String myKey) {
         Connection conn;
 
@@ -201,7 +187,6 @@ public class JBDC {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     public static void selectDataDB(String tableName) throws SQLException {
         Connection conn;
@@ -215,13 +200,13 @@ public class JBDC {
 
             while (rs.next()) {
                 if (tableName.equalsIgnoreCase("MOVIES")) {
-                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getString("releaseDate") + rs.getTime("runningTime") + rs.getDouble("ticketPrice"));//l'ordre est important 
+                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getString("releaseDate") + rs.getTime("runningTime"));//l'ordre est important 
                 } else if (tableName.equalsIgnoreCase("CUSTOMER")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
                 } else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
                     System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
-                } else if (tableName.equalsIgnoreCase("PROJECTIONS")){
-                    System.out.println(rs.getString("movieProjected") + rs.getString("projectionDate") + rs.getString("projectionHour") + rs.getInt("numberOfSeats") + rs.getInt("numberOfFreeSeats"));
+                } else if (tableName.equalsIgnoreCase("PROJECTIONS")) {
+                    System.out.println(rs.getString("idProj")+ rs.getString("movieProjected") + rs.getString("projectionDate") + rs.getString("projectionHour") + rs.getInt("numberOfSeats") );
                 }
             }
         } catch (SQLException ex) {

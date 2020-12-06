@@ -7,6 +7,7 @@ package Model;
 import Controller.Projection;
 import static Model.JBDC.*;
 import com.mysql.jdbc.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,7 +45,7 @@ public class ProjectionDB {
                     + "  `projectionHour` time NOT NULL,"
                     + "  `numberOfSeats` int NOT NULL,"
                     //+ "  `numberOfFreeSeats` int NOT NULL,"       
-                    + "  PRIMARY KEY (`movieProjected`,`projectionDate`,`projectionHour`)"
+                    + "  PRIMARY KEY (`idProj`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,5 +93,7 @@ public class ProjectionDB {
         }  
         return placesOccuped;
     }
+      
+     
 
 }

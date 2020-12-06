@@ -17,10 +17,26 @@ import java.util.logging.Logger;
  */
 public class GuestCustomer extends Customer {
     
-    @Override
-    public double getPrice1Ticket( Cinema cinema)
+    public GuestCustomer()
     {
-        double price = cinema.getTicketPrice();
-        return price;
+        super("guest");
+    }
+    
+    @Override
+    public double getPrice1Ticket() 
+    {
+        try {
+            Cinema cinema = new Cinema();
+            double price = cinema.getTicketPrice();
+            return price;
+        } catch (SQLException ex) {
+            Logger.getLogger(GuestCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    @Override
+    public boolean isMember()
+    {
+        return false;
     }
 }

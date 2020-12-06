@@ -160,7 +160,7 @@ public class MovieDB {
             essai.execute("CREATE TABLE IF NOT EXISTS `MOVIES` ("
                     + "  `title` varchar(100) NOT NULL,"
                     + "  `type` varchar(100) NOT NULL,"
-                    + "  `releaseDate` date NOT NULL,"
+                    + "  `releaseDate` varchar(100) NOT NULL,"
                     + "  `runningTime` time NOT NULL,"
                     + "  PRIMARY KEY (`title`)"
                     + ")");
@@ -174,7 +174,7 @@ public class MovieDB {
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime  + ")");
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "')");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);

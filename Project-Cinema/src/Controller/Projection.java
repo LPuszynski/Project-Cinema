@@ -5,6 +5,8 @@
  */
 package Controller;
 import Model.ProjectionDB;
+import Model.ReservationDB;
+import java.sql.SQLException;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ public class Projection {
     private String projectionDate;
     private Time projectionHour;
     private int numberOfSeats;
-    //private int numberOfFreeSeats;
     private String movieTitle;
     private ArrayList<Reservation> reservationList;
     private double discount;
@@ -72,4 +73,37 @@ public class Projection {
    {
        return idProj;
    }
+   
+   public double getDiscount()
+   {
+       return discount;
+   }
+   
+   public String getMovieTitle()
+   {
+       return movieTitle;
+   }
+   
+   public String getProjectionDate()
+   {
+       return projectionDate;
+   }
+   
+   public Time getProjectionHour()
+   {
+       return projectionHour;
+   }
+   
+   public int getNumberOfSeats()
+   {
+       return numberOfSeats;
+   }
+   
+   public void addReservation(Customer cust, int nbTickets) throws SQLException
+   {
+       Reservation resa = new Reservation(this, cust, nbTickets);
+       reservationList.add(resa);
+       ReservationDB.addDBReservation(this.getIdProj(), cust.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this));
+   }
+   
 }
