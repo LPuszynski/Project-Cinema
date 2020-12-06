@@ -52,7 +52,6 @@ public class MovieDB {
                 String type = rs.getString("type");
                 int rDate = rs.getInt("releaseDate");
                 Time rTime =  rs.getTime("runningTime");
-                double tPrice = rs.getDouble("ticketPrice");
 
                 Movie movie = new Movie (title,type,rDate,rTime);
                 movieList.add(movie);

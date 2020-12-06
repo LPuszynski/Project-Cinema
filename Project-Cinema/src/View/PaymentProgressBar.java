@@ -46,7 +46,7 @@ public class PaymentProgressBar extends JFrame{
         e.printStackTrace();
         }
       }
-      System.out.println("skrt"); //mettre l'action suivante ici
+      dispose();
     }   
   }
 

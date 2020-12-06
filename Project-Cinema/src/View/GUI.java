@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 /**
@@ -54,22 +55,24 @@ public class GUI extends JFrame {
     private Cinema cine;
 
     public GUI(Cinema cine) throws HeadlessException {
+        this.cine = cine;
         setTitle("Cinema");
         setBounds(150, 80, 1600, 920);
         BuildConnexionScreen();
         BuildLoginScreen();
+
         BuildMenuScreen();
         //setContentPane(connexionScreen);
         setContentPane(menuScreen);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.cine = cine;
+
         //setVisible(true);
     }
 
     public void BuildFilmPanel(JPanel film, Projection proj) {
         JLabel title = new JLabel(proj.getMovieTitle());
         JLabel date = new JLabel(proj.getProjectionDate());
-        JLabel hour = new JLabel((Icon) proj.getProjectionHour());
+        JLabel hour = new JLabel(proj.getProjectionHour().toString());
         int i = proj.getNbFreeSeats();
         JLabel freeSeats = new JLabel("" + i + "");
         JLabel image = new JLabel(new ImageIcon("Scarface.jpg"));
@@ -82,15 +85,16 @@ public class GUI extends JFrame {
         image.setBounds(0, 0, 200, 250);
 
         if (choiceUser != 2) {
+
             JLabel quantity = new JLabel("Quantity");
             JTextField quantityField = new JTextField(2);
             JButton buy = new JButton("Buy");
 
+            buy.addActionListener(new ButtonBuyListener(proj.getIdProj(), quantityField));
+
             quantity.setBounds(300, 180, 150, 20);
             quantityField.setBounds(260, 180, 35, 20);
             buy.setBounds(300, 210, 60, 20);
-
-            buy.addActionListener(new ButtonBuyListener());
 
             film.add(quantity);
             film.add(quantityField);
@@ -128,9 +132,39 @@ public class GUI extends JFrame {
 
     private class ButtonBuyListener implements ActionListener {
 
+        private int idProj;
+        private JTextField monTexte;
+
+        public ButtonBuyListener(int idProj, JTextField monTexte) {
+            this.idProj = idProj;
+            this.monTexte = monTexte;
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
-            PaymentProgressBar p = new PaymentProgressBar();
+            String s = monTexte.getText();
+
+            if (!s.equalsIgnoreCase("")) {
+                // is it numeric ?
+                try {
+
+                    int i = Integer.parseInt(s);
+                    if (i > 0 && i < cine.getProjList().get(idProj).getNbFreeSeats()) {
+                        cine.getProjList().get(idProj).addReservation(new GuestCustomer(), i);
+                        PaymentProgressBar p = new PaymentProgressBar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Max number of seats is : " + cine.getProjList().get(idProj).getNbFreeSeats() + " ( ͡° ͜ʖ ͡°)");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "a numeric value please ( ͡° ͜ʖ ͡°)");
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Please type something good ( ͡° ͜ʖ ͡°)");
+
+            }
         }
 
     }
@@ -148,9 +182,9 @@ public class GUI extends JFrame {
         film2.setBounds(10, 350, 600, 250);
         film3.setBounds(10, 600, 600, 250);
 
-        BuildFilmPanel(film1);
-        BuildFilmPanel(film2);
-        BuildFilmPanel(film3);
+        BuildFilmPanel(film1, cine.getProjList().get(0));
+        BuildFilmPanel(film2, cine.getProjList().get(1));
+        BuildFilmPanel(film3, cine.getProjList().get(2));
 
         if (boolLogin == false) {
             JButton buttonEmployee = new JButton("Employee login");
@@ -165,9 +199,9 @@ public class GUI extends JFrame {
             menuScreen.add(buttonEmployee);
             menuScreen.add(buttonCustomer);
         }
-
+        //customer login menu
         if (boolLogin == true) {
-            JLabel loginOfCustomer = new JLabel("          Login");
+            JLabel loginOfCustomer = new JLabel(cine.getCustLogin());
             JButton buttonReservations = new JButton("See all your reservations");
             JButton buttonLogOut = new JButton("Log out");
 
@@ -193,6 +227,7 @@ public class GUI extends JFrame {
         menuScreen.setLayout(null);
     }
 
+    //employee login menu
     public void BuildEmployeeScreen() {
         employeeScreen = new JPanel();
         film1 = new JPanel();
@@ -224,9 +259,9 @@ public class GUI extends JFrame {
         buttonStatistic.addActionListener(new ButtonStatisticListener());
         buttonCustomerRecords.addActionListener(new ButtonCustomerRecordsListener());
 
-        BuildFilmPanel(film1);
-        BuildFilmPanel(film2);
-        BuildFilmPanel(film3);
+        BuildFilmPanel(film1, cine.getProjList().get(0));
+        BuildFilmPanel(film2, cine.getProjList().get(1));
+        BuildFilmPanel(film3, cine.getProjList().get(2));
 
         employeeScreen.add(buttonLogOut);
         employeeScreen.add(loginOfEmployee);
@@ -448,11 +483,14 @@ public class GUI extends JFrame {
                 if (boolLogin == false) {
                     //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
                 } else {
+                    cine.setCustLogin(login);
                     BuildMenuScreen();
                     setContentPane(menuScreen);
+
                     invalidate();
+
                     validate();
-                    cine.setCustLogin(login);
+
                 }
                 // employee login
             } else if (choiceUser == 2) {
@@ -465,11 +503,14 @@ public class GUI extends JFrame {
                 if (boolLogin == false) {
                     //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
                 } else {
+                    cine.setEmpLogin(login);
                     BuildEmployeeScreen();
                     setContentPane(employeeScreen);
+
                     invalidate();
+
                     validate();
-                    cine.setEmpLogin(login);
+
                 }
             }
             //System.out.println(boolLogin);

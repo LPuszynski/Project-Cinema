@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  * @author charl
  */
 public class ReservationDB {
+
     public static void initDBReservation() {
 
         Connection conn;
@@ -37,9 +38,9 @@ public class ReservationDB {
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
-    
+
     public static int getQuantityDB(String login, int idProj) throws SQLException {
         PreparedStatement insert = getDbConnection().prepareStatement("select quantity from RESERVATION" + " where login = ? + and idProj = ?");
         insert.setString(1, login);
@@ -51,36 +52,44 @@ public class ReservationDB {
             int q = result.getInt("quantity");
             return q;
         }
-        return 0; 
+        return 0;
     }
-    
-   
-    
-    public static void setElementReservationDB( int newValeur, String typeKey, String myKey,String type2Key, String my2Key) {
+
+    public static void setElementReservationDB(int newValeur, String typeKey, String myKey, String type2Key, String my2Key) {
         Connection conn;
 
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("UPDATE RESERVATION"
-                    + "  set quantity = '" + newValeur + "' WHERE " + typeKey + " = '" + myKey + "' AND "+type2Key+" = '"+my2Key+"'");
+                    + "  set quantity = '" + newValeur + "' WHERE " + typeKey + " = '" + myKey + "' AND " + type2Key + " = '" + my2Key + "'");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-     public static void addDBReservation(String idProj, String login, int nbOfTickets, double price) {
+
+    public static void addDBReservation(int idProj, String login, int nbOfTickets, double price) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO RESERVATION VALUES ('" + idProj + "','" + login + "', '" + nbOfTickets + "', '" + price  + ")");
+            essai.execute("INSERT INTO RESERVATION (idproj, login,quantity, price) VALUES ('" + idProj + "','" + login + "', '" + nbOfTickets + "', '" + price + "')");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
+    public static void deleteDBReservation(String login, int idProj) {
+        Connection conn;
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("DELETE FROM RESERVATION WHERE login = '" + login + "' AND idProj = '" + idProj + "'");
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

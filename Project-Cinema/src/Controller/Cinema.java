@@ -8,6 +8,7 @@ package Controller;
 import java.util.ArrayList;
 import Model.MovieDB;
 import static Model.MovieDB.getMovieListDB;
+import Model.ProjectionDB;
 import java.sql.SQLException;
 /**
  *
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 public class Cinema {
     private double profits;
     private ArrayList<Movie> movieList;
+    private ArrayList<Projection> projList;
     private double ticketPrice;
     private String empLogin;
     private String custLogin;
@@ -28,6 +30,7 @@ public class Cinema {
         this.movieList = getMovieListDB();
         this.custLogin = null;
         this.empLogin = null;
+        this.projList = ProjectionDB.getAllProjectionsDB(true);
         
     }
     
@@ -56,6 +59,10 @@ public class Cinema {
 
     public void setEmpLogin(String empLogin) {
         this.empLogin = empLogin;
+    }
+
+    public ArrayList<Projection> getProjList() {
+        return projList;
     }
     
     

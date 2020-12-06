@@ -5,8 +5,10 @@
  */
 package Controller;
 
+import Model.JBDC;
 import Model.MemberCustomerDB;
 import Model.MovieDB;
+import Model.ReservationDB;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
@@ -39,6 +41,7 @@ public class Main {
          MemberCustomer cust = new MemberCustomer("exa","dddd", "children","exemple","try");
          cust.addMemberCustomer();
          cust.deleteMemberCustomer();*/
+        ReservationDB.deleteDBReservation("guest", 2);
         GUI f = new GUI(cinema);
         f.setVisible(true);
 

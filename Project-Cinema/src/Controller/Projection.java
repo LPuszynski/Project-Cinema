@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author loisp
  */
 public class Projection {
-    private String idProj;
+    private int idProj;
     private String projectionDate;
     private Time projectionHour;
     private int numberOfSeats;
@@ -27,7 +27,7 @@ public class Projection {
     
     public Projection(){}
 
-    public Projection(String idProj,String projectionDate, Time projectionHour, String movieTitle, double discount, boolean ava) {
+    public Projection(int idProj,String projectionDate, Time projectionHour, String movieTitle, double discount, boolean ava) {
         this.idProj = idProj;
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
@@ -69,7 +69,7 @@ public class Projection {
     {
         numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
     }*/
-   public String getIdProj()
+   public int getIdProj()
    {
        return idProj;
    }

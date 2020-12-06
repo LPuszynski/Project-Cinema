@@ -63,7 +63,7 @@ public class ProjectionDB {
             ResultSet result = insert.executeQuery();
             while (result.next())
             {
-                String idProj = result.getString("idProj");
+                int idProj = result.getInt("idProj");
                 String movieProjected = result.getString("title");
                 String projectionDate = result.getString("projectionDate");
                 Time projectionHour = result.getTime("projectionHour");
