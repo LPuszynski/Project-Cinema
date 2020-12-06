@@ -30,6 +30,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -347,31 +348,36 @@ public class GUI extends JFrame {
         loginOfEmployee.setOpaque(true);
 
         buttonBack.addActionListener(new buttonBackListener());
+        
+        String[] colNames = {"Name", "Telephone"};
+        String[][] rowData ={{"Jean","555-2222"},
+            {"Tim","555-2222"}};
+        
+        
+        setBounds(150,80,1600,920);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        //https://baptiste-wicht.developpez.com/tutoriels/java/swing/jtable/
-        Object[][] donnees = {
-            {"Johnathan", "Sykes", Color.red, true},
-            {"Nicolas", "Van de Kampf", Color.black, true},
-            {"Damien", "Cuthbert", Color.cyan, true},
-            {"Corinne", "Valance", Color.blue, false},
-            {"Emilie", "Schrödinger", Color.magenta, false},
-            {"Delphine", "Duke", Color.yellow, false},
-            {"Eric", "Trump", Color.pink, true},};
+      // Create a JTable with the results.
+      JTable table = new JTable(rowData, colNames);
 
-        String[] entetes = {"Prénom", "Nom", "Couleur favorite", "Homme", "Sport"};
+      // Put the table in a scroll pane.
+      JScrollPane scrollPane = new JScrollPane(table);
 
-        JTable tableau = new JTable(donnees, entetes);
+      // Add the table to the content pane.
+      //add(scrollPane, );
 
-        tableau.setBounds(0, 0, 500, 500);
-
-        //getContentPane().add(tableau.getTableHeader(), BorderLayout.NORTH);
-        //getContentPane().add(tableau, BorderLayout.CENTER);
+      // Set the size and display.
+      
+      
         customerRecordsScreen.add(buttonBack);
-        customerRecordsScreen.add(tableau.getTableHeader(), BorderLayout.NORTH);
-        customerRecordsScreen.add(tableau, BorderLayout.CENTER);
+        
         customerRecordsScreen.add(loginOfEmployee);
+        customerRecordsScreen.add(scrollPane,BorderLayout.CENTER);
         pack();
+        setSize(WIDTH, HEIGHT);
+        setVisible(true);
         customerRecordsScreen.setLayout(null);
+        
     }
 
     private class ButtonStatisticListener implements ActionListener {
