@@ -41,8 +41,8 @@ public class Main {
          MemberCustomer cust = new MemberCustomer("exa","dddd", "children","exemple","try");
          cust.addMemberCustomer();
          cust.deleteMemberCustomer();*/
-        ReservationDB.deleteDBReservation("guest", 2);
-        GUI f = new GUI(cinema);
+        
+        GUI f = new GUI(cinema);      
         f.setVisible(true);
 
     }

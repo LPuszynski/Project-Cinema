@@ -23,12 +23,14 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Controller.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 
 /**
  *
@@ -90,7 +92,8 @@ public class GUI extends JFrame {
             JTextField quantityField = new JTextField(2);
             JButton buy = new JButton("Buy");
 
-            buy.addActionListener(new ButtonBuyListener(proj.getIdProj(), quantityField));
+            
+            buy.addActionListener(new ButtonBuyListener(proj.getIdProj() - 1, quantityField));
 
             quantity.setBounds(300, 180, 150, 20);
             quantityField.setBounds(260, 180, 35, 20);
@@ -150,13 +153,15 @@ public class GUI extends JFrame {
 
                     int i = Integer.parseInt(s);
                     if (i > 0 && i < cine.getProjList().get(idProj).getNbFreeSeats()) {
+
                         cine.getProjList().get(idProj).addReservation(new GuestCustomer(), i);
                         PaymentProgressBar p = new PaymentProgressBar();
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Max number of seats is : " + cine.getProjList().get(idProj).getNbFreeSeats() + " ( ͡° ͜ʖ ͡°)");
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "a numeric value please ( ͡° ͜ʖ ͡°)");
+                    JOptionPane.showMessageDialog(null, "a numeric value please (ง ͡ʘ ͜ʖ ͡ʘ)ง");
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -165,12 +170,54 @@ public class GUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please type something good ( ͡° ͜ʖ ͡°)");
 
             }
+
         }
 
+        /*private class ButtonDiscountListener implements ActionListener {
+
+         private int idProj;
+         private JTextField monTexte;
+
+         public ButtonDiscountListener(int idProj, JTextField monTexte) {
+         this.idProj = idProj;
+         this.monTexte = monTexte;
+         }
+
+         @Override
+         public void actionPerformed(ActionEvent ae) {
+         String s = monTexte.getText();
+
+         if (!s.equalsIgnoreCase("")) {
+         // is it numeric ?
+         try {
+
+         int i = Integer.parseInt(s);
+         if (i > 0 && i < cine.getProjList().get(idProj).getNbFreeSeats()) {
+                        
+         cine.getProjList().get(idProj).;
+                        
+                        
+                        
+         } else {
+         JOptionPane.showMessageDialog(null, "Max number of seats is : " + cine.getProjList().get(idProj).getNbFreeSeats() + " ( ͡° ͜ʖ ͡°)");
+         }
+         } catch (NumberFormatException e) {
+         JOptionPane.showMessageDialog(null, "a numeric value please (ง ͡ʘ ͜ʖ ͡ʘ)ง");
+         } catch (SQLException ex) {
+         Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+         } else {
+         JOptionPane.showMessageDialog(null, "Please type something good ( ͡° ͜ʖ ͡°)");
+
+         }
+
+         }*/
     }
 
     public void BuildMenuScreen() {
         menuScreen = new JPanel();
+
         film1 = new JPanel();
         film1.setBackground(Color.yellow);
         film2 = new JPanel();
@@ -181,7 +228,7 @@ public class GUI extends JFrame {
         film1.setBounds(10, 100, 600, 250);
         film2.setBounds(10, 350, 600, 250);
         film3.setBounds(10, 600, 600, 250);
-
+        cine.getProjList().get(2).afficherProjection();
         BuildFilmPanel(film1, cine.getProjList().get(0));
         BuildFilmPanel(film2, cine.getProjList().get(1));
         BuildFilmPanel(film3, cine.getProjList().get(2));
@@ -205,7 +252,7 @@ public class GUI extends JFrame {
             JButton buttonReservations = new JButton("See all your reservations");
             JButton buttonLogOut = new JButton("Log out");
 
-            loginOfCustomer.setBounds(300, 10, 170, 35);
+            loginOfCustomer.setBounds(300, 10, 230, 35);
             loginOfCustomer.setForeground(new Color(0, 0, 0));
             loginOfCustomer.setBackground(Color.GRAY);
             loginOfCustomer.setOpaque(true);
@@ -238,15 +285,15 @@ public class GUI extends JFrame {
         film3.setBackground(Color.white);
 
         JButton buttonLogOut = new JButton("Log out");
-        JLabel loginOfEmployee = new JLabel("          Login");
+        JLabel loginOfEmployee = new JLabel(cine.getEmpLogin());
         JButton buttonAddMovie = new JButton("Add movie");
         JButton buttonStatistic = new JButton("View statistics");
         JButton buttonCustomerRecords = new JButton("Customer records");
 
         buttonLogOut.setBounds(1470, 10, 100, 35);
-        loginOfEmployee.setBounds(300, 10, 170, 35);
+        loginOfEmployee.setBounds(300, 10, 230, 35);
         loginOfEmployee.setForeground(new Color(0, 0, 0));
-        loginOfEmployee.setBackground(Color.GRAY);
+        loginOfEmployee.setBackground(Color.white);
         loginOfEmployee.setOpaque(true);
         buttonAddMovie.setBounds(1100, 400, 100, 35);
         buttonStatistic.setBounds(1250, 10, 200, 35);
@@ -301,9 +348,29 @@ public class GUI extends JFrame {
 
         buttonBack.addActionListener(new buttonBackListener());
 
-        customerRecordsScreen.add(buttonBack);
-        customerRecordsScreen.add(loginOfEmployee);
+        //https://baptiste-wicht.developpez.com/tutoriels/java/swing/jtable/
+        Object[][] donnees = {
+            {"Johnathan", "Sykes", Color.red, true},
+            {"Nicolas", "Van de Kampf", Color.black, true},
+            {"Damien", "Cuthbert", Color.cyan, true},
+            {"Corinne", "Valance", Color.blue, false},
+            {"Emilie", "Schrödinger", Color.magenta, false},
+            {"Delphine", "Duke", Color.yellow, false},
+            {"Eric", "Trump", Color.pink, true},};
 
+        String[] entetes = {"Prénom", "Nom", "Couleur favorite", "Homme", "Sport"};
+
+        JTable tableau = new JTable(donnees, entetes);
+
+        tableau.setBounds(0, 0, 500, 500);
+
+        //getContentPane().add(tableau.getTableHeader(), BorderLayout.NORTH);
+        //getContentPane().add(tableau, BorderLayout.CENTER);
+        customerRecordsScreen.add(buttonBack);
+        customerRecordsScreen.add(tableau.getTableHeader(), BorderLayout.NORTH);
+        customerRecordsScreen.add(tableau, BorderLayout.CENTER);
+        customerRecordsScreen.add(loginOfEmployee);
+        pack();
         customerRecordsScreen.setLayout(null);
     }
 
@@ -438,15 +505,15 @@ public class GUI extends JFrame {
         JLabel message1 = new JLabel("Login : ");
         message1.setBounds(190, 100, 100, 50);
         loginScreen.add(message1);
-        textFieldLogin = new JTextField(15);
-        textFieldLogin.setBounds(250, 111, 150, 25);
+        textFieldLogin = new JTextField(30);
+        textFieldLogin.setBounds(250, 111, 230, 25);
         textFieldLogin.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldLogin);
         JLabel message2 = new JLabel("Password : ");
         message2.setBounds(170, 200, 100, 50);
         loginScreen.add(message2);
         textFieldPassword = new JPasswordField(15);
-        textFieldPassword.setBounds(250, 211, 150, 25);
+        textFieldPassword.setBounds(250, 211, 230, 25);
         textFieldPassword.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldPassword);
         JButton accueil = new JButton("Accueil");
