@@ -95,9 +95,9 @@ public class JBDC {
          {
          System.out.println(e.getMessage());
          }
-         
+
         //Création des tables if not exist
-        EmployeeDB.initDBEmployee();
+        /*EmployeeDB.initDBEmployee();
         MovieDB.initDBMovie();
         MemberCustomerDB.initDBCustomer();
         ProjectionDB.initDBProjections();
@@ -118,7 +118,7 @@ public class JBDC {
         MemberCustomerDB.addDBCustomer("Enfant", "petit", "junior", "Bebe", "Alfred");
         MemberCustomerDB.addDBCustomer("PAPAPAPI", "vieux", "senior", "PEPE", "Thierry");
 
-        //ne marche pas 
+        //ne marche pas
         addDBProjection("2029-12-02","00:00:11", 100, 99, "OuiOui");
         addDBProjection("2000-01-01","17:04:01", 29, 20, "NonNon");
         addDBProjection("2001-11-30","03:20:12", 50, 40, "OuaisOuais");
@@ -131,8 +131,8 @@ public class JBDC {
 
         selectDataDB("MOVIES");
         selectDataDB("EMPLOYEE");
-        selectDataDB("CUSTOMER");
-*/
+        selectDataDB("CUSTOMER");*/
+
         /*
          //test recuperation des données
 
@@ -209,11 +209,11 @@ public class JBDC {
 
             while (rs.next()) {
                 if (tableName.equalsIgnoreCase("MOVIES")) {
-                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getString("releaseDate") + rs.getTime("runningTime"));//l'ordre est important 
+                    System.out.println(rs.getString("title") + rs.getString("type") + rs.getString("releaseDate") + rs.getTime("runningTime"));//l'ordre est important
                 } else if (tableName.equalsIgnoreCase("CUSTOMER")) {
-                    System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
+                    System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("bundle") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important
                 } else if (tableName.equalsIgnoreCase("EMPLOYEE")) {
-                    System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important 
+                    System.out.println(rs.getString("login") + rs.getString("password") + rs.getString("firstName") + rs.getString("lastName"));//l'ordre est important
                 } else if (tableName.equalsIgnoreCase("PROJECTIONS")) {
                     System.out.println(rs.getString("idProj")+ rs.getString("movieProjected") + rs.getString("projectionDate") + rs.getString("projectionHour") + rs.getInt("numberOfSeats") );
                 }
