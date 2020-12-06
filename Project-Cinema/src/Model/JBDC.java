@@ -97,8 +97,9 @@ public class JBDC {
          */
         //Création des tables if not exist
         
-        /*
+        System.out.println("hello");
         EmployeeDB.initDBEmployee();
+        System.out.println("hello");
         MovieDB.initDBMovie();
         MemberCustomerDB.initDBCustomer();
         ProjectionDB.initDBProjections();
@@ -108,9 +109,9 @@ public class JBDC {
         DBDeleteTable("CUSTOMER");
         DBDeleteTable("PROJECTIONS");
         //TEsts
-        MovieDB.addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21", 3);
-        MovieDB.addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03", 11);
-        MovieDB.addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21", 78.25);
+        MovieDB.addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21");
+        MovieDB.addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03");
+        MovieDB.addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21");
 
         EmployeeDB.addDBEmployee("Chacha", "loulou", "Charlotte", "LAMBERT");
         EmployeeDB.addDBEmployee("Lolo", "NulALol", "Lois", "PUSZYNSKI");
@@ -137,7 +138,7 @@ public class JBDC {
         selectDataDB("EMPLOYEE");
         selectDataDB("CUSTOMER");
         
-        */
+        
         
         /*
          //test recuperation des données

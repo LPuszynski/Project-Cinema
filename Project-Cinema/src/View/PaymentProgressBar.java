@@ -41,7 +41,7 @@ public class PaymentProgressBar extends JFrame{
       for(int val = 0; val <= 500; val++){
         bar.setValue(val);
         try {
-          t.sleep(10);
+          t.sleep(5);
         } catch (InterruptedException e) {
         e.printStackTrace();
         }

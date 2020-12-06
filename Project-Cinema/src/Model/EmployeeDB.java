@@ -71,6 +71,8 @@ public class EmployeeDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
     public static void addDBEmployee(String login, String password, String firstName, String lastName) {
 
