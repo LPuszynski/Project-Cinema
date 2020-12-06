@@ -144,6 +144,12 @@ public class JBDC {
 
          */
         
+       ArrayList<Projection> projList = new ArrayList<Projection>();
+       projList = ProjectionDB.getAllProjectionsDB();
+       for (int i= 0; i<projList.size();i++)
+       {
+           projList.get(i).afficherProjection();
+       }
     }
 
     public static java.sql.Connection getDbConnection() throws SQLException {
