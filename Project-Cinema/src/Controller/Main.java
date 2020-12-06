@@ -27,7 +27,7 @@ public class Main {
         Movie.deleteMovie("OuaisOuais",cinema);
         
         
-        Movie movie = new Movie("Hello world", "Enfantin", "2020-06-21", new Time(02,03,04), 3);
+        Movie movie = new Movie("Hello world", "Enfantin", 2000, new Time(02,03,04), 3);
         movie.addMovie( cinema);
         
         /*

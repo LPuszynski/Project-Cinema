@@ -19,13 +19,13 @@ public class Movie {
 
     private String title;
     private String type;
-    private String releaseDate ;
+    private int releaseDate ;
     private Time runningTime; //en minutes
     
     //default constructor
     public Movie () {}
     
-    public Movie(String title, String type, String releaseDate, Time runningTime, double ticketPrice) 
+    public Movie(String title, String type, int releaseDate, Time runningTime, double ticketPrice) 
     {    
         this.title = title;
         this.type = type ;
@@ -39,7 +39,7 @@ public class Movie {
     public String getTitle() {
         return title;
     }
-    public String getReleaseDate() {
+    public int getReleaseDate() {
         return releaseDate;
     }
     public Time getRunningTime() {

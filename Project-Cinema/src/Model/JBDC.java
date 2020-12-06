@@ -105,9 +105,9 @@ public class JBDC {
         DBDeleteTable("CUSTOMER");
         DBDeleteTable("PROJECTIONS");
         //TEsts
-        MovieDB.addDBMovie("OuiOui", "horreur", "2020-01-01", "04:04:21");
-        MovieDB.addDBMovie("NonNon", "comédiefrançaise", "2018-02-02", "03:03:03");
-        MovieDB.addDBMovie("OuaisOuais", "émotion", "2017-04-04", "01:01:21");
+        MovieDB.addDBMovie("OuiOui", "horreur", 2000, "04:04:21");
+        MovieDB.addDBMovie("NonNon", "comédiefrançaise", 2001, "03:03:03");
+        MovieDB.addDBMovie("OuaisOuais", "émotion",2002 , "01:01:21");
 
         EmployeeDB.addDBEmployee("Chacha", "loulou", "Charlotte", "LAMBERT");
         EmployeeDB.addDBEmployee("Lolo", "NulALol", "Lois", "PUSZYNSKI");
