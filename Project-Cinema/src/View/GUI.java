@@ -248,12 +248,18 @@ public class GUI extends JFrame {
         customerRecordsScreen = new JPanel();
         
         JButton buttonBack = new JButton("Back");
+        JLabel loginOfEmployee = new JLabel("          Login");
         
         buttonBack.setBounds(1470, 10, 100, 35);
+        loginOfEmployee.setBounds(300, 10, 170, 35);
+        loginOfEmployee.setForeground(new Color(0, 0, 0));
+        loginOfEmployee.setBackground(Color.GRAY);
+        loginOfEmployee.setOpaque(true);
         
         buttonBack.addActionListener(new buttonBackListener());
         
         customerRecordsScreen.add(buttonBack);
+        customerRecordsScreen.add(loginOfEmployee);
         
         customerRecordsScreen.setLayout(null);
     }
