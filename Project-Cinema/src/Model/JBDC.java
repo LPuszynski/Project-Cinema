@@ -143,7 +143,13 @@ public class JBDC {
          System.out.println("OUIOUI : running time = " + runinngT1 + " type : "+ type1 + " Date : " + date1 + " ticketPrice = " + ticketPrice1);
 
          */
-
+        
+       /*ArrayList<Projection> projList = new ArrayList<Projection>();
+       projList = ProjectionDB.getAllProjectionsDB(true);
+       for (int i= 0; i<projList.size();i++)
+       {
+           projList.get(i).afficherProjection();
+       }*/
     }
 
     public static java.sql.Connection getDbConnection() throws SQLException {
