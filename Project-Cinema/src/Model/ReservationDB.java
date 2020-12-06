@@ -53,5 +53,17 @@ public class ReservationDB {
         return 0; 
     }
     
-    
+    public static void setElementReservationDB( int newValeur, String typeKey, String myKey,String type2Key, String my2Key) {
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("UPDATE RESERVATION"
+                    + "  set quantity = '" + newValeur + "' WHERE " + typeKey + " = '" + myKey + "' AND "+type2Key+" = '"+my2Key+"'");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
