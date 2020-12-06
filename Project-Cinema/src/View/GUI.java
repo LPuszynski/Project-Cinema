@@ -37,6 +37,8 @@ public class GUI extends JFrame {
     private JPanel connexionScreen;
     private JPanel loginScreen;
     private JPanel menuScreen;
+    private JPanel reservationScreen;
+    private JPanel employeeScreen;
     private JPanel film1;
     private JPanel film2;
     private JPanel film3;
@@ -63,33 +65,56 @@ public class GUI extends JFrame {
         JLabel date = new JLabel("1985");
         JLabel hour = new JLabel("2H30");
         JLabel freeSeats = new JLabel("50 sieges dispo");
-        JLabel quantity = new JLabel("Quantity");
         JLabel image = new JLabel(new ImageIcon("C:\\Users\\loisp\\OneDrive\\Documents\\GitHub\\Project-Cinema\\Project-Cinema\\build\\classes\\View\\Scarface.jpg"));
         JPanel discount = new Circle('r', 'y', "2 euros"); //mettre la bonne couleur de font en fonction de la couleur du film
-        JTextField quantityField = new JTextField(2);
-        JButton buy = new JButton("Buy");
 
         title.setBounds(300, 20, 200, 20);
         date.setBounds(250, 60, 150, 20);
         hour.setBounds(250, 100, 150, 20);
         freeSeats.setBounds(250, 140, 150, 20);
-        quantity.setBounds(300, 180, 150, 20);
         image.setBounds(0, 0, 200, 250);
         discount.setBounds(500, 0, 100, 50);
-        quantityField.setBounds(260, 180, 35, 20);
-        buy.setBounds(300, 210, 60, 20);
 
-        buy.addActionListener(new ButtonBuyListener());
+        if (choiceUser != 2) {
+            JLabel quantity = new JLabel("Quantity");
+            JTextField quantityField = new JTextField(2);
+            JButton buy = new JButton("Buy");
+
+            quantity.setBounds(300, 180, 150, 20);
+            quantityField.setBounds(260, 180, 35, 20);
+            buy.setBounds(300, 210, 60, 20);
+
+            buy.addActionListener(new ButtonBuyListener());
+
+            film.add(quantity);
+            film.add(quantityField);
+            film.add(buy);
+        }
+        
+        else if (choiceUser == 2)
+        {
+            JTextField discountField = new JTextField(2);
+            JLabel updateDiscount = new JLabel("Update discount offer");
+            JButton reprogramm = new JButton("Reprogramm");
+            JButton delete = new JButton("delete");
+            
+            discountField.setBounds(260, 180, 35, 20);
+            updateDiscount.setBounds(300, 180, 100, 20);
+            reprogramm.setBounds(450, 180, 150, 25);
+            delete.setBounds(450, 130, 150, 25);
+            
+            film.add(discountField);
+            film.add(updateDiscount);
+            film.add(reprogramm);
+            film.add(delete);
+        }
 
         film.add(title);
         film.add(date);
         film.add(hour);
         film.add(freeSeats);
-        film.add(quantity);
         film.add(image);
         film.add(discount);
-        film.add(quantityField);
-        film.add(buy);
 
         film.setLayout(null);
     }
@@ -112,29 +137,145 @@ public class GUI extends JFrame {
         film3 = new JPanel();
         film3.setBackground(Color.white);
 
-        JButton buttonEmployee = new JButton("Employee login");
-        JButton buttonCustomer = new JButton("Customer login");
-
         film1.setBounds(10, 100, 600, 250);
         film2.setBounds(10, 350, 600, 250);
         film3.setBounds(10, 600, 600, 250);
-        buttonEmployee.setBounds(1400, 10, 170, 35);
-        buttonCustomer.setBounds(1200, 10, 170, 35);
-
-        buttonEmployee.addActionListener(new ButtonEmployeeListener());
-        buttonCustomer.addActionListener(new ButtonCustomerListener());
 
         BuildFilmPanel(film1);
         BuildFilmPanel(film2);
         BuildFilmPanel(film3);
 
-        menuScreen.add(buttonEmployee);
-        menuScreen.add(buttonCustomer);
+        if (boolLogin == false) {
+            JButton buttonEmployee = new JButton("Employee login");
+            JButton buttonCustomer = new JButton("Customer login");
+
+            buttonEmployee.setBounds(1400, 10, 170, 35);
+            buttonCustomer.setBounds(1200, 10, 170, 35);
+
+            buttonEmployee.addActionListener(new ButtonEmployeeListener());
+            buttonCustomer.addActionListener(new ButtonCustomerListener());
+
+            menuScreen.add(buttonEmployee);
+            menuScreen.add(buttonCustomer);
+        }
+
+        if (boolLogin == true) {
+            JLabel loginOfCustomer = new JLabel("          Login");
+            JButton buttonReservations = new JButton("See all your reservations");
+            JButton buttonLogOut = new JButton("Log out");
+
+            loginOfCustomer.setBounds(300, 10, 170, 35);
+            loginOfCustomer.setForeground(new Color(0, 0, 0));
+            loginOfCustomer.setBackground(Color.GRAY);
+            loginOfCustomer.setOpaque(true);
+            buttonReservations.setBounds(1250, 10, 200, 35);
+            buttonLogOut.setBounds(1470, 10, 100, 35);
+
+            buttonLogOut.addActionListener(new ButtonLogOutListener());
+            buttonReservations.addActionListener(new ButtonReservationListener());
+
+            menuScreen.add(loginOfCustomer);
+            menuScreen.add(buttonReservations);
+            menuScreen.add(buttonLogOut);
+        }
+
         menuScreen.add(film1);
         menuScreen.add(film2);
         menuScreen.add(film3);
 
         menuScreen.setLayout(null);
+    }
+
+    public void BuildEmployeeScreen() {
+        employeeScreen = new JPanel();
+        film1 = new JPanel();
+        film1.setBackground(Color.yellow);
+        film2 = new JPanel();
+        film2.setBackground(Color.blue);
+        film3 = new JPanel();
+        film3.setBackground(Color.white);
+
+        film1.setBounds(10, 100, 600, 250);
+        film2.setBounds(10, 350, 600, 250);
+        film3.setBounds(10, 600, 600, 250);
+
+        BuildFilmPanel(film1);
+        BuildFilmPanel(film2);
+        BuildFilmPanel(film3);
+
+        JButton buttonLogOut = new JButton("Log out");
+        JLabel loginOfEmployee = new JLabel("          Login");
+
+        buttonLogOut.setBounds(1470, 10, 100, 35);
+        loginOfEmployee.setBounds(300, 10, 170, 35);
+        loginOfEmployee.setForeground(new Color(0, 0, 0));
+        loginOfEmployee.setBackground(Color.GRAY);
+
+        buttonLogOut.addActionListener(new ButtonLogOutListener());
+
+        employeeScreen.add(buttonLogOut);
+        employeeScreen.add(loginOfEmployee);
+        employeeScreen.add(film1);
+        employeeScreen.add(film2);
+        employeeScreen.add(film3);
+
+        employeeScreen.setLayout(null);
+    }
+
+    public void BuildReservationScreen() {
+        reservationScreen = new JPanel();
+
+        JLabel loginOfCustomer = new JLabel("          Login");
+        JButton buttonBack = new JButton("Back");
+
+        loginOfCustomer.setBounds(300, 10, 170, 35);
+        loginOfCustomer.setForeground(new Color(0, 0, 0));
+        loginOfCustomer.setBackground(Color.GRAY);
+        buttonBack.setBounds(1470, 10, 100, 35);
+
+        buttonBack.addActionListener(new buttonBackListener());
+
+        reservationScreen.add(loginOfCustomer);
+        reservationScreen.add(buttonBack);
+
+        reservationScreen.setLayout(null);
+    }
+
+    private class buttonBackListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            setContentPane(menuScreen);
+            invalidate();
+            validate();
+        }
+
+    }
+
+    private class ButtonReservationListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            BuildReservationScreen();
+            setContentPane(reservationScreen);
+            invalidate();
+            validate();
+        }
+
+    }
+
+    private class ButtonLogOutListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            boolLogin = false;
+            choiceUser = 0;
+            BuildMenuScreen();
+            setContentPane(menuScreen);
+            invalidate();
+            validate();
+        }
+
     }
 
     public void BuildConnexionScreen() {
@@ -186,8 +327,18 @@ public class GUI extends JFrame {
         loginScreen.add(textFieldPassword);
         JButton accueil = new JButton("Accueil");
         accueil.setBounds(10, 10, 150, 40);
+        accueil.addActionListener(new ButtonAccueilListener());
         loginScreen.add(accueil);
         loginScreen.setLayout(null);
+    }
+
+    private class ButtonAccueilListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            setContentPane(menuScreen);
+        }
+
     }
 
     private class ButtonValidateLoginListener implements ActionListener {
@@ -204,7 +355,10 @@ public class GUI extends JFrame {
                 if (boolLogin == false) {
                     //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
                 } else {
-                    // on lance la page principale
+                    BuildMenuScreen();
+                    setContentPane(menuScreen);
+                    invalidate();
+                    validate();
                 }
             } else if (choiceUser == 2) {
                 try {
@@ -216,7 +370,10 @@ public class GUI extends JFrame {
                 if (boolLogin == false) {
                     //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
                 } else {
-                    // on lance la page principale
+                    BuildEmployeeScreen();
+                    setContentPane(employeeScreen);
+                    invalidate();
+                    validate();
                 }
             }
             //System.out.println(boolLogin);
