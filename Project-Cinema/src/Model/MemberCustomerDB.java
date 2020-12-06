@@ -74,7 +74,7 @@ public class MemberCustomerDB {
     }
     
     
-    public static ArrayList<MemberCustomer> getAllMemberCustomer() throws SQLException
+    public static ArrayList<MemberCustomer> getAllMemberCustomerDB() throws SQLException
     {
         //we calculate how many customers there are in the database
         int nbOfCustomers = nbMemberCustomersInDB();
@@ -172,7 +172,7 @@ public class MemberCustomerDB {
     public static void main(String[] args) throws SQLException
     {
         ArrayList<MemberCustomer> memberCustomerList = new ArrayList<MemberCustomer>();
-        memberCustomerList = getAllMemberCustomer();
+        memberCustomerList = getAllMemberCustomerDB();
         
         for (int i = 0;i< nbMemberCustomersInDB();i++)
         {

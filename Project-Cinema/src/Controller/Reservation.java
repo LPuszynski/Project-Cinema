@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Model.JBDC;
+
 /**
  *
  * @author charl
@@ -20,6 +22,12 @@ public class Reservation {
         customer = cust;
         nbOfTickets = nbSeats;
     }        
+    
+    public void setNbOfTickets(int nb)
+    {
+        nbOfTickets = nb;
+        //setElementDB();
+    }
     
     
     public int getNbOfTicketsRes()

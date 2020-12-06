@@ -42,9 +42,15 @@ public class Projection {
         return (numberOfSeats-getNbSeatsReserved());
     }
     
+    
     public int getNbSeatsReserved()
     {
-        return reservationList.size();
+        int nbSeatReserved = 0;
+        for (int i = 0 ; i< reservationList.size(); i++)
+        {
+            nbSeatReserved += reservationList.get(i).getNbOfTicketsRes();
+        }
+        return nbSeatReserved; 
     }
     
     public boolean getAvailability()
@@ -62,5 +68,8 @@ public class Projection {
     {
         numberOfFreeSeats = numberOfSeats - ProjectionDB.GetDBNumberOfOccupedPlaces(projectionDate, projectionHour, movieProjected.getTitle());
     }*/
-   
+   public String getIdProj()
+   {
+       return idProj;
+   }
 }
