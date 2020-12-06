@@ -124,6 +124,17 @@ public class ProjectionDB {
         return placesOccuped;
     }
       
-     
+    public static void setDiscountDB(int idProj, double newDiscount) {
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("UPDATE PROJECTIONS set discount = '" + newDiscount + "' WHERE idProj = '" + idProj + "'");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

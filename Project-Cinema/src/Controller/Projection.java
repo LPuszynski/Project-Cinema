@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.JBDC;
 import Model.ProjectionDB;
 import Model.ReservationDB;
 import java.sql.SQLException;
@@ -118,4 +119,9 @@ public class Projection {
         System.out.println("");
     }
    
+    public void setDiscount(double newD)
+    {
+       discount = newD;
+       ProjectionDB.setDiscountDB( idProj,  newD);
+    }
 }
