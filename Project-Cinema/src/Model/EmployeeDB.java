@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author loisp
@@ -33,6 +34,7 @@ public class EmployeeDB {
             insert.setString(2, password);
 
             ResultSet result = insert.executeQuery();
+            
 
 
             if (result.first()) {

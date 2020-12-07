@@ -97,7 +97,7 @@ public class JBDC {
          */
         //Création des tables if not exist
         
-        System.out.println("hello");
+        /*System.out.println("hello");
         EmployeeDB.initDBEmployee();
         System.out.println("hello");
         MovieDB.initDBMovie();
