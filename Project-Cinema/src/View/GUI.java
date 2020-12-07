@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Controller.*;
+import Model.MemberCustomerDB;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -348,7 +349,7 @@ public class GUI extends JFrame {
         loginOfEmployee.setOpaque(true);
 
         buttonBack.addActionListener(new buttonBackListener());
-        
+        /*
         String[] colNames = {"Name", "Telephone"};
         String[][] rowData ={{"Jean","555-2222"},
             {"Tim","555-2222"}};
@@ -368,15 +369,19 @@ public class GUI extends JFrame {
 
       // Set the size and display.
       
-      
+      */
         customerRecordsScreen.add(buttonBack);
         
         customerRecordsScreen.add(loginOfEmployee);
-        customerRecordsScreen.add(scrollPane,BorderLayout.CENTER);
-        pack();
-        setSize(WIDTH, HEIGHT);
-        setVisible(true);
+        //customerRecordsScreen.add(scrollPane,BorderLayout.CENTER);
+        //pack();
+        //setSize(WIDTH, HEIGHT);
+        //setVisible(true);
         customerRecordsScreen.setLayout(null);
+        MemberCustomerDB.afficherJTable();
+        invalidate();
+        revalidate();
+                
         
     }
 
@@ -651,5 +656,9 @@ public class GUI extends JFrame {
             validate();
         }
     }
+    
+    
+    
+    
 
 }
