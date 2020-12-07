@@ -65,6 +65,9 @@ public class Cinema {
         return projList;
     }
     
+    public void refreshProjList(){
+        this.projList = ProjectionDB.getAllProjectionsDB(true);
+    }
     
     
     

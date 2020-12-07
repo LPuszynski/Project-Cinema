@@ -25,7 +25,7 @@ public class Projection {
     private ArrayList<Reservation> reservationList;
     private double discount;
     private boolean availibility;
-    
+
     public Projection(){}
 
     public Projection(int idProj,String projectionDate, Time projectionHour, String movieTitle, double discount, boolean ava) {
@@ -34,6 +34,7 @@ public class Projection {
         this.projectionHour = projectionHour;
         this.numberOfSeats = 30;
         this.movieTitle = movieTitle;
+        this.discount = discount;
         reservationList = new ArrayList<Reservation>();
         availibility = ava; 
     }
@@ -125,4 +126,10 @@ public class Projection {
        ProjectionDB.setDiscountDB( idProj,  newD);
     }
 
+    public void setAvailibility(boolean newAvailibility)  throws SQLException
+    {
+        this.availibility = newAvailibility;
+        ProjectionDB.setAvailabilityDB(idProj, newAvailibility);
+    }
+    
 }

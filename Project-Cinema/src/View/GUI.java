@@ -22,15 +22,10 @@ import javax.swing.JTextField;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 /**
  *
@@ -45,6 +40,7 @@ public class GUI extends JFrame {
     private JPanel employeeScreen;
     private JPanel statisticScreen;
     private JPanel customerRecordsScreen;
+    private JPanel[] films;
     private JPanel film1;
     private JPanel film2;
     private JPanel film3;
@@ -60,6 +56,8 @@ public class GUI extends JFrame {
         this.cine = cine;
         setTitle("Cinema");
         setBounds(150, 80, 1600, 920);
+
+        films = new JPanel[3];
         BuildConnexionScreen();
         BuildLoginScreen();
 
@@ -86,13 +84,14 @@ public class GUI extends JFrame {
         freeSeats.setBounds(250, 140, 150, 20);
         image.setBounds(0, 0, 200, 250);
 
+        // customer
         if (choiceUser != 2) {
 
             JLabel quantity = new JLabel("Quantity");
             JTextField quantityField = new JTextField(2);
             JButton buy = new JButton("Buy");
 
-            buy.addActionListener(new ButtonBuyListener(proj.getIdProj() - 1, quantityField));
+            buy.addActionListener(new ButtonBuyListener(proj, quantityField));
 
             quantity.setBounds(300, 180, 150, 20);
             quantityField.setBounds(260, 180, 35, 20);
@@ -101,6 +100,7 @@ public class GUI extends JFrame {
             film.add(quantity);
             film.add(quantityField);
             film.add(buy);
+            // employee
         } else if (choiceUser == 2) {
             JTextField discountField = new JTextField(2);
             JLabel updateDiscount = new JLabel("Update discount offer");
@@ -113,8 +113,9 @@ public class GUI extends JFrame {
             reprogramm.setBounds(450, 180, 150, 25);
             delete.setBounds(450, 130, 150, 25);
             applyDiscount.setBounds(230, 220, 150, 25);
-            
-            applyDiscount.addActionListener(new ButtonApplyDiscountListener(proj.getIdProj()-1, discountField));  //-1 aussi a voir pourquoi
+
+            applyDiscount.addActionListener(new ButtonApplyDiscountListener(proj, discountField));
+            delete.addActionListener(new ButtonDeleteListener(proj));
 
             film.add(discountField);
             film.add(updateDiscount);
@@ -136,22 +137,55 @@ public class GUI extends JFrame {
 
         film.setLayout(null);
     }
-    
-    private class ButtonApplyDiscountListener implements ActionListener{
-        
-        private int idProj;
+
+    /*
+     Clic on delete projection
+     */
+    private class ButtonDeleteListener implements ActionListener {
+
+        private Projection Proj;
         private JTextField monTexte;
 
-        public ButtonApplyDiscountListener(int idProj, JTextField monTexte) {
-            this.idProj = idProj;
+        public ButtonDeleteListener(Projection Proj) {
+            this.Proj = Proj;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                Proj.setAvailibility(false);
+                cine.refreshProjList();
+                choiceUser = 2;
+                employeeScreen.revalidate();
+                
+                BuildMenuScreen();
+                
+                invalidate();
+                validate();
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    /*
+     Clic on apply discount bn
+     */
+    private class ButtonApplyDiscountListener implements ActionListener {
+
+        private Projection proj;
+        private JTextField monTexte;
+
+        public ButtonApplyDiscountListener(Projection proj, JTextField monTexte) {
+            this.proj = proj;
             this.monTexte = monTexte;
         }
-        
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             String s = monTexte.getText();
-            
+
             if (!s.equalsIgnoreCase("")) {
                 // is it numeric ?
                 try {
@@ -159,7 +193,8 @@ public class GUI extends JFrame {
                     int i = Integer.parseInt(s);
                     if (i >= 0 && i < 10) {
 
-                        cine.getProjList().get(idProj).setDiscount(i);
+                        proj.setDiscount(i);
+                        cine.refreshProjList();
                         monTexte.setText("");
 
                     } else {
@@ -176,16 +211,19 @@ public class GUI extends JFrame {
 
             }
         }
-        
+
     }
 
+    /*
+     clic on buy listener as a guest
+     */
     private class ButtonBuyListener implements ActionListener {
 
-        private int idProj;
+        private Projection proj;
         private JTextField monTexte;
 
-        public ButtonBuyListener(int idProj, JTextField monTexte) {
-            this.idProj = idProj;
+        public ButtonBuyListener(Projection proj, JTextField monTexte) {
+            this.proj = proj;
             this.monTexte = monTexte;
         }
 
@@ -198,14 +236,14 @@ public class GUI extends JFrame {
                 try {
 
                     int i = Integer.parseInt(s);
-                    if (i > 0 && i < cine.getProjList().get(idProj).getNbFreeSeats()) {
+                    if (i > 0 && i < proj.getNbFreeSeats()) {
 
-                        cine.getProjList().get(idProj).addReservation(new GuestCustomer(), i);
+                        proj.addReservation(new GuestCustomer(), i);
                         monTexte.setText("");
                         PaymentProgressBar p = new PaymentProgressBar();
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Max number of seats is : " + cine.getProjList().get(idProj).getNbFreeSeats() + " ( ͡° ͜ʖ ͡°)");
+                        JOptionPane.showMessageDialog(null, "Max number of seats is : " + proj.getNbFreeSeats() + " ( ͡° ͜ʖ ͡°)");
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "a numeric value please (ง ͡ʘ ͜ʖ ͡ʘ)ง");
@@ -265,20 +303,44 @@ public class GUI extends JFrame {
     public void BuildMenuScreen() {
         menuScreen = new JPanel();
 
-        film1 = new JPanel();
-        film1.setBackground(Color.yellow);
-        film2 = new JPanel();
-        film2.setBackground(Color.blue);
-        film3 = new JPanel();
-        film3.setBackground(Color.white);
+        /*
+         film1 = new JPanel();
+         film1.setBackground(Color.yellow);
+         film2 = new JPanel();
+         film2.setBackground(Color.blue);
+         film3 = new JPanel();
+         film3.setBackground(Color.white);
 
-        film1.setBounds(10, 100, 600, 250);
-        film2.setBounds(10, 350, 600, 250);
-        film3.setBounds(10, 600, 600, 250);
-        cine.getProjList().get(2).afficherProjection();
-        BuildFilmPanel(film1, cine.getProjList().get(0));
-        BuildFilmPanel(film2, cine.getProjList().get(1));
-        BuildFilmPanel(film3, cine.getProjList().get(2));
+         film1.setBounds(10, 100, 600, 250);
+         film2.setBounds(10, 350, 600, 250);
+         film3.setBounds(10, 600, 600, 250);
+         */
+        //cine.getProjList().get(2).afficherProjection();
+        for (int i = 0; i < 3; ++i) {
+            // build the panel
+            if (cine.getProjList().size() > i) {
+                //  add a panel
+                films[i] = new JPanel();
+                switch (i) {
+                    case 0:
+                        films[i].setBackground(Color.LIGHT_GRAY);
+                        break;
+                    case 1:
+                        films[i].setBackground(Color.ORANGE);
+                        break;
+                    case 2:
+                        films[i].setBackground(Color.green);
+                        break;
+
+                }
+                // define bounds
+                films[i].setBounds(10, 100 + 250 * i, 600, 250);
+                BuildFilmPanel(films[i], cine.getProjList().get(i));
+                // add it to the screencine.getProjList().get(i)
+                menuScreen.add(films[i]);
+            }
+
+        }
 
         if (boolLogin == false) {
             JButton buttonEmployee = new JButton("Employee login");
@@ -314,22 +376,25 @@ public class GUI extends JFrame {
             menuScreen.add(buttonLogOut);
         }
 
-        menuScreen.add(film1);
-        menuScreen.add(film2);
-        menuScreen.add(film3);
-
+        /*
+         menuScreen.add(film1);
+         menuScreen.add(film2);
+         menuScreen.add(film3);
+         */
         menuScreen.setLayout(null);
     }
 
     //employee login menu
     public void BuildEmployeeScreen() {
         employeeScreen = new JPanel();
-        film1 = new JPanel();
-        film1.setBackground(Color.yellow);
-        film2 = new JPanel();
-        film2.setBackground(Color.blue);
-        film3 = new JPanel();
-        film3.setBackground(Color.white);
+        /*
+         film1 = new JPanel();
+         film1.setBackground(Color.yellow);
+         film2 = new JPanel();
+         film2.setBackground(Color.blue);
+         film3 = new JPanel();
+         film3.setBackground(Color.white);
+         */
 
         JButton buttonLogOut = new JButton("Log out");
         JLabel loginOfEmployee = new JLabel(cine.getEmpLogin());
@@ -345,26 +410,50 @@ public class GUI extends JFrame {
         buttonAddMovie.setBounds(1100, 400, 100, 35);
         buttonStatistic.setBounds(1250, 10, 200, 35);
         buttonCustomerRecords.setBounds(1000, 10, 200, 35);
-        film1.setBounds(10, 100, 600, 250);
-        film2.setBounds(10, 350, 600, 250);
-        film3.setBounds(10, 600, 600, 250);
-
+        /*
+         film1.setBounds(10, 100, 600, 250);
+         film2.setBounds(10, 350, 600, 250);
+         film3.setBounds(10, 600, 600, 250);
+         */
         buttonLogOut.addActionListener(new ButtonLogOutListener());
         buttonStatistic.addActionListener(new ButtonStatisticListener());
         buttonCustomerRecords.addActionListener(new ButtonCustomerRecordsListener());
-
-        BuildFilmPanel(film1, cine.getProjList().get(0));
-        BuildFilmPanel(film2, cine.getProjList().get(1));
-        BuildFilmPanel(film3, cine.getProjList().get(2));
 
         employeeScreen.add(buttonLogOut);
         employeeScreen.add(loginOfEmployee);
         employeeScreen.add(buttonAddMovie);
         employeeScreen.add(buttonStatistic);
         employeeScreen.add(buttonCustomerRecords);
-        employeeScreen.add(film1);
-        employeeScreen.add(film2);
-        employeeScreen.add(film3);
+        for (int i = 0; i < 3; ++i) {
+            // build the panel
+            if (cine.getProjList().size() > i) {
+                //  add a panel
+                films[i] = new JPanel();
+                switch (i) {
+                    case 0:
+                        films[i].setBackground(Color.LIGHT_GRAY);
+                        break;
+                    case 1:
+                        films[i].setBackground(Color.ORANGE);
+                        break;
+                    case 2:
+                        films[i].setBackground(Color.green);
+                        break;
+
+                }
+                // define bounds
+                films[i].setBounds(10, 100 + 250 * i, 600, 250);
+                BuildFilmPanel(films[i], cine.getProjList().get(i));
+                // add it to the screen
+                employeeScreen.add(films[i]);
+            }
+
+        }
+        /*
+         employeeScreen.add(film1);
+         employeeScreen.add(film2);
+         employeeScreen.add(film3);
+         */
 
         employeeScreen.setLayout(null);
     }
@@ -603,7 +692,8 @@ public class GUI extends JFrame {
                 }
 
                 if (boolLogin == false) {
-                    //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
+                    // wrong id or password
+                    JOptionPane.showMessageDialog(null, "Wrong id or password (ง ͡ʘ ͜ʖ ͡ʘ)ง");
                 } else {
                     cine.setCustLogin(login);
                     BuildMenuScreen();
@@ -702,3 +792,4 @@ public class GUI extends JFrame {
     }
 
 }
+
