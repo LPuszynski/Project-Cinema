@@ -91,7 +91,7 @@ public class GUI extends JFrame {
             JLabel quantity = new JLabel("Quantity");
             JTextField quantityField = new JTextField(2);
             JButton buy = new JButton("Buy");
-
+              
             buy.addActionListener(new ButtonBuyListener(proj.getIdProj() - 1, quantityField));
 
             quantity.setBounds(300, 180, 150, 20);
