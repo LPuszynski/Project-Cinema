@@ -9,6 +9,8 @@ import Model.JBDC;
 import Model.MemberCustomerDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,11 +25,9 @@ public class MemberCustomer extends Customer {
     private double discount;
     private ArrayList<Reservation> ReservationList;
 
-    public MemberCustomer() {
-    }
 
     public MemberCustomer(String login, String password, String bundle, String firstName, String lastName) {
-        this.login = login;
+        super(login);
         this.password = password;
         this.bundle = bundle;
         this.firstName = firstName;
@@ -36,6 +36,10 @@ public class MemberCustomer extends Customer {
         this.setDiscount();
     }
 
+    public MemberCustomer()
+    {
+        super();
+    }
     
     public void setDiscount()
     {
@@ -88,8 +92,15 @@ public class MemberCustomer extends Customer {
     
     
     @Override
-    public double getPrice1Ticket(Cinema cinema){
-        return cinema.getTicketPrice()-cinema.getTicketPrice()*discount;
+    public double getPrice1Ticket()
+    {
+        try {
+            Cinema cinema = new Cinema();
+            return cinema.getTicketPrice()-cinema.getTicketPrice()*discount;
+        } catch (SQLException ex) {
+            Logger.getLogger(MemberCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
     
     public void afficherMemberCustomer()
@@ -106,6 +117,16 @@ public class MemberCustomer extends Customer {
     
     public static boolean callCheckMember(String login, String password) throws SQLException
     {
-        return MemberCustomerDB.checkMember(login, password);
+        boolean tmp = MemberCustomerDB.checkMember(login, password);
+        /*if(tmp){
+            
+        }*/
+        return tmp;
+    }
+    
+    @Override
+    public boolean isMember()
+    {
+        return true;
     }
 }

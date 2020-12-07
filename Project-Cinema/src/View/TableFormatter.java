@@ -20,7 +20,10 @@ public class TableFormatter extends JFrame{
         JTable table = new JTable(data, colNames);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
-        setSize(WIDTH, HEIGHT);
+        setSize(1600, 1000);
         setVisible(true);
+    }
+    public TableFormatter(){
+        
     }
 }

@@ -23,7 +23,7 @@ public class PaymentProgressBar extends JFrame{
   private JProgressBar bar;
   public PaymentProgressBar(){      
     this.setSize(300, 100);
-    this.setTitle("*** JProgressBar ***");
+    this.setTitle("Payment in progress");
     this.setLocationRelativeTo(null);      
     t = new Thread(new Traitement());
     bar  = new JProgressBar();

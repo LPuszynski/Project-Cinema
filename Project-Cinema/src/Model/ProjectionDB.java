@@ -7,9 +7,12 @@ package Model;
 import Controller.Projection;
 import static Model.JBDC.*;
 import com.mysql.jdbc.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +22,9 @@ import java.util.logging.Logger;
  */
 public class ProjectionDB {
 
-    public void getProjection() // à completer et renvoyer une seance en particulier
+    public void getProjection() 
     {
-
+        
     }
 
     public void updateProjection(Projection proj)
@@ -42,22 +45,50 @@ public class ProjectionDB {
                     //+ "  `` varchar(100) NOT NULL,"
                     + "  `projectionDate` varchar(100) NOT NULL,"
                     + "  `projectionHour` time NOT NULL,"
-                    + "  `numberOfSeats` int NOT NULL,"
-                    //+ "  `numberOfFreeSeats` int NOT NULL,"       
-                    + "  PRIMARY KEY (`movieProjected`,`projectionDate`,`projectionHour`)"
+                    //+ "  `numberOfSeats` int NOT NULL,"
+                    + "  `availability` int NOT NULL,"       
+                    + "  PRIMARY KEY (`idProj`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static ArrayList<Projection> getAllProjectionsDB(boolean AvailOnly)
+    {
+        ArrayList<Projection> projList = new ArrayList<Projection>();
+        try{
+            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate");
+            
+            ResultSet result = insert.executeQuery();
+            while (result.next())
+            {
+                int idProj = result.getInt("idProj");
+                String movieProjected = result.getString("title");
+                String projectionDate = result.getString("projectionDate");
+                Time projectionHour = result.getTime("projectionHour");
+                double discount = result.getDouble("discount");
+                boolean availability = result.getBoolean("avaibility");
+                if( (availability && AvailOnly) || !AvailOnly ){
+                    Projection proj = new Projection(idProj, projectionDate,projectionHour , movieProjected, discount, availability);
+                    projList.add(proj);
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return projList;
+        
+    }
 
-    public static void addDBProjection(String projectionDate, String projectionHour, int numberOfSeats, int numberOfFreeSeats, String movieProjected) {
+    public static void addDBProjection(String idProj, String projectionDate, String projectionHour, String movieProjected, boolean availibility) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + projectionDate + "','" + projectionHour + "', '" + numberOfSeats + "', '" + numberOfFreeSeats + "'," + movieProjected + ")");
+            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + idProj + "','" + projectionDate + "', '" + projectionHour + "', '" + movieProjected + "'," + availibility + ")");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,12 +96,12 @@ public class ProjectionDB {
         }
     }
 
-      public static void deleteDBProjection(String projectionDate, String projectionHour, String movieProjected) {
+      public static void deleteDBProjection(int idProj) {
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("DELETE FROM PROJECTIONS WHERE projectionDate = '" + projectionDate + "' AND projectionHour = '" + projectionHour +  "' AND movieProjected = '" + movieProjected + "'");
+            essai.execute("DELETE FROM PROJECTIONS WHERE idProj = '" + idProj  + "'");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -91,6 +122,19 @@ public class ProjectionDB {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }  
         return placesOccuped;
+    }
+      
+    public static void setDiscountDB(int idProj, double newDiscount) {
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("UPDATE PROJECTIONS set discount = '" + newDiscount + "' WHERE idProj = '" + idProj + "'");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

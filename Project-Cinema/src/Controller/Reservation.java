@@ -6,6 +6,9 @@
 package Controller;
 
 import Model.JBDC;
+import Model.ReservationDB;
+import static Model.ReservationDB.setElementReservationDB;
+import java.sql.SQLException;
 
 /**
  *
@@ -23,11 +26,11 @@ public class Reservation {
         nbOfTickets = nbSeats;
     }        
     
-    public void setNbOfTickets(int nb)
+    /*public void setNbOfTickets(int nb)
     {
         nbOfTickets = nb;
-        //setElementDB();
-    }
+        setElementReservationDB( nbOfTickets, "idProj", projection.getIdProj(),"login", customer.getLogin());
+    }*/
     
     
     public int getNbOfTicketsRes()
@@ -35,11 +38,15 @@ public class Reservation {
         return nbOfTickets;
     }
     
-    public double getTotalPriceRes(Cinema cinema)
+    public double getTotalPriceRes(Projection proj)
     {
-        double price1ticket = customer.getPrice1Ticket(cinema);
-        double totalPrice = price1ticket*nbOfTickets;
+        double price1ticket = customer.getPrice1Ticket();
+        
+        double totalPrice = price1ticket - proj.getDiscount();
+        totalPrice *= nbOfTickets;
         
         return totalPrice;
     }
+    
+    
 }
