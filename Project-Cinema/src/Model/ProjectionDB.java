@@ -58,7 +58,7 @@ public class ProjectionDB {
     {
         ArrayList<Projection> projList = new ArrayList<Projection>();
         try{
-            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate");
+            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate, ProjectionHour");
             
             ResultSet result = insert.executeQuery();
             while (result.next())
@@ -131,6 +131,19 @@ public class ProjectionDB {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
             essai.execute("UPDATE PROJECTIONS set discount = '" + newDiscount + "' WHERE idProj = '" + idProj + "'");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void setAvailabilityDB(int idProj, boolean newAvailability) throws SQLException {
+        Connection conn;
+
+        try {
+            conn = (Connection) getDbConnection();
+            Statement essai = conn.createStatement();
+            essai.execute("UPDATE PROJECTIONS set avaibility = " + newAvailability + " WHERE idProj = '" + idProj + "'");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
