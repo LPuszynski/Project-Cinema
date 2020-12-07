@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.*;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import Controller.Main;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Controller.*;
-import Model.MemberCustomerDB;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -94,7 +92,6 @@ public class GUI extends JFrame {
             JTextField quantityField = new JTextField(2);
             JButton buy = new JButton("Buy");
 
-            
             buy.addActionListener(new ButtonBuyListener(proj.getIdProj() - 1, quantityField));
 
             quantity.setBounds(300, 180, 150, 20);
@@ -109,16 +106,21 @@ public class GUI extends JFrame {
             JLabel updateDiscount = new JLabel("Update discount offer");
             JButton reprogramm = new JButton("Reprogramm");
             JButton delete = new JButton("delete");
+            JButton applyDiscount = new JButton("Apply discount");
 
             discountField.setBounds(260, 180, 35, 20);
             updateDiscount.setBounds(300, 180, 150, 20);
             reprogramm.setBounds(450, 180, 150, 25);
             delete.setBounds(450, 130, 150, 25);
+            applyDiscount.setBounds(230, 220, 150, 25);
+            
+            applyDiscount.addActionListener(new ButtonApplyDiscountListener(proj.getIdProj()-1, discountField));  //-1 aussi a voir pourquoi
 
             film.add(discountField);
             film.add(updateDiscount);
             film.add(reprogramm);
             film.add(delete);
+            film.add(applyDiscount);
         }
 
         film.add(title);
@@ -133,6 +135,48 @@ public class GUI extends JFrame {
         }
 
         film.setLayout(null);
+    }
+    
+    private class ButtonApplyDiscountListener implements ActionListener{
+        
+        private int idProj;
+        private JTextField monTexte;
+
+        public ButtonApplyDiscountListener(int idProj, JTextField monTexte) {
+            this.idProj = idProj;
+            this.monTexte = monTexte;
+        }
+        
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            String s = monTexte.getText();
+            
+            if (!s.equalsIgnoreCase("")) {
+                // is it numeric ?
+                try {
+
+                    int i = Integer.parseInt(s);
+                    if (i >= 0 && i < 10) {
+
+                        cine.getProjList().get(idProj).setDiscount(i);
+                        monTexte.setText("");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Maximum discount is 10 ( ͡° ͜ʖ ͡°)");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "a numeric value please (ง ͡ʘ ͜ʖ ͡ʘ)ง");
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Please type something good ( ͡° ͜ʖ ͡°)");
+
+            }
+        }
+        
     }
 
     private class ButtonBuyListener implements ActionListener {
@@ -157,6 +201,7 @@ public class GUI extends JFrame {
                     if (i > 0 && i < cine.getProjList().get(idProj).getNbFreeSeats()) {
 
                         cine.getProjList().get(idProj).addReservation(new GuestCustomer(), i);
+                        monTexte.setText("");
                         PaymentProgressBar p = new PaymentProgressBar();
 
                     } else {
@@ -350,39 +395,38 @@ public class GUI extends JFrame {
 
         buttonBack.addActionListener(new buttonBackListener());
         /*
-        String[] colNames = {"Name", "Telephone"};
-        String[][] rowData ={{"Jean","555-2222"},
-            {"Tim","555-2222"}};
+         String[] colNames = {"Name", "Telephone"};
+         String[][] rowData ={{"Jean","555-2222"},
+         {"Tim","555-2222"}};
         
         
-        setBounds(150,80,1600,920);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         setBounds(150,80,1600,920);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-      // Create a JTable with the results.
-      JTable table = new JTable(rowData, colNames);
+         // Create a JTable with the results.
+         JTable table = new JTable(rowData, colNames);
 
-      // Put the table in a scroll pane.
-      JScrollPane scrollPane = new JScrollPane(table);
+         // Put the table in a scroll pane.
+         JScrollPane scrollPane = new JScrollPane(table);
 
-      // Add the table to the content pane.
-      //add(scrollPane, );
+         // Add the table to the content pane.
+         //add(scrollPane, );
 
-      // Set the size and display.
+         // Set the size and display.
       
-      */
+         */
         customerRecordsScreen.add(buttonBack);
-        
+
         customerRecordsScreen.add(loginOfEmployee);
         //customerRecordsScreen.add(scrollPane,BorderLayout.CENTER);
         //pack();
         //setSize(WIDTH, HEIGHT);
         //setVisible(true);
         customerRecordsScreen.setLayout(null);
-        MemberCustomerDB.afficherJTable();
+        MemberCustomer.callAfficherJTable();
         invalidate();
         revalidate();
-                
-        
+
     }
 
     private class ButtonStatisticListener implements ActionListener {
@@ -656,9 +700,5 @@ public class GUI extends JFrame {
             validate();
         }
     }
-    
-    
-    
-    
 
 }

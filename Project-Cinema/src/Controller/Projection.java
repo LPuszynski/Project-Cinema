@@ -119,9 +119,10 @@ public class Projection {
         System.out.println("");
     }
    
-    public void setDiscount(double newD)
+    public void setDiscount(double newD) throws SQLException
     {
        discount = newD;
        ProjectionDB.setDiscountDB( idProj,  newD);
     }
+
 }

@@ -124,7 +124,7 @@ public class ProjectionDB {
         return placesOccuped;
     }
       
-    public static void setDiscountDB(int idProj, double newDiscount) {
+    public static void setDiscountDB(int idProj, double newDiscount) throws SQLException {
         Connection conn;
 
         try {

@@ -124,6 +124,10 @@ public class MemberCustomer extends Customer {
         return tmp;
     }
     
+    public static void callAfficherJTable(){
+        MemberCustomerDB.afficherJTable();
+    }
+    
     @Override
     public boolean isMember()
     {
