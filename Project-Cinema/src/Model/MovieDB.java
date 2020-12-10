@@ -52,8 +52,9 @@ public class MovieDB {
                 String type = rs.getString("type");
                 int rDate = rs.getInt("releaseDate");
                 Time rTime =  rs.getTime("runningTime");
+                String fichier =rs.getString("ficAffiche");
 
-                Movie movie = new Movie (title,type,rDate,rTime);
+                Movie movie = new Movie (title,type,rDate,rTime,fichier);
                 movieList.add(movie);
             }
         } catch (SQLException ex) {
@@ -130,7 +131,7 @@ public class MovieDB {
         
         for (int i= 0; i<movieList.size();i++)
         {
-            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getType(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString());
+            addDBMovie(movieList.get(i).getTitle(), movieList.get(i).getType(), movieList.get(i).getReleaseDate(), movieList.get(i).getRunningTime().toString(),movieList.get(i).getFichier().toString());
         }
     }
     
@@ -161,19 +162,20 @@ public class MovieDB {
                     + "  `type` varchar(100) NOT NULL,"
                     + "  `releaseDate` int NOT NULL,"
                     + "  `runningTime` time NOT NULL,"
+                    + "  `ficAffiche` varchar(100) NOT NULL,"
                     + "  PRIMARY KEY (`title`)"
                     + ")");
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   public static void addDBMovie(String title, String type, int releaseDate, String runningTime) {
+   public static void addDBMovie(String title, String type, int releaseDate, String runningTime, String fichier) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "')");
+            essai.execute("INSERT INTO MOVIES VALUES ('" + title + "','" + type + "', '" + releaseDate + "', '" + runningTime + "', '" + fichier + "')");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);

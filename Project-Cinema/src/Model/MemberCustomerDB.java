@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Controller.Customer;
 import Controller.MemberCustomer;
 
 import static Model.JBDC.getDbConnection;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Controller.MemberCustomer;
+import static Model.JBDC.getDbConnection;
 import View.TableFormatter;
 import java.sql.ResultSetMetaData;
 
@@ -181,7 +183,9 @@ public class MemberCustomerDB {
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             // on définit une requête SQL en créant un objet ResultSet à partir de l’objet Statement
-            ResultSet resultSet = stmt.executeQuery("Select * from customer");
+            //ResultSet resultSet = stmt.executeQuery("Select * from customer");
+            //ResultSet resultSet = stmt.executeQuery("SELECT c.login as Login, c.firstname as 'First name', c.lastname as 'Last name', c.bundle as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login group by c.login");
+            ResultSet resultSet = stmt.executeQuery("SELECT c.login as Login, c.firstname as 'First name', c.lastname as 'Last name', c.bundle as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login group by c.login UNION SELECT 'TOTAL' as Login, '---' as 'First name', '---' as 'Last name', '---' as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login");
 
             resultSet.last(); //on va au dernier élément pour savoir la taille
             int nbRows = resultSet.getRow(); // il y a nbRows lignes dans la table
@@ -221,6 +225,35 @@ public class MemberCustomerDB {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        
+        
     }
+
+    public static ArrayList<Customer> getCustomerListDB() throws SQLException {
+        Connection conn;
+        ArrayList <Customer> customerList = new ArrayList<Customer>();
+        
+        try {
+            conn = (Connection) getDbConnection();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("Select * from CUSTOMER" );
+            
+            while (rs.next()) {
+                String login = rs.getString("login");
+                String password = rs.getString("password");
+                String bundle = rs.getString("bundle");
+                String firstname =rs.getString("firstname");
+                String lastname =rs.getString("lastname");
+
+                MemberCustomer cust = new MemberCustomer(login,password,bundle,firstname,lastname);
+                customerList.add(cust);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        return customerList;
+    }
+    
 
 }

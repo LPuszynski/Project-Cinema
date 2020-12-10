@@ -13,11 +13,14 @@ import Model.*;
  */
 public abstract class Customer {
     protected String login;
+    protected double discount;    
     
     public Customer(String login) 
     {
         this.login = login;
+        this.discount = 0;
     }
+    
     public Customer()
     {
         
@@ -26,7 +29,10 @@ public abstract class Customer {
     {
         return login;
     }
-    
+
+    public double getDiscount() {
+        return discount;
+    }
     
     
     public abstract double getPrice1Ticket();

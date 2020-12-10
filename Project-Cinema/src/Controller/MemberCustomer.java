@@ -19,11 +19,23 @@ import java.util.logging.Logger;
 public class MemberCustomer extends Customer {
     private String login;
     private String password;
-    private String bundle; ///forfait : children, regular, senior
+    private String bundle; ///forfait : junior 90%, senior 80% ou Advance 70%
     private String firstName;
     private String lastName;
-    private double discount;
+    
     private ArrayList<Reservation> ReservationList;
+
+    public String getName() {
+        return firstName+" "+lastName;
+    }
+
+    public String getBundle() {
+        return bundle;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
 
 
     public MemberCustomer(String login, String password, String bundle, String firstName, String lastName) {
@@ -43,17 +55,17 @@ public class MemberCustomer extends Customer {
     
     public void setDiscount()
     {
-        if(bundle.equals("children"))
+        if(bundle.equals("Junior"))
         {
             discount = 0.2;
         }
         
-        else if (bundle.equals("regular"))
+        else if (bundle.equals("Senior"))
         {
             discount = 0.15;
         }
         
-        else if (bundle.equals("senior"))
+        else if (bundle.equals("Advance"))
         {
             discount = 0.1;
         }

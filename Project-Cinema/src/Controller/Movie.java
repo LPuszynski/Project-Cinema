@@ -21,19 +21,18 @@ public class Movie {
     private String type;
     private int releaseDate ;
     private Time runningTime; //en minutes
+    private String fichier;
     
     //default constructor
     public Movie () {}
     
-    public Movie(String title, String type, int releaseDate, Time runningTime) 
+    public Movie(String title, String type, int releaseDate, Time runningTime, String fichier) 
     {    
         this.title = title;
         this.type = type ;
-        
         this.releaseDate = releaseDate;
-        
         this.runningTime = runningTime;
-        
+        this.fichier = fichier;
     }
 
     public String getTitle() {
@@ -49,7 +48,10 @@ public class Movie {
         return type;
     }
 
-    
+    public String getFichier() {
+        return fichier;
+    }
+
     public static void deleteMovie(String movieName, Cinema cinema) {
         //delete in the bdd
         MovieDB.deleteDBLineMovie(movieName);
@@ -80,7 +82,7 @@ public class Movie {
         }
         if (alrealdyExists == false)
         {
-            MovieDB.addDBMovie(title, type, releaseDate, runningTime.toString()) ;
+            MovieDB.addDBMovie(title, type, releaseDate, runningTime.toString(),fichier) ;
             cinema.getMovieList().add(this);
         }
         else
@@ -96,6 +98,7 @@ public class Movie {
         System.out.println("Type : " + type);
         System.out.println("Release date : " + releaseDate);
         System.out.println("Running time : " + runningTime);
+        System.out.println("Fichier affiche : " + fichier);
     }
 
     

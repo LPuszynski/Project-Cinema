@@ -23,9 +23,18 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -69,23 +78,52 @@ public class GUI extends JFrame {
         //setVisible(true);
     }
 
-    public void BuildFilmPanel(JPanel film, Projection proj) {
+    /*
+        Builds GUI panel to display movie info, projection info and action buttons
+    */
+    public void BuildFilmPanel(JPanel film, Projection proj, double extraDiscount) {
+        boolean bCanBuy = true;
         JLabel title = new JLabel(proj.getMovieTitle());
-        JLabel date = new JLabel(proj.getProjectionDate());
-        JLabel hour = new JLabel(proj.getProjectionHour().toString());
+        JLabel date = new JLabel("Projection  : "+proj.getProjectionDate());
+        JLabel hour = new JLabel("at : "+proj.getProjectionHour().toString());
+        
+        // are there seats available ?
         int i = proj.getNbFreeSeats();
-        JLabel freeSeats = new JLabel("" + i + "");
-        JLabel image = new JLabel(new ImageIcon("Scarface.jpg"));
+        int j = proj.getAllReservationForProj();
+        JLabel freeSeats = new JLabel("Seats available " + (i-j) + " / " + i);
+        if( i<=j ){
+            freeSeats.setText("SOLD OUT !");
+            bCanBuy = false;
+        }
+        JLabel price = new JLabel("Price " + (10*(1-extraDiscount)-proj.getDiscount()) + " €");
+        
+        // Get more information on movie
+        Movie leFilm = cine.getMovieInfos(proj.getMovieTitle());
+        // Get movie picture
+        ImageIcon imgI = new ImageIcon("C:\\Users\\Tonio\\Desktop\\Projet_Cinéma\\images\\"+leFilm.getFichier());
+        Image img = imgI.getImage();
+        Image newImg = img.getScaledInstance(180,230,java.awt.Image.SCALE_SMOOTH);
+        imgI = new ImageIcon(newImg);
+        JLabel image = new JLabel(imgI);
+        JLabel movieInfo = new JLabel(leFilm.getType()+" released in "+leFilm.getReleaseDate()+" duration "+leFilm.getRunningTime());
+        
         JPanel discount;
 
         title.setBounds(300, 20, 200, 20);
-        date.setBounds(250, 60, 150, 20);
-        hour.setBounds(250, 100, 150, 20);
-        freeSeats.setBounds(250, 140, 150, 20);
+        /* todo - modifier la taille de la fonte pour le titre - en fait déjà en gras
+        Font f;
+        f = title.getFont();
+        title.setFont(f.deriveFont(f.getStyle() & ~Font.BOLD));
+        */
+        movieInfo.setBounds(250, 60, 300, 20);
+        date.setBounds(250, 100, 150, 20);
+        hour.setBounds(450, 100, 150, 20);
+        freeSeats.setBounds(250, 130, 150, 20);
+        price.setBounds(250, 155, 150, 20);
         image.setBounds(0, 0, 200, 250);
 
-        // customer
-        if (choiceUser != 2) {
+        // customer ou guest
+        if (choiceUser != 2 && bCanBuy ) {
 
             JLabel quantity = new JLabel("Quantity");
             JTextField quantityField = new JTextField(2);
@@ -104,33 +142,36 @@ public class GUI extends JFrame {
         } else if (choiceUser == 2) {
             JTextField discountField = new JTextField(2);
             JLabel updateDiscount = new JLabel("Update discount offer");
-            JButton reprogramm = new JButton("Reprogramm");
-            JButton delete = new JButton("delete");
+            JButton reschedule = new JButton("Reschedule");
+            JButton delete = new JButton("Delete");
             JButton applyDiscount = new JButton("Apply discount");
 
             discountField.setBounds(260, 180, 35, 20);
             updateDiscount.setBounds(300, 180, 150, 20);
-            reprogramm.setBounds(450, 180, 150, 25);
-            delete.setBounds(450, 130, 150, 25);
+            reschedule.setBounds(450, 180, 140, 25);
+            delete.setBounds(450, 130, 140, 25);
             applyDiscount.setBounds(230, 220, 150, 25);
 
             applyDiscount.addActionListener(new ButtonApplyDiscountListener(proj, discountField));
             delete.addActionListener(new ButtonDeleteListener(proj));
+            reschedule.addActionListener(new ButtonRescheduleListener( proj));
 
             film.add(discountField);
             film.add(updateDiscount);
-            film.add(reprogramm);
+            film.add(reschedule);
             film.add(delete);
             film.add(applyDiscount);
         }
 
         film.add(title);
+        film.add(movieInfo);
         film.add(date);
         film.add(hour);
         film.add(freeSeats);
+        film.add(price);
         film.add(image);
         if (proj.getDiscount() != 0) {
-            discount = new Circle('r', 'y', "-" + proj.getDiscount() + " €"); //mettre la bonne couleur de font en fonction de la couleur du film
+            discount = new Circle('r', 'y', "-" + proj.getDiscount() + " €"); // todo : mettre la bonne couleur de fond en fonction de la couleur du film
             discount.setBounds(500, 0, 100, 50);
             film.add(discount);
         }
@@ -153,15 +194,17 @@ public class GUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
-                Proj.setAvailibility(false);
-                cine.refreshProjList();
-                choiceUser = 2;
-                employeeScreen.revalidate();
-                
-                BuildMenuScreen();
-                
-                invalidate();
-                validate();
+                if( JOptionPane.showConfirmDialog(employeeScreen, "Do you really want to delete this projection ?","Please confirm",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION ){
+                    Proj.setAvailibility(false);
+                    cine.refreshProjList();
+                    choiceUser = 2;
+                    employeeScreen.revalidate();
+
+                    BuildMenuScreen();
+
+                    invalidate();
+                    validate();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -215,6 +258,144 @@ public class GUI extends JFrame {
     }
 
     /*
+     clic on reschedule as employee
+    */
+    private class ButtonRescheduleListener implements ActionListener {
+        private Projection proj;
+
+        public ButtonRescheduleListener(Projection proj) {
+            this.proj = proj;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            JButton bn = (JButton)ae.getSource();
+            int n=0;
+            
+            // Displays a dialog to schedule a new projection
+            JDialog addProj = new JDialog((JFrame)SwingUtilities.getWindowAncestor(bn),"Schedule projection",true);
+            String tMovies[] = new String[cine.getMovieList().size()];
+            for( int i=0 ; i<cine.getMovieList().size() ; ++i ){
+                tMovies[i] = cine.getMovieList().get(i).getTitle();
+                if( tMovies[i].equals(proj.getMovieTitle()) ){
+                    n = i;
+                }
+            }
+            JComboBox cb = new JComboBox(tMovies);
+            cb.setSelectedIndex(n);
+            JTextField txtDate = new JTextField(proj.getProjectionDate());
+            JTextField txtHour = new JTextField(proj.getProjectionHour().toString());
+            JButton bnOk = new JButton("Ok");
+            JButton bnCancel = new JButton("Cancel");
+            addProj.setLayout(new FlowLayout());
+            addProj.add(new JLabel("Movie"));
+            addProj.add(cb);
+            addProj.add(new JLabel("Date"));
+            addProj.add(txtDate);
+            addProj.add(new JLabel("Hour"));
+            addProj.add(txtHour);
+            addProj.add(bnOk);
+            addProj.add(bnCancel);
+            addProj.setSize(300,300);
+            addProj.pack();
+
+            bnCancel.addActionListener(new dlgRescheduleBnCancel(addProj));
+            bnOk.addActionListener(new dlgRescheduleBnOk(addProj, proj,txtDate,txtHour,cb));
+
+            addProj.setVisible(true);
+            
+        }
+        
+    }
+    
+    /*
+        Clic Ok on new projection
+    */
+    private class dlgRescheduleBnOk implements ActionListener {
+        private JDialog dlg;
+        private JTextField tDate;
+        private JTextField tHour;
+        private JComboBox ccMovie;
+        private Projection proj;
+        
+        public dlgRescheduleBnOk(JDialog dlg, Projection proj, JTextField tDate, JTextField tHour, JComboBox ccMovie) {
+            this.dlg = dlg;
+            this.proj = proj;
+            this.tHour = tHour;
+            this.tDate = tDate;
+            this.ccMovie = ccMovie;
+        }
+
+                @Override
+        public void actionPerformed(ActionEvent ae) {
+            boolean bOk = false;
+            String sMovieTitle;
+            String sDate;
+            String sHour;
+
+            // is movie selected ?
+            sMovieTitle = ccMovie.getSelectedItem().toString();
+            if ( sMovieTitle.equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(dlg), "Please select a movie ( ͡° ͜ʖ ͡°)","Error",JOptionPane.WARNING_MESSAGE);
+                ccMovie.requestFocus();
+                return;
+            }
+            
+            // is date set and valid ?
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            try {
+                sDate = tDate.getText();
+                sdf.parse(sDate);
+            }catch(ParseException e){
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(dlg), "Date is not valid ( ͡° ͜ʖ ͡°)","Error",JOptionPane.WARNING_MESSAGE);
+                tDate.requestFocus();
+                return;
+            }
+            
+            // is hour set and valid ?
+            sdf = new SimpleDateFormat("HH:mm");
+            sdf.setLenient(false);
+            try {
+                sHour = tHour.getText();
+                sdf.parse(sHour);
+            }catch(ParseException e){
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(dlg), "Hour is not valid ( ͡° ͜ʖ ͡°)","Error",JOptionPane.WARNING_MESSAGE);
+                tHour.requestFocus();
+                return;
+            }
+            
+            // current projection is set unavailable
+            try{
+                proj.setAvailibility(false);
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            // add new projection
+            Projection.addProjection(sMovieTitle, sDate, sHour);
+            cine.refreshProjList();
+            // close dialog
+            dlg.dispose();
+        }            
+    }
+    
+    
+    /*
+        Clic Cancel on new projection
+    */
+    private class dlgRescheduleBnCancel implements ActionListener {
+        private JDialog dlg;
+        
+        public dlgRescheduleBnCancel(JDialog dlg) {
+            this.dlg = dlg;
+        }
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            dlg.dispose();
+        }
+    }
+
+    /*
      clic on buy listener as a guest
      */
     private class ButtonBuyListener implements ActionListener {
@@ -237,8 +418,9 @@ public class GUI extends JFrame {
 
                     int i = Integer.parseInt(s);
                     if (i > 0 && i < proj.getNbFreeSeats()) {
-
-                        proj.addReservation(new GuestCustomer(), i);
+                        MemberCustomer client = cine.getMemberCustomer(cine.getCustLogin());
+                        
+                        proj.addReservation(client, i);
                         monTexte.setText("");
                         PaymentProgressBar p = new PaymentProgressBar();
 
@@ -302,20 +484,74 @@ public class GUI extends JFrame {
 
     public void BuildMenuScreen() {
         menuScreen = new JPanel();
+        double extraDiscount = 0;
 
-        /*
-         film1 = new JPanel();
-         film1.setBackground(Color.yellow);
-         film2 = new JPanel();
-         film2.setBackground(Color.blue);
-         film3 = new JPanel();
-         film3.setBackground(Color.white);
 
-         film1.setBounds(10, 100, 600, 250);
-         film2.setBounds(10, 350, 600, 250);
-         film3.setBounds(10, 600, 600, 250);
-         */
-        //cine.getProjList().get(2).afficherProjection();
+        // display login buttons if nobody is connected
+        if (boolLogin == false) {
+            JButton buttonEmployee = new JButton("Employee login");
+            JButton buttonCustomer = new JButton("Customer login");
+
+            buttonEmployee.setBounds(1400, 10, 170, 35);
+            buttonCustomer.setBounds(1200, 10, 170, 35);
+
+            buttonEmployee.addActionListener(new ButtonEmployeeListener());
+            buttonCustomer.addActionListener(new ButtonCustomerListener());
+
+            menuScreen.add(buttonEmployee);
+            menuScreen.add(buttonCustomer);
+        }
+        // customer logged
+        if (boolLogin == true) {
+            MemberCustomer client = cine.getMemberCustomer(cine.getCustLogin());
+            
+            JLabel loginOfCustomer = new JLabel("Welcome " + client.getName()+" !");
+            loginOfCustomer.setBounds(300, 10, 250, 35);
+            loginOfCustomer.setForeground(new Color(0, 0, 0));
+            loginOfCustomer.setBackground(Color.LIGHT_GRAY);
+            loginOfCustomer.setOpaque(true);
+
+            JLabel custBundleDiscount = new JLabel("Your bundle is '" + client.getBundle()+"' (discount "+client.getDiscount()*100+"%)");
+            custBundleDiscount.setBounds(300, 45, 250, 35);
+            custBundleDiscount.setForeground(new Color(0, 0, 0));
+            custBundleDiscount.setBackground(Color.LIGHT_GRAY);
+            custBundleDiscount.setOpaque(true);
+            extraDiscount = client.getDiscount();
+
+            JButton buttonLogOut = new JButton("Log out");
+            buttonLogOut.setBounds(1470, 10, 100, 35);
+            buttonLogOut.addActionListener(new ButtonLogOutListener());
+
+            menuScreen.add(loginOfCustomer);
+            menuScreen.add(custBundleDiscount);
+            menuScreen.add(buttonLogOut);
+            
+            // todo : add a table of all customer reservations so far
+            JPanel tabPanel = new JPanel();
+            JLabel l1=new JLabel("Purchases history");
+            l1.setBounds( 700,100,150,20);
+            menuScreen.add(l1);
+            tabPanel.setBackground(Color.RED);
+            tabPanel.setBounds(700, 120, 600, 250);
+            // get the data 
+            String[] colsNames = new String[]{"Movie","projection date","projection hour","Tickets","Price","purchase time"};
+            String[][] tabData = Projection.getAllReservationForCustomer(cine.getCustLogin());
+            
+            JTable tab = new JTable(tabData,colsNames);
+            
+            tabPanel.add(tab.getTableHeader());
+            tabPanel.add(tab);
+            tab.setSize(tabPanel.getWidth(),tabPanel.getHeight());
+            tab.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tab.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tab.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tab.getColumnModel().getColumn(4).setPreferredWidth(50);
+            tab.getColumnModel().getColumn(5).setPreferredWidth(150);
+            menuScreen.add(tabPanel);
+        }
+
+        // display available projections
         for (int i = 0; i < 3; ++i) {
             // build the panel
             if (cine.getProjList().size() > i) {
@@ -335,52 +571,13 @@ public class GUI extends JFrame {
                 }
                 // define bounds
                 films[i].setBounds(10, 100 + 250 * i, 600, 250);
-                BuildFilmPanel(films[i], cine.getProjList().get(i));
+                BuildFilmPanel(films[i], cine.getProjList().get(i), extraDiscount);
                 // add it to the screencine.getProjList().get(i)
                 menuScreen.add(films[i]);
             }
 
         }
 
-        if (boolLogin == false) {
-            JButton buttonEmployee = new JButton("Employee login");
-            JButton buttonCustomer = new JButton("Customer login");
-
-            buttonEmployee.setBounds(1400, 10, 170, 35);
-            buttonCustomer.setBounds(1200, 10, 170, 35);
-
-            buttonEmployee.addActionListener(new ButtonEmployeeListener());
-            buttonCustomer.addActionListener(new ButtonCustomerListener());
-
-            menuScreen.add(buttonEmployee);
-            menuScreen.add(buttonCustomer);
-        }
-        //customer login menu
-        if (boolLogin == true) {
-            JLabel loginOfCustomer = new JLabel(cine.getCustLogin());
-            JButton buttonReservations = new JButton("See all your reservations");
-            JButton buttonLogOut = new JButton("Log out");
-
-            loginOfCustomer.setBounds(300, 10, 230, 35);
-            loginOfCustomer.setForeground(new Color(0, 0, 0));
-            loginOfCustomer.setBackground(Color.GRAY);
-            loginOfCustomer.setOpaque(true);
-            buttonReservations.setBounds(1250, 10, 200, 35);
-            buttonLogOut.setBounds(1470, 10, 100, 35);
-
-            buttonLogOut.addActionListener(new ButtonLogOutListener());
-            buttonReservations.addActionListener(new ButtonReservationListener());
-
-            menuScreen.add(loginOfCustomer);
-            menuScreen.add(buttonReservations);
-            menuScreen.add(buttonLogOut);
-        }
-
-        /*
-         menuScreen.add(film1);
-         menuScreen.add(film2);
-         menuScreen.add(film3);
-         */
         menuScreen.setLayout(null);
     }
 
@@ -397,8 +594,8 @@ public class GUI extends JFrame {
          */
 
         JButton buttonLogOut = new JButton("Log out");
-        JLabel loginOfEmployee = new JLabel(cine.getEmpLogin());
-        JButton buttonAddMovie = new JButton("Add movie");
+        JLabel loginOfEmployee = new JLabel("Welcome "+cine.getEmpLogin()+" on employee screen !");
+        //JButton buttonAddMovie = new JButton("Add movie");
         JButton buttonStatistic = new JButton("View statistics");
         JButton buttonCustomerRecords = new JButton("Customer records");
 
@@ -407,7 +604,7 @@ public class GUI extends JFrame {
         loginOfEmployee.setForeground(new Color(0, 0, 0));
         loginOfEmployee.setBackground(Color.white);
         loginOfEmployee.setOpaque(true);
-        buttonAddMovie.setBounds(1100, 400, 100, 35);
+        //buttonAddMovie.setBounds(1100, 400, 100, 35);
         buttonStatistic.setBounds(1250, 10, 200, 35);
         buttonCustomerRecords.setBounds(1000, 10, 200, 35);
         /*
@@ -421,7 +618,7 @@ public class GUI extends JFrame {
 
         employeeScreen.add(buttonLogOut);
         employeeScreen.add(loginOfEmployee);
-        employeeScreen.add(buttonAddMovie);
+        //employeeScreen.add(buttonAddMovie);
         employeeScreen.add(buttonStatistic);
         employeeScreen.add(buttonCustomerRecords);
         for (int i = 0; i < 3; ++i) {
@@ -443,7 +640,7 @@ public class GUI extends JFrame {
                 }
                 // define bounds
                 films[i].setBounds(10, 100 + 250 * i, 600, 250);
-                BuildFilmPanel(films[i], cine.getProjList().get(i));
+                BuildFilmPanel(films[i], cine.getProjList().get(i),0);
                 // add it to the screen
                 employeeScreen.add(films[i]);
             }
@@ -471,6 +668,7 @@ public class GUI extends JFrame {
     }
 
     public void BuildCustomerRecordsScreen() {
+        /*
         customerRecordsScreen = new JPanel();
 
         JButton buttonBack = new JButton("Back");
@@ -483,6 +681,7 @@ public class GUI extends JFrame {
         loginOfEmployee.setOpaque(true);
 
         buttonBack.addActionListener(new buttonBackListener());
+        */
         /*
          String[] colNames = {"Name", "Telephone"};
          String[][] rowData ={{"Jean","555-2222"},
@@ -504,6 +703,7 @@ public class GUI extends JFrame {
          // Set the size and display.
       
          */
+        /*
         customerRecordsScreen.add(buttonBack);
 
         customerRecordsScreen.add(loginOfEmployee);
@@ -512,6 +712,7 @@ public class GUI extends JFrame {
         //setSize(WIDTH, HEIGHT);
         //setVisible(true);
         customerRecordsScreen.setLayout(null);
+                */
         MemberCustomer.callAfficherJTable();
         invalidate();
         revalidate();
@@ -522,10 +723,15 @@ public class GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            StatsFrame f = new StatsFrame(cine);
+            
+            f.setVisible(true);
+            /*
             BuildStatisticScreen();
             setContentPane(statisticScreen);
             invalidate();
             validate();
+                    */
         }
 
     }
@@ -550,26 +756,7 @@ public class GUI extends JFrame {
         statisticScreen.setLayout(null);
     }
 
-    public void BuildReservationScreen() {
-        reservationScreen = new JPanel();
-
-        JLabel loginOfCustomer = new JLabel("          Login");
-        JButton buttonBack = new JButton("Back");
-
-        loginOfCustomer.setBounds(300, 10, 170, 35);
-        loginOfCustomer.setForeground(new Color(0, 0, 0));
-        loginOfCustomer.setBackground(Color.GRAY);
-        loginOfCustomer.setOpaque(true);
-        buttonBack.setBounds(1470, 10, 100, 35);
-
-        buttonBack.addActionListener(new buttonBackListener());
-
-        reservationScreen.add(loginOfCustomer);
-        reservationScreen.add(buttonBack);
-
-        reservationScreen.setLayout(null);
-    }
-
+ 
     private class buttonBackListener implements ActionListener {
 
         @Override
@@ -586,17 +773,6 @@ public class GUI extends JFrame {
 
     }
 
-    private class ButtonReservationListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            BuildReservationScreen();
-            setContentPane(reservationScreen);
-            invalidate();
-            validate();
-        }
-
-    }
 
     private class ButtonLogOutListener implements ActionListener {
 
@@ -660,7 +836,7 @@ public class GUI extends JFrame {
         textFieldPassword.setBounds(250, 211, 230, 25);
         textFieldPassword.addKeyListener(new LoginKeyListener());
         loginScreen.add(textFieldPassword);
-        JButton accueil = new JButton("Accueil");
+        JButton accueil = new JButton("Back");
         accueil.setBounds(10, 10, 150, 40);
         accueil.addActionListener(new ButtonAccueilListener());
         loginScreen.add(accueil);
@@ -713,7 +889,8 @@ public class GUI extends JFrame {
                 }
 
                 if (boolLogin == false) {
-                    //on affiche une nouvelle fenetre avec marqué : veuillez reesayer
+                    // wrong id or password
+                    JOptionPane.showMessageDialog(null, "Wrong id or password (ง ͡ʘ ͜ʖ ͡ʘ)ง");
                 } else {
                     cine.setEmpLogin(login);
                     BuildEmployeeScreen();

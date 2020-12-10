@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Model;
+import Controller.Movie;
 import Controller.Projection;
 import static Model.JBDC.*;
 import com.mysql.jdbc.Connection;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,7 +71,7 @@ public class ProjectionDB {
                 String projectionDate = result.getString("projectionDate");
                 Time projectionHour = result.getTime("projectionHour");
                 double discount = result.getDouble("discount");
-                boolean availability = result.getBoolean("avaibility");
+                boolean availability = result.getBoolean("availability");
                 if( (availability && AvailOnly) || !AvailOnly ){
                     Projection proj = new Projection(idProj, projectionDate,projectionHour , movieProjected, discount, availability);
                     projList.add(proj);
@@ -82,18 +85,33 @@ public class ProjectionDB {
         
     }
 
-    public static void addDBProjection(String idProj, String projectionDate, String projectionHour, String movieProjected, boolean availibility) {
+    public static int addDBProjection(String projectionDate, String projectionHour, String movieProjected, int discount, boolean availibility) {
 
         Connection conn;
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("INSERT INTO PROJECTIONS VALUES ('" + idProj + "','" + projectionDate + "', '" + projectionHour + "', '" + movieProjected + "'," + availibility + ")");
+            essai.execute("INSERT INTO PROJECTIONS (projectionDate,projectionHour,title,discount, availability) VALUES ('" + projectionDate + "', '" + projectionHour + "', '" + movieProjected + "',"+discount+"," + availibility + ")");
+            
+            // get idProj generated before
+            PreparedStatement insert = getDbConnection().prepareStatement("SELECT idProj FROM PROJECTIONS where projectionDate=? AND projectionHour=? AND title=?");
+            insert.setString(1, projectionDate);
+            insert.setString(2, projectionHour);
+            insert.setString(3, movieProjected);
+            
+            ResultSet result = insert.executeQuery();
+            if( result.next() )
+            {
+                return result.getInt("idProj");
+            }
+            
+            conn.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+        return 0;
     }
 
       public static void deleteDBProjection(int idProj) {
@@ -143,11 +161,11 @@ public class ProjectionDB {
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
-            essai.execute("UPDATE PROJECTIONS set avaibility = " + newAvailability + " WHERE idProj = '" + idProj + "'");
+            essai.execute("UPDATE PROJECTIONS set availability = " + newAvailability + " WHERE idProj = '" + idProj + "'");
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
 }

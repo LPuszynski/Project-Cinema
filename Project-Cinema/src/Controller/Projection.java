@@ -45,7 +45,25 @@ public class Projection {
         return (numberOfSeats-getNbSeatsReserved());
     }
     
+    public int getAllReservationForProj()
+    {
+        try {
+            return ReservationDB.getAllQuantityDB(idProj);
+        } catch (SQLException e) {
+
+        }
+        return 0;
+    }
     
+    public static String[][] getAllReservationForCustomer(String custName)
+    {
+        try {
+            return ReservationDB.getAllReservationForCustomerDB(custName);
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
     public int getNbSeatsReserved()
     {
         int nbSeatReserved = 0;
@@ -101,11 +119,11 @@ public class Projection {
        return numberOfSeats;
    }
    
-   public void addReservation(Customer cust, int nbTickets) throws SQLException
+   public void addReservation(Customer client, int nbTickets) throws SQLException
    {
-       Reservation resa = new Reservation(this, cust, nbTickets);
+       Reservation resa = new Reservation(this, client, nbTickets);
        reservationList.add(resa);
-       ReservationDB.addDBReservation(this.getIdProj(), cust.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this));
+       ReservationDB.addDBReservation(this.getIdProj(), client.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this)*(1-client.getDiscount()));
    }
    
    public void afficherProjection()
@@ -132,4 +150,8 @@ public class Projection {
         ProjectionDB.setAvailabilityDB(idProj, newAvailibility);
     }
     
+    public static void addProjection(String movieTitle, String jour, String heure)
+    {
+        ProjectionDB.addDBProjection(jour, heure, movieTitle, 0, true);
+    }
 }
