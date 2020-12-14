@@ -12,7 +12,7 @@ import com.mysql.jdbc.Connection;
 import java.sql.*;
 
 /**
- *
+ * chaque film recu en database est instancié en mémoire 
  * @author charl
  */
 public class Movie {
@@ -35,6 +35,7 @@ public class Movie {
         this.fichier = fichier;
     }
 
+    //getters
     public String getTitle() {
         return title;
     }
@@ -91,7 +92,7 @@ public class Movie {
         }
     }
     
-    
+    //fonction pour faire les tests avant les swings
     public void afficherMovie()
     {
         System.out.println("Title : " + title);

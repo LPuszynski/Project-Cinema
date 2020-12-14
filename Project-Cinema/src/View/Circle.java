@@ -10,7 +10,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
- *
+ *sert a afficher le discount en graphique
  * @author loisp
  */
 public class Circle extends JPanel {
@@ -45,7 +45,7 @@ public class Circle extends JPanel {
         if (colorBack == 'r') {
             g.setColor(Color.red);
         }
-        g.fillRect(0, 0, 100, 50);
+        //g.fillRect(0, 0, 100, 50);
 
         if (colorCircle == 'b') {
             g.setColor(Color.black);

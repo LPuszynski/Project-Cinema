@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 
 /**
- *
+ *manipulation des employees en base de données
  * @author loisp
  */
 public class EmployeeDB {
@@ -26,6 +26,8 @@ public class EmployeeDB {
     {
         return true;
     }
+    
+    //verfie mdp et login
     public static boolean checkEmployee(String login, String password) throws SQLException {
         try {
         
@@ -54,6 +56,7 @@ public class EmployeeDB {
         return 0;
     }
     
+    //tests functions
     public static void initDBEmployee() {
 
         Connection conn;
@@ -75,7 +78,7 @@ public class EmployeeDB {
     }
     
     
-
+    
     public static void addDBEmployee(String login, String password, String firstName, String lastName) {
 
         Connection conn;

@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
+ * cette classe sert a creer l'univers du projet
  * @author loisp
  */
 public class Cinema {
@@ -36,6 +37,7 @@ public class Cinema {
     
     public Cinema() throws SQLException
     {
+        //attributes
         ticketPrice = 10;
         this.profits = 0;
         this.movieList = new ArrayList<Movie>();
@@ -46,9 +48,11 @@ public class Cinema {
         this.projList = ProjectionDB.getAllProjectionsDB(true);
         
         // Uncomment to generate random data for the last 3 months
-        //generateData();
+        //generateData(); 
     }
     
+    
+    // all the getters
     public Movie getMovieInfos(String movieName)
     {
         for( int i=0 ; i<movieList.size() ; ++i ){
@@ -92,7 +96,8 @@ public class Cinema {
     public void refreshProjList(){
         this.projList = ProjectionDB.getAllProjectionsDB(true);
     }
- 
+    
+    
     public MemberCustomer getMemberCustomer(String custName){
         try{
             return MemberCustomerDB.getMemberCustomerDB(custName);
@@ -124,17 +129,24 @@ public class Cinema {
             for( int i=0 ; i<movieList.size() ; ++i ){
                 int iNewProj = addDBProjection(strDate, "10:00",movieList.get(i).getTitle() , 0, false);
                 if( iNewProj!=0){
-                    // add random purchases for each customer
+                    Random rg = new Random();
+                    int ticg = rg.nextInt(20)+1;
+                    // add random purchases for guest - full price
+                    if( ReservationDB.addDBReservation(iNewProj,"guest",ticg,ticg*10) );
+                    // add random purchases for each registered customer with discount
                     for( int j=0 ; j<customerList.size() ; ++j ){
                         Random r = new Random();
-                        int tic = r.nextInt((4) + 1) + 1;
-                        ReservationDB.addDBReservation(iNewProj,customerList.get(j).login,tic,tic*10*(1-customerList.get(i).discount));
-                        
-                        try{
-                            Thread.sleep(10);
-                        } catch(InterruptedException ex) {
-                            Thread.currentThread().interrupt();
+                        int tic = r.nextInt(10) + 1;
+                        if( tic == 1 ){
+                            tic = r.nextInt(4) + 1;
+                            ReservationDB.addDBReservation(iNewProj,customerList.get(j).login,tic,tic*10*(1-customerList.get(i).discount));
                         }
+                    }
+                    // pause between each projection
+                    try{
+                        Thread.sleep(1000);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
                     }
                 }
             }

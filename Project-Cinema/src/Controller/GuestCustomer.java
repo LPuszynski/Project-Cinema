@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 
 /**
- *
+ *elle répresente les customers invités (sans compte)
  * @author charl
  */
 public class GuestCustomer extends Customer {

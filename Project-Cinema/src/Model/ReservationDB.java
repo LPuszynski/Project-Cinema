@@ -5,7 +5,6 @@
  */
 package Model;
 
-import Controller.Reservation;
 import static Model.JBDC.getDbConnection;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 
 /**
@@ -122,7 +122,7 @@ public class ReservationDB {
     public static XYSeries getAllReservationForMovieDB(String movieTitle)
     {
         XYSeries xys = new XYSeries(movieTitle);
-
+        //https://stackoverrun.com/fr/q/9284060
         try {
             PreparedStatement insert = getDbConnection().prepareStatement(
                 "select date_format(jours.jour,\"%Y%m%d\") as Day, "
@@ -151,6 +151,30 @@ public class ReservationDB {
         return xys;
     }
     
+    /*
+        Get all purchases per user
+    */
+    public static DefaultPieDataset getAllReservationPerUsers()
+    {
+        DefaultPieDataset ds = new DefaultPieDataset();
+        
+        try {
+            PreparedStatement insert = getDbConnection().prepareStatement(
+                "select login, sum(price) as purchase from reservation group by login order by sum(price) desc");
+            ResultSet result = insert.executeQuery();
+
+            result.first();
+            
+            do{
+                ds.setValue(result.getString(1),result.getInt(2));
+            }while( result.next() );
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ds;
+    }
+
     public static void setElementReservationDB(int newValeur, String typeKey, String myKey, String type2Key, String my2Key) {
         Connection conn;
 
@@ -165,7 +189,7 @@ public class ReservationDB {
         }
     }
 
-    public static void addDBReservation(int idProj, String login, int nbOfTickets, double price) {
+    public static boolean addDBReservation(int idProj, String login, int nbOfTickets, double price) {
 
         Connection conn;
         try {
@@ -176,8 +200,9 @@ public class ReservationDB {
 
         } catch (SQLException ex) {
             Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
+        return true;
     }
 
     public static void deleteDBReservation(String login, int idProj) {

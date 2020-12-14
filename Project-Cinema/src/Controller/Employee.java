@@ -11,6 +11,7 @@ import java.sql.SQLException;
 /**
  *
  * @author charl
+ * 
  */
 public class Employee {
     private String login ;

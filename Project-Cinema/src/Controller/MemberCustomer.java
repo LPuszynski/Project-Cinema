@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *membres inscrits dans notre database
  * @author charl
  */
 public class MemberCustomer extends Customer {
@@ -130,9 +130,8 @@ public class MemberCustomer extends Customer {
     public static boolean callCheckMember(String login, String password) throws SQLException
     {
         boolean tmp = MemberCustomerDB.checkMember(login, password);
-        /*if(tmp){
-            
-        }*/
+        
+        
         return tmp;
     }
     

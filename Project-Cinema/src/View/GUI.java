@@ -6,6 +6,7 @@
 package View;
 
 import Controller.*;
+import Model.ReservationDB;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
@@ -33,8 +35,16 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
 
 /**
  *
@@ -81,7 +91,7 @@ public class GUI extends JFrame {
     /*
         Builds GUI panel to display movie info, projection info and action buttons
     */
-    public void BuildFilmPanel(JPanel film, Projection proj, double extraDiscount) {
+    public void BuildFilmPanel(JPanel film, Projection proj, double extraDiscount,Color clrBack) {
         boolean bCanBuy = true;
         JLabel title = new JLabel(proj.getMovieTitle());
         JLabel date = new JLabel("Projection  : "+proj.getProjectionDate());
@@ -170,8 +180,11 @@ public class GUI extends JFrame {
         film.add(freeSeats);
         film.add(price);
         film.add(image);
+        
+        // discount on movie
         if (proj.getDiscount() != 0) {
             discount = new Circle('r', 'y', "-" + proj.getDiscount() + " €"); // todo : mettre la bonne couleur de fond en fonction de la couleur du film
+            discount.setBackground(clrBack);
             discount.setBounds(500, 0, 100, 50);
             film.add(discount);
         }
@@ -486,7 +499,6 @@ public class GUI extends JFrame {
         menuScreen = new JPanel();
         double extraDiscount = 0;
 
-
         // display login buttons if nobody is connected
         if (boolLogin == false) {
             JButton buttonEmployee = new JButton("Employee login");
@@ -526,13 +538,13 @@ public class GUI extends JFrame {
             menuScreen.add(custBundleDiscount);
             menuScreen.add(buttonLogOut);
             
-            // todo : add a table of all customer reservations so far
+            // adds a table of all customer reservations so far
             JPanel tabPanel = new JPanel();
             JLabel l1=new JLabel("Purchases history");
             l1.setBounds( 700,100,150,20);
             menuScreen.add(l1);
-            tabPanel.setBackground(Color.RED);
-            tabPanel.setBounds(700, 120, 600, 250);
+            tabPanel.setBackground(Color.LIGHT_GRAY);
+            tabPanel.setBounds(700, 120, 600, 600);
             // get the data 
             String[] colsNames = new String[]{"Movie","projection date","projection hour","Tickets","Price","purchase time"};
             String[][] tabData = Projection.getAllReservationForCustomer(cine.getCustLogin());
@@ -548,10 +560,15 @@ public class GUI extends JFrame {
             tab.getColumnModel().getColumn(3).setPreferredWidth(50);
             tab.getColumnModel().getColumn(4).setPreferredWidth(50);
             tab.getColumnModel().getColumn(5).setPreferredWidth(150);
-            menuScreen.add(tabPanel);
+            JScrollPane scrollPane = new JScrollPane(tab, 
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setBounds(700,120,600,600);
+            scrollPane.setSize(tab.getWidth(), tab.getHeight());
+            menuScreen.add(scrollPane);
         }
 
-        // display available projections
+        // display the 3 first available projections
         for (int i = 0; i < 3; ++i) {
             // build the panel
             if (cine.getProjList().size() > i) {
@@ -559,26 +576,35 @@ public class GUI extends JFrame {
                 films[i] = new JPanel();
                 switch (i) {
                     case 0:
-                        films[i].setBackground(Color.LIGHT_GRAY);
-                        break;
-                    case 1:
                         films[i].setBackground(Color.ORANGE);
                         break;
+                    case 1:
+                        films[i].setBackground(Color.LIGHT_GRAY);
+                        break;
                     case 2:
-                        films[i].setBackground(Color.green);
+                        films[i].setBackground(Color.ORANGE);
                         break;
 
                 }
                 // define bounds
                 films[i].setBounds(10, 100 + 250 * i, 600, 250);
-                BuildFilmPanel(films[i], cine.getProjList().get(i), extraDiscount);
+                BuildFilmPanel(films[i], cine.getProjList().get(i), extraDiscount,films[i].getBackground());
                 // add it to the screencine.getProjList().get(i)
                 menuScreen.add(films[i]);
             }
 
         }
-
         menuScreen.setLayout(null);
+
+        // display background image
+        /*ImageIcon imgI = new ImageIcon("C:\\Users\\Tonio\\Desktop\\Projet_Cinéma\\images\\fond.jpg");
+        Image img = imgI.getImage();
+        //Image newImg = img.getScaledInstance(getWidth(),getHeight() ,java.awt.Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(600,600 ,java.awt.Image.SCALE_SMOOTH);
+        imgI = new ImageIcon(newImg);
+        JLabel image = new JLabel(imgI);
+        menuScreen.add(image);tentative de mettre une image de fond */ 
+
     }
 
     //employee login menu
@@ -600,10 +626,18 @@ public class GUI extends JFrame {
         JButton buttonCustomerRecords = new JButton("Customer records");
 
         buttonLogOut.setBounds(1470, 10, 100, 35);
+
         loginOfEmployee.setBounds(300, 10, 230, 35);
         loginOfEmployee.setForeground(new Color(0, 0, 0));
         loginOfEmployee.setBackground(Color.white);
         loginOfEmployee.setOpaque(true);
+        
+        JLabel infoEmployee = new JLabel("Actions will be saved when logout");
+        infoEmployee.setBounds(300, 50, 230, 35);
+        infoEmployee.setForeground(new Color(0, 0, 0));
+        infoEmployee.setBackground(Color.white);
+        infoEmployee.setOpaque(true);
+        
         //buttonAddMovie.setBounds(1100, 400, 100, 35);
         buttonStatistic.setBounds(1250, 10, 200, 35);
         buttonCustomerRecords.setBounds(1000, 10, 200, 35);
@@ -618,6 +652,7 @@ public class GUI extends JFrame {
 
         employeeScreen.add(buttonLogOut);
         employeeScreen.add(loginOfEmployee);
+        employeeScreen.add(infoEmployee);
         //employeeScreen.add(buttonAddMovie);
         employeeScreen.add(buttonStatistic);
         employeeScreen.add(buttonCustomerRecords);
@@ -628,29 +663,46 @@ public class GUI extends JFrame {
                 films[i] = new JPanel();
                 switch (i) {
                     case 0:
-                        films[i].setBackground(Color.LIGHT_GRAY);
-                        break;
-                    case 1:
                         films[i].setBackground(Color.ORANGE);
                         break;
+                    case 1:
+                        films[i].setBackground(Color.LIGHT_GRAY);
+                        break;
                     case 2:
-                        films[i].setBackground(Color.green);
+                        films[i].setBackground(Color.ORANGE);
                         break;
 
                 }
                 // define bounds
                 films[i].setBounds(10, 100 + 250 * i, 600, 250);
-                BuildFilmPanel(films[i], cine.getProjList().get(i),0);
+                BuildFilmPanel(films[i], cine.getProjList().get(i),0,films[i].getBackground());
                 // add it to the screen
                 employeeScreen.add(films[i]);
             }
 
         }
-        /*
-         employeeScreen.add(film1);
-         employeeScreen.add(film2);
-         employeeScreen.add(film3);
-         */
+        // adds a pie chart for sales per user
+        JPanel tabPanel = new JPanel();
+        tabPanel.setBackground(Color.LIGHT_GRAY);
+        tabPanel.setBounds(700, 100, 800, 600);
+
+        // get the data 
+        JFreeChart chart = ChartFactory.createPieChart("Sales per user", ReservationDB.getAllReservationPerUsers(),true,true,false);
+
+        ChartPanel piePanel = new ChartPanel(chart);
+        
+        PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setSimpleLabels(true);
+        
+        PieSectionLabelGenerator pslg = new StandardPieSectionLabelGenerator(
+            "{0}: {1} ({2})", new DecimalFormat("0,000.00 $"), new DecimalFormat("0%"));
+        plot.setLabelGenerator(pslg);
+
+        piePanel.setSize(tabPanel.getSize());
+        piePanel.setPreferredSize(tabPanel.getSize());
+        
+        tabPanel.add(piePanel);
+        employeeScreen.add(tabPanel);
 
         employeeScreen.setLayout(null);
     }
@@ -923,8 +975,8 @@ public class GUI extends JFrame {
             if (textFieldLogin.getText() != null) {
                 login = textFieldLogin.getText();
             }
-            if (textFieldPassword.getText() != null) {
-                password = textFieldPassword.getText();
+            if (textFieldPassword.getPassword() != null) {
+                password = String.valueOf(textFieldPassword.getPassword());
             }
         }
 

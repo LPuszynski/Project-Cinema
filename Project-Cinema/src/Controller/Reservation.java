@@ -11,7 +11,7 @@ import static Model.ReservationDB.setElementReservationDB;
 import java.sql.SQLException;
 
 /**
- *
+ *une réservation lie un client a une projection
  * @author charl
  */
 public class Reservation {
@@ -26,11 +26,7 @@ public class Reservation {
         nbOfTickets = nbSeats;
     }        
     
-    /*public void setNbOfTickets(int nb)
-    {
-        nbOfTickets = nb;
-        setElementReservationDB( nbOfTickets, "idProj", projection.getIdProj(),"login", customer.getLogin());
-    }*/
+    
     
     
     public int getNbOfTicketsRes()

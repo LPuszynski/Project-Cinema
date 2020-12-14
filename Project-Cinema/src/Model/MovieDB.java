@@ -22,21 +22,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *manipule les movies en db
  * @author loisp
  */
 public class MovieDB {
     
-    /*
-    //pas necessaire je pense
-    public void addMovie() {
-
-    }
-
-    public void suppMovie() {
-        
-    }
-    */
+    
 
     public static ArrayList<Movie> getMovieListDB() throws SQLException {
         Connection conn;
@@ -65,7 +56,7 @@ public class MovieDB {
         return movieList;
     }
     
-
+    //getters
     public static Time getRunningTime(String movieName) throws SQLException {
         PreparedStatement insert = getDbConnection().prepareStatement("select runningTime from MOVIES" + " where title = ?");
         insert.setString(1, movieName);
@@ -149,7 +140,7 @@ public class MovieDB {
             movieList.get(i).afficherMovie();
         }
     }*/
-
+//test function
    public static void initDBMovie() {
 
         Connection conn;

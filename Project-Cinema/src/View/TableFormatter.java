@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.WindowConstants;
 
 /**
- *
+ *affiche le tableau des clients inspiré du cours de madame Paranjape
  * @author charl
  */
 public class TableFormatter extends JFrame{

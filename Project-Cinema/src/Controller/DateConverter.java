@@ -22,6 +22,7 @@ public class DateConverter {
         this.year = year;
     }
     
+    //ebauche de date converter
     public void monthInLetter()
     {
         if (month == 1)

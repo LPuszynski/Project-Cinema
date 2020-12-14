@@ -25,24 +25,8 @@ public class Main {
     public static void main(String[] args) throws SQLException, ParseException {
 
         Cinema cinema = new Cinema();
-
-        /*Movie.deleteMovie("OuaisOuais",cinema);
-        
-        
-         Movie movie = new Movie("Hello world", "Enfantin", 2020, new Time(02,03,04));
-         movie.addMovie( cinema);*/
-        /*
-         for (int i = 0; i < cinema.getMovieList().size(); i++) {
-         cinema.getMovieList().get(i).afficherMovie();
-         System.out.println(" ");
-         }
-         */
-        /*
-         MemberCustomer cust = new MemberCustomer("exa","dddd", "children","exemple","try");
-         cust.addMemberCustomer();
-         cust.deleteMemberCustomer();*/
-        
-        GUI f = new GUI(cinema);      
+        //affiche l'interface
+        GUI f = new GUI(cinema); 
         f.setVisible(true);
 
     }

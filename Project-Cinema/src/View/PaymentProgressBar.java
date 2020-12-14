@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 
 /**
- *
+ *affiche une barre de progression de paiement 
  * @author loisp
  */
 public class PaymentProgressBar extends JFrame{

@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *manipule les projections en db
  * @author loisp
  */
 public class ProjectionDB {
@@ -34,7 +34,7 @@ public class ProjectionDB {
     {
 
     }   
-
+    //test function
     public static void initDBProjections() {
 
         Connection conn;
@@ -61,7 +61,7 @@ public class ProjectionDB {
     {
         ArrayList<Projection> projList = new ArrayList<Projection>();
         try{
-            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate, ProjectionHour");
+            PreparedStatement insert = getDbConnection().prepareStatement("SELECT * FROM PROJECTIONS ORDER BY projectionDate desc, ProjectionHour");
             
             ResultSet result = insert.executeQuery();
             while (result.next())
@@ -108,7 +108,7 @@ public class ProjectionDB {
             conn.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(JBDC.class.getName()).log(Level.SEVERE, null, ex);
 
         }
         return 0;

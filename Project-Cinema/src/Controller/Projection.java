@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 /**
- *
+ *gestion des séances appelées ici projections
  * @author loisp
  */
 public class Projection {
@@ -32,7 +32,7 @@ public class Projection {
         this.idProj = idProj;
         this.projectionDate = projectionDate;
         this.projectionHour = projectionHour;
-        this.numberOfSeats = 30;
+        this.numberOfSeats = 30; // nos salles ont 30 places
         this.movieTitle = movieTitle;
         this.discount = discount;
         reservationList = new ArrayList<Reservation>();

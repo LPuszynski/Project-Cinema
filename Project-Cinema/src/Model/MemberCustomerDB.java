@@ -24,7 +24,7 @@ import View.TableFormatter;
 import java.sql.ResultSetMetaData;
 
 /**
- *
+ *manipule les customers en db
  * @author loisp
  */
 public class MemberCustomerDB {
@@ -129,7 +129,7 @@ public class MemberCustomerDB {
     public static void initDBCustomer() {
 
         Connection conn;
-
+        //test
         try {
             conn = (Connection) getDbConnection();
             Statement essai = conn.createStatement();
@@ -159,14 +159,14 @@ public class MemberCustomerDB {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
+    /*public static void main(String[] args) throws SQLException {
         ArrayList<MemberCustomer> memberCustomerList = new ArrayList<MemberCustomer>();
         memberCustomerList = getAllMemberCustomerDB();
 
         for (int i = 0; i < nbMemberCustomersInDB(); i++) {
             memberCustomerList.get(i).afficherMemberCustomer();
         }
-    }
+    }utile lors de test*/
 
     public static void afficherJTable() {
         Connection conn = null;
@@ -174,36 +174,31 @@ public class MemberCustomerDB {
         String[][] tableData;
 
         try {
-            //on établit une connexion avec la base de données java
+            
 
             conn = (Connection) getDbConnection();
 
-            //on crée un objet Statement.
-            //Par son intermédiaire, on pourra exécuter des commandes SQL pour interroger la base de données et obtenir les résultats correspondants.
+            
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            // on définit une requête SQL en créant un objet ResultSet à partir de l’objet Statement
-            //ResultSet resultSet = stmt.executeQuery("Select * from customer");
-            //ResultSet resultSet = stmt.executeQuery("SELECT c.login as Login, c.firstname as 'First name', c.lastname as 'Last name', c.bundle as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login group by c.login");
             ResultSet resultSet = stmt.executeQuery("SELECT c.login as Login, c.firstname as 'First name', c.lastname as 'Last name', c.bundle as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login group by c.login UNION SELECT 'TOTAL' as Login, '---' as 'First name', '---' as 'Last name', '---' as Bundle, round(sum(r.price),2) as Purchases FROM `customer` as c, reservation as r WHERE c.login=r.login");
 
-            resultSet.last(); //on va au dernier élément pour savoir la taille
-            int nbRows = resultSet.getRow(); // il y a nbRows lignes dans la table
-            resultSet.first(); //on remet le pointeur en début de table
+            resultSet.last(); 
+            int nbRows = resultSet.getRow(); 
+            resultSet.first(); 
 
-            //on récupère les métadonnées de la table
-            //Par leur intermédiaire, on pourra obtenir le nombre de colonnes dans la table avec getColumnCount() et le nom des colonnes avec getColumnName() :
+            
             ResultSetMetaData resultMeta = resultSet.getMetaData();
 
-            colNames = new String[resultMeta.getColumnCount()]; //on initialise autant de case dans le tableau qu'il y a de colonnes dans la table
+            colNames = new String[resultMeta.getColumnCount()]; 
 
             for (int i = 0; i < resultMeta.getColumnCount(); i++) {
-                //System.out.println(resultMeta.getColumnName(i+1));
-                colNames[i] = resultMeta.getColumnLabel(i + 1); //ou sinon utiliser getColumnName
+                
+                colNames[i] = resultMeta.getColumnLabel(i + 1); 
             }
 
-            //on pour récupère tous les enregistrements de la table :
-            tableData = new String[nbRows][resultMeta.getColumnCount()]; //allouer de la place
+            
+            tableData = new String[nbRows][resultMeta.getColumnCount()]; 
             for (int row = 0; row < nbRows; row++) {
                 for (int col = 0; col < resultMeta.getColumnCount(); col++) {
                     tableData[row][col] = resultSet.getString(col + 1);
@@ -213,11 +208,7 @@ public class MemberCustomerDB {
 
             TableFormatter table = new TableFormatter(tableData, colNames);
 
-            /*while (resultSet.next())
-             {
-             System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-             }*/
-            //ferme les objets ouverts avec la méthode close() :
+            
             resultSet.close();
             stmt.close();
             conn.close();

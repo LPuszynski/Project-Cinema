@@ -25,6 +25,7 @@ public abstract class Customer {
     {
         
     }
+    //getters
     public String getLogin()
     {
         return login;
