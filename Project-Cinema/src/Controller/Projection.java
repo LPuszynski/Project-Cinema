@@ -123,7 +123,11 @@ public class Projection {
    {
        Reservation resa = new Reservation(this, client, nbTickets);
        reservationList.add(resa);
-       ReservationDB.addDBReservation(this.getIdProj(), client.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this)*(1-client.getDiscount()));
+       if( client != null ){
+        ReservationDB.addDBReservation(this.getIdProj(), client.getLogin(), resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this)*(1-client.getDiscount()));
+       }else{
+           ReservationDB.addDBReservation(this.getIdProj(), "guest", resa.getNbOfTicketsRes(), resa.getTotalPriceRes(this));
+       }
    }
    
    public void afficherProjection()

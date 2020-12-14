@@ -18,7 +18,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 
 /**
- *
+ *manipule les réservations en db
  * @author charl
  */
 public class ReservationDB {

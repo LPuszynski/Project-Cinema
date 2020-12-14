@@ -18,7 +18,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.ChartPanel;
 
 /**
- *
+ *class pour créer le graphique de vente par film
  * @author Tonio
  */
 public class StatsFrame extends JFrame{

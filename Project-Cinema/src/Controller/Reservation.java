@@ -36,7 +36,13 @@ public class Reservation {
     
     public double getTotalPriceRes(Projection proj)
     {
-        double price1ticket = customer.getPrice1Ticket();
+        double price1ticket;
+        
+        if( customer != null ){
+            price1ticket = customer.getPrice1Ticket();
+        }else{
+            price1ticket = 10;
+        }
         
         double totalPrice = price1ticket - proj.getDiscount();
         totalPrice *= nbOfTickets;

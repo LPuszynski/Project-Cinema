@@ -19,7 +19,7 @@ import View.TableFormatter;
 import java.util.ArrayList;
 
 /**
- *
+ *manupilation globale de base de donnée
  * @author charl
  */
 public class JBDC {

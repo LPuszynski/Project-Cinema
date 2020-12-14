@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
- * cette classe sert a creer l'univers du projet
+ * Cette classe sert a créer et relier l'univers du projet
  * @author loisp
  */
 public class Cinema {

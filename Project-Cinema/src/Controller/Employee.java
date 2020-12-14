@@ -9,7 +9,7 @@ import Model.EmployeeDB;
 import java.sql.SQLException;
 
 /**
- *
+ *classe pour un employé du cinéma
  * @author charl
  * 
  */

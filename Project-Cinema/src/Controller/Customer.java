@@ -8,7 +8,7 @@ import Model.*;
 
 
 /**
- *
+ *classe mère de client
  * @author charl
  */
 public abstract class Customer {

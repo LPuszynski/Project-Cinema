@@ -17,7 +17,7 @@ import java.util.Date;
 import View.GUI;
 
 /**
- *
+ *classe pour lancer le projet
  * @author charl
  */
 public class Main {

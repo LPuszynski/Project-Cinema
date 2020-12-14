@@ -6,7 +6,7 @@
 package Controller;
 
 /**
- *
+ *convertisseur de date en string 
  * @author charl
  */
 

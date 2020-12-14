@@ -47,7 +47,7 @@ import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 
 /**
- *
+ *class qui gère la majeure partie de l'interprétation graphique du projet
  * @author charl
  */
 public class GUI extends JFrame {
